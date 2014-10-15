@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.spring.cms</groupId>
-    <artifactId>spring-cms</artifactId>
+    <artifactId>spring-angular</artifactId>
     <version>0.0.1-SNAPSHOT</version>
 
     <packaging>war</packaging>
