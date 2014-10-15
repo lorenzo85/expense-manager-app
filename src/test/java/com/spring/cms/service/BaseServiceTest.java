@@ -69,9 +69,9 @@ public abstract class BaseServiceTest {
         return amount.setScale(2, HALF_UP);
     }
 
-    protected IncomeDto persistIncomeDto(long yardId, long invoiceId, PaymentState state, BigDecimal amount, String note) {
-        IncomeDto dto = createIncomeDto(yardId, invoiceId, state, amount, note);
-        return incomeService.save(dto);
+    protected YardDto persistYardDto(String name, String description, BigDecimal contractAmount) {
+        YardDto dto = createYardDto(name, description, contractAmount);
+        return service.save(dto);
     }
 
     protected ExpenseDto persistExpenseDto(long yardId, long invoiceId, String title, String note, BigDecimal amount,
@@ -81,26 +81,24 @@ public abstract class BaseServiceTest {
         return expenseService.save(dto);
     }
 
-    protected YardDto persistYardDto(String name, String description, BigDecimal contractAmount) {
-        YardDto dto = createYardDto(name, description, contractAmount);
-        return service.save(dto);
+    protected IncomeDto persistIncomeDto(long yardId, long invoiceId, PaymentState state, BigDecimal amount, String note) {
+        IncomeDto dto = createIncomeDto(yardId, invoiceId, state, amount, note);
+        return incomeService.save(dto);
     }
 
-    protected IncomeDto createIncomeDto(long yardId, long invoiceId, PaymentState status, BigDecimal amount, String note) {
-        IncomeDto dto = new IncomeDto();
-        dto.setYardId(yardId);
-        dto.setStatus(status);
-        dto.setAmount(amount);
-        dto.setInvoiceId(invoiceId);
-        dto.setNote(note);
+    protected YardDto createYardDto(String name, String description, BigDecimal contractAmount) {
+        YardDto dto = new YardDto();
+        dto.setName(name);
+        dto.setDescription(description);
+        dto.setContractTotalAmount(contractAmount);
         return dto;
     }
 
     protected ExpenseDto createExpenseDto(long yardId, long invoiceId, String title,
-            String note, BigDecimal amount, Date expiresAt, Date emissionAt,
-            PaymentState state, ExpenseCategory category) {
-
+                                          String note, BigDecimal amount, Date expiresAt, Date emissionAt,
+                                          PaymentState state, ExpenseCategory category) {
         ExpenseDto dto = new ExpenseDto();
+        dto.setNote(note);
         dto.setTitle(title);
         dto.setStatus(state);
         dto.setYardId(yardId);
@@ -109,15 +107,17 @@ public abstract class BaseServiceTest {
         dto.setExpiresAt(expiresAt);
         dto.setInvoiceId(invoiceId);
         dto.setEmissionAt(emissionAt);
-        dto.setNote(note);
         return dto;
     }
 
-    protected YardDto createYardDto(String name, String description, BigDecimal contractAmount) {
-        YardDto dto = new YardDto();
-        dto.setName(name);
-        dto.setDescription(description);
-        dto.setContractTotalAmount(contractAmount);
+    protected IncomeDto createIncomeDto(long yardId, long invoiceId,
+                                        PaymentState status, BigDecimal amount, String note) {
+        IncomeDto dto = new IncomeDto();
+        dto.setNote(note);
+        dto.setYardId(yardId);
+        dto.setStatus(status);
+        dto.setAmount(amount);
+        dto.setInvoiceId(invoiceId);
         return dto;
     }
 }
