@@ -1,0 +1,40 @@
+<div class="row">
+    <input type="hidden" ng-model="income.id">
+    <div class="col-lg-3">
+        <div class="form-group">
+            <label for="invoiceId">Invoice number:</label>
+            <input id="invoiceId" type="text" class="form-control" placeholder="123456789" ng-model="income.invoiceId">
+        </div>
+    </div>
+    <div class="col-lg-3">
+        <div class="form-group">
+            <label for="amount">Amount:</label>
+            <div class="input-group">
+                <input id="amount" type="text" class="form-control" placeholder="0.00" ng-model="income.amount">
+                <span class="input-group-addon">€</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-3">
+        <div class="form-group">
+            <label for="status">Payment status:</label>
+            <select id="status" class="form-control" ng-model="income.status" ng-options="state.value as state.name for state in states">
+                <option value="">Choose income state</option>
+            </select>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-6">
+        <div class="form-group">
+            <h5>Income description:</h5>
+            <textarea rows="10" class="form-control" placeholder="Descrizione spesa" ng-model="income.note"></textarea>
+        </div>
+    </div>
+</div>
+<button type="submit" class="btn btn-primary">Save</button>
+<button ng-click="reset()" class="btn btn-warning">Reset</button>

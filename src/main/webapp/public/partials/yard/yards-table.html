@@ -1,0 +1,26 @@
+<table class="table table-striped table-hover">
+    <thead>
+        <tr>
+            <th class="width-10">Identifier</th>
+            <th class="width-20">Name</th>
+            <th class="width-20">Total value</th>
+            <th class="width-35">Description</th>
+            <th class="width-15">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="yard in yards">
+            <td class="align-center">{{ yard.id }}</td>
+            <td class="align-center">{{ yard.name }}</td>
+            <td class="align-left">{{ yard.contractTotalAmount|currency:"€ " }}</td>
+            <td class="align-justify">{{ yard.description }}</td>
+            <td class="align-center">
+                <div class="btn-group">
+                    <a class="btn btn-sm btn-primary" href="#/yards/{{ yard.id }}/view">View</a>
+                    <a class="btn btn-sm btn-warning" href="#/yards/{{ yard.id }}/edit">Edit</a>
+                    <a class="btn btn-sm btn-danger" ng-click="deleteYard(yard)">Delete</a>
+                </div>
+            </td>
+        </tr>
+    </tbody>
+</table>

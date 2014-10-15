@@ -1,0 +1,30 @@
+<widget-new-element url="#/yards/{{ getYardId() }}/incomes/new" label="Add new income"></widget-new-element>
+
+<div ng-show="!incomes.length" class="padding-30">There are no incomes.</div>
+<table ng-show="incomes.length" class="table table-striped table-hover">
+    <thead>
+        <tr>
+            <th>Identifier</th>
+            <th>Invoice number</th>
+            <th>Amount</th>
+            <th>Status</th>
+            <th class=" width-40">Note</th>
+            <th class="width-15">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="income in incomes">
+            <td class="align-center">{{ income.id }}</td>
+            <td class="align-center">{{ income.invoiceId }}</td>
+            <td class="align-right">{{ income.amount| currency:"€ " }}</td>
+            <td class="align-center">{{ income.status }}</td>
+            <td class="align-justify">{{ income.note }}</td>
+            <td class="align-right">
+                <div class="btn-group">
+                    <a class="btn btn-sm btn-warning" href="#/yards/{{ income.yardId }}/incomes/{{ income.id }}/edit">Edit</a>
+                    <a class="btn btn-sm btn-danger" ng-click="deleteIncome(income)">Delete</a>
+                </div>
+            </td>
+        </tr>
+    </tbody>
+</table>

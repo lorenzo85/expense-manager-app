@@ -1,0 +1,48 @@
+<table class="table margin-bottom-30" ng-repeat="deadline in deadlines">
+    <thead>
+        <tr>
+            <th colspan="9" class="align-center tab-deadlines-month-summary" style="border-top: 2px solid #dddddd">
+                {{ deadline.month }} &nbsp;
+                {{ deadline.year }} - Total: &nbsp;
+                {{ deadline.total|currency:"€ " }}
+                <br/>
+                <span ng-repeat="(key, value) in deadline.expensesCategoryTotals">
+                    <span class="glyphicon glyphicon-circle-arrow-right padding-left-30 font-08"></span>
+                    <span class="font-lighter font-09">
+                        {{ key | capitalize }} {{ value | currency:"€ "}}
+                    </span>
+                </span>
+                <br/>
+            </th>
+        </tr>
+    </thead>
+    <thead>
+    <tr>
+        <th>Identifier</th>
+        <th>Provider name</th>
+        <th>Expiry date</th>
+        <th>Invoice id</th>
+        <th>Amount</th>
+        <th>Status</th>
+        <th>Category</th>
+        <th class="width-15">Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="expense in deadline.expenses">
+            <td class="align-center">{{ expense.id }}</td>
+            <td class="align-left">{{ expense.title }}</td>
+            <td class="align-center">{{ expense.expiresAt|date:'dd/MM/yyyy' }}</td>
+            <td class="align-center">{{ expense.invoiceId }}</td>
+            <td class="align-right">{{ expense.amount|currency:"€ "  }}</td>
+            <td class="align-center">{{ expense.status }}</td>
+            <td class="align-center">{{ expense.category }}</td>
+            <td class="align-right">
+                <div class="btn-group">
+                    <a class="btn btn-sm btn-primary" href="#/yards/{{ expense.yardId }}/view">Yard</a>
+                    <a class="btn btn-sm btn-danger" ng-click="markAsPaid(expense.yardId, expense.id)">Mark as paid!</a>
+                </div>
+            </td>
+        </tr>
+    </tbody>
+</table>

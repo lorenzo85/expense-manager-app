@@ -1,0 +1,131 @@
+<div class="row">
+    <input type="hidden" ng-model="expense.id">
+    <div class="col-lg-6">
+        <div class="form-group">
+            <label for="title">Title:</label>
+            <input id="title"
+                   type="text"
+                   class="form-control"
+                   placeholder="Expense title"
+                   ng-model="expense.title"
+                   minlength="1"
+                   required />
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-3">
+        <div class="form-group">
+            <label for="invoiceId">Invoice Id:</label>
+            <input id="invoiceId"
+                   type="number"
+                   min="0"
+                   max="2147483647"
+                   class="form-control"
+                   placeholder="123456789"
+                   ng-model="expense.invoiceId"
+                   required />
+        </div>
+    </div>
+    <div class="col-lg-3">
+        <div class="form-group">
+            <label for="emissionAt">Emission date:</label>
+            <div class="input-group">
+                <input readonly
+                       type="text"
+                       id="emissionAt"
+                       ng-required="true"
+                       datepicker-popup="dd/MM/yy"
+                       ng-model="expense.emissionAt"
+                       class="form-control width-100"
+                       is-open="datepickers.emissionAt" />
+                <span class="input-group-btn">
+                    <button type="button"
+                            class="btn btn-default"
+                            ng-click="open($event, 'emissionAt')"><i class="glyphicon glyphicon-calendar"></i></button>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-3">
+        <div class="form-group">
+            <label for="amount">Amount:</label>
+            <div class="input-group">
+                <input required
+                       id="amount"
+                       min="0.01"
+                       step="0.01"
+                       type="number"
+                       max="9000000"
+                       placeholder="0.00"
+                       class="form-control"
+                       ng-model="expense.amount">
+                <span class="input-group-addon">€</span>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3">
+        <div class="form-group">
+            <label for="expiresAt">Expiry date:</label>
+            <div class="input-group">
+                <input readonly
+                       type="text"
+                       id="expiresAt"
+                       ng-required="true"
+                       datepicker-popup="dd/MM/yy"
+                       ng-model="expense.expiresAt"
+                       class="form-control width-100"
+                       is-open="datepickers.expiresAt" />
+
+                <span class="input-group-btn">
+                    <button type="button" class="btn btn-default" ng-click="open($event, 'expiresAt')">
+                        <i class="glyphicon glyphicon-calendar"></i>
+                    </button>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-3">
+        <div class="form-group">
+            <label for="status">Payment state:</label>
+            <select required
+                    id="status"
+                    class="form-control"
+                    ng-model="expense.status"
+                    ng-options="state.value as state.name for state in states">
+                    <option value="">Choose expense state</option>
+             </select>
+        </div>
+    </div>
+    <div class="col-lg-3">
+        <div class="form-group">
+            <label for="category">Category:</label>
+            <select required
+                    id="category"
+                    class="form-control"
+                    ng-model="expense.category"
+                    ng-options="category.value as category.name for category in categories">
+                    <option value="">Choose category</option>
+            </select>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-6">
+        <div class="form-group">
+            <label for="note">Notes</label>
+            <textarea id="note" rows="10" class="form-control" placeholder="Note" ng-model="expense.note"></textarea>
+        </div>
+    </div>
+</div>
+
+<button type="submit" class="btn btn-primary">Save</button>
+<button ng-click="reset()" class="btn btn-warning">Reset</button>

@@ -1,0 +1,43 @@
+<div class="row">
+    <input type="hidden" ng-model="yard.id">
+
+    <div class="col-lg-3">
+        <div class="form-group">
+            <label for="name">Nome</label>
+            <input id="name"
+                   type="text"
+                   ng-model="yard.name"
+                   class="form-control"
+                   placeholder="Nome cantiere">
+        </div>
+    </div>
+    <div class="col-lg-3">
+        <div class="form-group">
+            <label for="contractTotalAmount">Valore appalto</label>
+
+            <div class="input-group">
+                <input id="contractTotalAmount"
+                       type="text"
+                       class="form-control"
+                       placeholder="10000.00"
+                       ng-model="yard.contractTotalAmount">
+                <span class="input-group-addon">€</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-6">
+        <div class="form-group">
+            <label for="description">Descrizione</label>
+            <textarea id="description"
+                      rows="6"
+                      class="form-control"
+                      ng-model="yard.description"></textarea>
+        </div>
+    </div>
+</div>
+
+<button type="submit" class="btn btn-primary">Salva</button>
+<button ng-click="reset()" class="btn btn-warning">Reset</button>

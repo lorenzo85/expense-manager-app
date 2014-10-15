@@ -1,0 +1,35 @@
+<widget-new-element url="#/yards/{{ getYardId() }}/expenses/new" label="Add new expense"></widget-new-element>
+
+<div ng-show="!expenses.length" class="padding-30">There are no expenses.</div>
+<table ng-show="expenses.length" class="table table-striped table-hover">
+    <thead>
+        <tr>
+            <th class="width-10">Identifier</th>
+            <th class="width-20">Provider name</th>
+            <th class="width-15">Invoice Id</th>
+            <th class="width-10">Amount</th>
+            <th class="width-10">Status</th>
+            <th class="width-10">Expiry date</th>
+            <th class="width-10">Category</th>
+            <th class="width-15">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="expense in expenses">
+            <td class="align-center">{{ expense.id }}</td>
+            <td class="align-left">{{ expense.title }}</td>
+            <td class="align-center">{{ expense.invoiceId }}</td>
+            <td class="align-right">{{ expense.amount |currency:"€ " }}</td>
+            <td class="align-center">{{ expense.status |capitalize }}</td>
+            <td class="align-center">{{ expense.expiresAt |date:'dd/MM/yyyy' }}</td>
+            <td class="align-center">{{ expense.category }}</td>
+            <td class="align-right">
+                <div class="btn-group">
+                    <a class="btn btn-sm btn-primary" href="#/yards/{{ expense.yardId }}/expenses/{{ expense.id }}/view">View</a>
+                    <a class="btn btn-sm btn-warning" href="#/yards/{{ expense.yardId }}/expenses/{{ expense.id }}/edit">Edit</a>
+                    <a class="btn btn-sm btn-danger" ng-click="deleteExpense(expense)">Delete</a>
+                </div>
+            </td>
+        </tr>
+    </tbody>
+</table>

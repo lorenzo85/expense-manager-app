@@ -1,0 +1,3 @@
+<widget-new-element url="#/yards/new" label="Add new yard"></widget-new-element>
+<div ng-show="!yards.length" class="padding-30">There are no yards.</div>
+<div ng-show="yards.length" ng-include="'partials/yard/yards-table.html'"></div>

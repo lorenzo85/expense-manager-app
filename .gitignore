@@ -1,0 +1,7 @@
+.idea/
+target/
+build/
+*.iml
+*.ipr
+*.iws
+.DS_store

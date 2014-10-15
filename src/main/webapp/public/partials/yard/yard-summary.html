@@ -1,0 +1,27 @@
+<div class="row">
+    <div class="col-lg-6">
+        <dl class="dl-horizontal">
+            <dt>Difference on incomes:</dt>
+            <dd>
+                <span class="color-green">{{ yard.summary.deltaPaid |currency:"€ " }}</span>
+                &nbsp;&nbsp;(*Paid incomes - **Paid expenses)
+            </dd>
+            <dt>*Total paid incomes:</dt>
+            <dd>{{ yard.summary.paidIncomes |currency:"€ " }}</dd>
+            <dt>**Total paid expenses:</dt>
+            <dd>{{ yard.summary.paidExpenses |currency:"€ " }}</dd>
+            <dt>Total expenses to be paid:</dt>
+            <dd>{{ yard.summary.unPaidExpenses |currency:"€ " }}</dd>
+        </dl>
+    </div>
+    <div class="col-lg-6">
+        <dl class="dl-horizontal">
+            <dt>Yard value:</dt>
+            <dd>{{ yard.contractTotalAmount |currency:"€ " }}</dd>
+            <dt>Missing incomes:</dt>
+            <dd>{{ yard.summary.deltaMissingIncome |currency:"€ " }}</dd>
+            <dt>Description:</dt>
+            <dd>{{ yard.description }}</dd>
+        </dl>
+    </div>
+</div>

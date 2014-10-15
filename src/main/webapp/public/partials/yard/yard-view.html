@@ -1,0 +1,13 @@
+<div ng-include="'partials/yard/yard-summary.html'" ng-controller="YardsViewController">
+</div>
+
+<tabset>
+    <tab heading="Expenses">
+        <div ng-include="'partials/expense/expenses-table.html'" ng-controller="ExpensesController">
+        </div>
+    </tab>
+    <tab heading="Incomes">
+        <div ng-include="'partials/income/incomes-table.html'" ng-controller="IncomesController">
+        </div>
+    </tab>
+</tabset>
