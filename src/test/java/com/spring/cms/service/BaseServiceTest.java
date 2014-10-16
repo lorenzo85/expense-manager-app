@@ -61,6 +61,7 @@ public abstract class BaseServiceTest {
         for (T e : entities) {
             if(reflectionEquals(entity, e)) return;
         }
+
         fail("Could not find element in the collection!");
     }
 

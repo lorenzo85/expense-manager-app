@@ -6,15 +6,15 @@
     <dt>Invoice id:</dt>
     <dd>{{ expense.invoiceId }}</dd>
     <dt>Amount:</dt>
-    <dd>{{ expense.amount |currency:"€ " }}</dd>
+    <dd>{{ expense.amount |euroCurrency }}</dd>
     <dt>Status:</dt>
     <dd>{{ expense.status }}</dd>
     <dt>Category:</dt>
     <dd>{{ expense.category |capitalize }}</dd>
     <dt>Emission date:</dt>
-    <dd>{{ expense.emissionAt |date:'dd/MM/yyyy' }}</dd>
+    <dd>{{ expense.emissionAt |dateFormat }}</dd>
     <dt>Deadline:</dt>
-    <dd>{{ expense.expiresAt |date:'dd/MM/yyyy' }}</dd>
+    <dd>{{ expense.expiresAt |dateFormat }}</dd>
     <dt>Note:</dt>
     <dd>{{ expense.note }}</dd>
 </dl>

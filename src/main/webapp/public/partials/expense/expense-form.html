@@ -32,10 +32,9 @@
         <div class="form-group">
             <label for="emissionAt">Emission date:</label>
             <div class="input-group">
-                <input readonly
+                <input ng-readonly="true"
                        type="text"
                        id="emissionAt"
-                       ng-required="true"
                        datepicker-popup="dd/MM/yy"
                        ng-model="expense.emissionAt"
                        class="form-control width-100"
@@ -43,7 +42,8 @@
                 <span class="input-group-btn">
                     <button type="button"
                             class="btn btn-default"
-                            ng-click="open($event, 'emissionAt')"><i class="glyphicon glyphicon-calendar"></i></button>
+                            ng-click="open($event, 'emissionAt')">
+                        <i class="glyphicon glyphicon-calendar"></i></button>
                 </span>
             </div>
         </div>
@@ -72,17 +72,18 @@
         <div class="form-group">
             <label for="expiresAt">Expiry date:</label>
             <div class="input-group">
-                <input readonly
+                <input ng-readonly="true"
                        type="text"
                        id="expiresAt"
-                       ng-required="true"
                        datepicker-popup="dd/MM/yy"
                        ng-model="expense.expiresAt"
                        class="form-control width-100"
                        is-open="datepickers.expiresAt" />
 
                 <span class="input-group-btn">
-                    <button type="button" class="btn btn-default" ng-click="open($event, 'expiresAt')">
+                    <button type="button"
+                            class="btn btn-default"
+                            ng-click="open($event, 'expiresAt')">
                         <i class="glyphicon glyphicon-calendar"></i>
                     </button>
                 </span>

@@ -16,7 +16,7 @@
         <tr ng-repeat="income in incomes">
             <td class="align-center">{{ income.id }}</td>
             <td class="align-center">{{ income.invoiceId }}</td>
-            <td class="align-right">{{ income.amount| currency:"€ " }}</td>
+            <td class="align-right">{{ income.amount |euroCurrency }}</td>
             <td class="align-center">{{ income.status }}</td>
             <td class="align-justify">{{ income.note }}</td>
             <td class="align-right">

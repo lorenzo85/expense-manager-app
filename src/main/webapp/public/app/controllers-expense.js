@@ -19,9 +19,9 @@ app.controller('ExpensesController', function ($rootScope, $scope, $routeParams,
     $scope.expense = Expense.get({ yardId: $routeParams.yardId, id: $routeParams.id })
 
 
-}).controller('ExpenseCreateController', function ($rootScope, $scope, $routeParams, $location, Expense) {
-    $scope.states = Expense.allPaymentStatuses();
-    $scope.categories = Expense.allExpenseCategories();
+}).controller('BaseCommandController', function($scope, $expense) {
+    $scope.states = $expense.allPaymentStatuses();
+    $scope.categories = $expense.allExpenseCategories();
 
     $scope.datepickers = {
         expiresAt: false,
@@ -37,6 +37,9 @@ app.controller('ExpensesController', function ($rootScope, $scope, $routeParams,
         $event.stopPropagation();
         $scope.datepickers[which] = true;
     };
+
+}).controller('ExpenseCreateController', function ($rootScope, $scope, $routeParams, $location, $controller, Expense) {
+    $controller('BaseCommandController', {$scope: $scope, $expense: Expense});
 
     $rootScope.title = "New expense";
     $scope.expense = new Expense();
@@ -52,24 +55,8 @@ app.controller('ExpensesController', function ($rootScope, $scope, $routeParams,
     }
 
 
-}).controller('ExpenseEditController', function ($rootScope, $scope, $routeParams, $location, Expense) {
-    $scope.states = Expense.allPaymentStatuses();
-    $scope.categories = Expense.allExpenseCategories();
-
-    $scope.datepickers = {
-        expiresAt: false,
-        emissionAt: false
-    };
-
-    $scope.getToday = function() {
-        return new Date();
-    };
-
-    $scope.open = function ($event, which) {
-        $event.preventDefault();
-        $event.stopPropagation();
-        $scope.datepickers[which] = true;
-    };
+}).controller('ExpenseEditController', function ($rootScope, $scope, $routeParams, $location, $controller, Expense) {
+    $controller('BaseCommandController', {$scope: $scope, $expense: Expense});
 
     $rootScope.title = "Edit expense";
     $scope.expense = Expense.get({ yardId: $routeParams.yardId, id: $routeParams.id });

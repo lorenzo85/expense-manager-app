@@ -12,7 +12,7 @@
         <tr ng-repeat="yard in yards">
             <td class="align-center">{{ yard.id }}</td>
             <td class="align-center">{{ yard.name }}</td>
-            <td class="align-left">{{ yard.contractTotalAmount|currency:"€ " }}</td>
+            <td class="align-left">{{ yard.contractTotalAmount |euroCurrency }}</td>
             <td class="align-justify">{{ yard.description }}</td>
             <td class="align-center">
                 <div class="btn-group">

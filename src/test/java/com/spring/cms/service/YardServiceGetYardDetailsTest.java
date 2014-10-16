@@ -20,7 +20,6 @@ import static org.junit.Assert.*;
 
 public class YardServiceGetYardDetailsTest extends BaseServiceTest {
 
-
     YardDto yard;
     ExpenseDto paidExpense;
     ExpenseDto unpaidExpense;

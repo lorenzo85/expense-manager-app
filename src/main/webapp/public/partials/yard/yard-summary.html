@@ -3,25 +3,32 @@
         <dl class="dl-horizontal">
             <dt>Difference on incomes:</dt>
             <dd>
-                <span class="color-green">{{ yard.summary.deltaPaid |currency:"€ " }}</span>
-                &nbsp;&nbsp;(*Paid incomes - **Paid expenses)
+                <euro-currency amount="{{ yard.summary.deltaPaid }}"></euro-currency>
+                &nbsp;&nbsp;*Paid incomes - **Paid expenses
             </dd>
             <dt>*Total paid incomes:</dt>
-            <dd>{{ yard.summary.paidIncomes |currency:"€ " }}</dd>
+            <dd>{{ yard.summary.paidIncomes |euroCurrency }}</dd>
             <dt>**Total paid expenses:</dt>
-            <dd>{{ yard.summary.paidExpenses |currency:"€ " }}</dd>
+            <dd>{{ yard.summary.paidExpenses |euroCurrency }}</dd>
             <dt>Total expenses to be paid:</dt>
-            <dd>{{ yard.summary.unPaidExpenses |currency:"€ " }}</dd>
+            <dd>{{ yard.summary.unPaidExpenses |euroCurrency }}</dd>
         </dl>
     </div>
     <div class="col-lg-6">
         <dl class="dl-horizontal">
             <dt>Yard value:</dt>
-            <dd>{{ yard.contractTotalAmount |currency:"€ " }}</dd>
+            <dd>{{ yard.contractTotalAmount |euroCurrency }}</dd>
             <dt>Missing incomes:</dt>
-            <dd>{{ yard.summary.deltaMissingIncome |currency:"€ " }}</dd>
+            <dd>{{ yard.summary.deltaMissingIncome |euroCurrency }}</dd>
             <dt>Description:</dt>
             <dd>{{ yard.description }}</dd>
         </dl>
     </div>
 </div>
+<h5>
+    <span class="fa fa-file-excel-o"></span>
+    <a ng-href="/reports/yards/{{ yard.id }}/expenses">Expenses report</a>
+    &nbsp;&nbsp;
+    <span class="fa fa-file-excel-o"></span>
+    <a ng-href="/reports/yards/{{ yard.id }}/incomes">Incomes report</a>
+</h5>

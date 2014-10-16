@@ -144,8 +144,9 @@ table thead {
 
 .tab-deadlines-month-summary {
     padding:20px;
-    font-size: 1.1em;
     color: dimgray;
+    font-size: 1.0em;
+    font-weight: bolder;
     background-color: #f5f5f5;
 }
 

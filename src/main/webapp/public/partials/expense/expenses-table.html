@@ -19,9 +19,9 @@
             <td class="align-center">{{ expense.id }}</td>
             <td class="align-left">{{ expense.title }}</td>
             <td class="align-center">{{ expense.invoiceId }}</td>
-            <td class="align-right">{{ expense.amount |currency:"€ " }}</td>
+            <td class="align-right">{{ expense.amount |euroCurrency }}</td>
             <td class="align-center">{{ expense.status |capitalize }}</td>
-            <td class="align-center">{{ expense.expiresAt |date:'dd/MM/yyyy' }}</td>
+            <td class="align-center">{{ expense.expiresAt |dateFormat }}</td>
             <td class="align-center">{{ expense.category }}</td>
             <td class="align-right">
                 <div class="btn-group">

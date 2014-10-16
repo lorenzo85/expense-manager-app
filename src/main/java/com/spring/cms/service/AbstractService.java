@@ -61,11 +61,11 @@ public abstract class AbstractService<M, T, ID extends Serializable> implements 
     }
 
     protected List<M> mapAll(Iterable<T> entities) {
-        List<M> mapped = new ArrayList<M>();
-        for (T e : entities) {
+        List<M> mapped = new ArrayList<>();
+        entities.forEach((e) -> {
             M mappedEntity = mapper.map(e, getDtoClass());
             mapped.add(mappedEntity);
-        }
+        });
         return mapped;
     }
 

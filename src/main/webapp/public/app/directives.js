@@ -8,4 +8,13 @@ app.directive('widgetNewElement', function() {
             label: "@label"
         }
     };
+
+
+}).directive('euroCurrency', function() {
+    return {
+        templateUrl: "/includes/template-euro-currency.html",
+        scope: {
+            amount: "@amount"
+        }
+    };
 });

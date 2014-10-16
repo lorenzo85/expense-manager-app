@@ -81,10 +81,9 @@ public class ExpenseServiceImpl extends AbstractService<ExpenseDto, Expense, Lon
     public List<DeadlinesDto> listMonthlyDeadlines() {
         Map<String, DeadlinesDto> deadlines = new LinkedHashMap<>();
 
-        Iterable<Expense> unpaidExpenses = repo.listExpensesOrdered(UNPAID);
-        for(Expense expense : unpaidExpenses) {
-            processExpense(expense, deadlines);
-        }
+        repo.listUnpaidExpensesOrderedByYearAndMonthAndCategory().forEach((e) -> {
+            processExpense(e, deadlines);
+        });
 
         return new ArrayList<>(deadlines.values());
     }
@@ -92,14 +91,12 @@ public class ExpenseServiceImpl extends AbstractService<ExpenseDto, Expense, Lon
     @Override
     public List<ExpenseDto> listExpensesForYard(long yardId) {
         Iterable<Expense> expenses = repo.listByYard(yardId);
-
         return mapAll(expenses);
     }
 
     @Override
     public ExpenseDto findByIdAndYardId(long id, long yardId) {
         Expense expense = repo.findByIdAndYardId(id, yardId);
-
         return mapper.map(expense, ExpenseDto.class);
     }
 
