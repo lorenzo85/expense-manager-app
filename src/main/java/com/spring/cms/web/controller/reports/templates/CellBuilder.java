@@ -1,13 +1,14 @@
 package com.spring.cms.web.controller.reports.templates;
 
-import java.math.BigDecimal;
+import org.joda.money.Money;
+
 import java.util.Date;
 
 public interface CellBuilder {
 
     CellBuilder addCell(String value);
 
-    CellBuilder addCell(BigDecimal value);
+    CellBuilder addCell(Money value);
 
     CellBuilder addCell(Date date);
 

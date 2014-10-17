@@ -6,6 +6,8 @@ import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.view.document.AbstractExcelView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,7 +16,9 @@ import java.util.Map;
 
 import static java.lang.String.format;
 
-@SuppressWarnings("SpringJavaAutowiredMembersInspection")
+
+@Component("excelBuilder")
+@Scope("prototype")
 public class ExcelView extends AbstractExcelView {
 
     private static final int DEFAULT_COLUMN_WIDTH = 20;

@@ -3,7 +3,7 @@ package com.spring.cms.persistence.domain;
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
 
-import static com.spring.cms.persistence.domain.ExpenseCategory.*;
+import static com.spring.cms.persistence.domain.ExpenseCategory.getFromValue;
 
 @Converter(autoApply = true)
 public class ExpenseCategoryConverter implements AttributeConverter<ExpenseCategory, Integer> {

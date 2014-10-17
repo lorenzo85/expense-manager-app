@@ -1,10 +1,9 @@
 package com.spring.cms.service.dto;
 
-import javax.validation.constraints.Digits;
-import javax.validation.constraints.Min;
+import org.joda.money.Money;
+
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.math.BigDecimal;
 
 public class YardDto {
 
@@ -15,21 +14,20 @@ public class YardDto {
     @Size(min=1, max = 200)
     private String name;
     @NotNull
-    @Digits(integer=10, fraction=2)
-    @Min(0)
-    private BigDecimal contractTotalAmount;
+    private Money contractTotalAmount;
 
-    public YardDto() {}
-
-    public YardDto(YardDto dto) {
-        this.id = dto.getId();
-        this.name = dto.getName();
-        this.description = dto.getDescription();
-        this.contractTotalAmount = dto.getContractTotalAmount();
+    public YardDto() {
     }
 
-    public YardDto(long id) {
-        this.id = id;
+    public YardDto(YardDto dto) {
+        this(dto.getName(), dto.getDescription(), dto.getContractTotalAmount());
+        this.id = dto.getId();
+    }
+
+    public YardDto(String name, String description, Money contractTotalAmount) {
+        this.name = name;
+        this.description = description;
+        this.contractTotalAmount = contractTotalAmount;
     }
 
     public long getId() {
@@ -48,7 +46,7 @@ public class YardDto {
         return description;
     }
 
-    public BigDecimal getContractTotalAmount() {
+    public Money getContractTotalAmount() {
         return contractTotalAmount;
     }
 
@@ -60,7 +58,7 @@ public class YardDto {
         this.description = description;
     }
 
-    public void setContractTotalAmount(BigDecimal contractTotalAmount) {
+    public void setContractTotalAmount(Money contractTotalAmount) {
         this.contractTotalAmount = contractTotalAmount;
     }
 }

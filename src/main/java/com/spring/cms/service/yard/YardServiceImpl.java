@@ -9,12 +9,13 @@ import com.spring.cms.service.aspects.IsValid;
 import com.spring.cms.service.dto.ExtendedYardDto;
 import com.spring.cms.service.dto.YardDto;
 import com.spring.cms.service.dto.YardSummaryDto;
+import org.joda.money.CurrencyUnit;
+import org.joda.money.Money;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigDecimal;
 import java.util.Collection;
 
 import static com.spring.cms.service.analysis.AnalysisStrategyBuilder.sum;
@@ -26,6 +27,8 @@ public class YardServiceImpl extends AbstractService<YardDto, Yard, Long> implem
 
     @Autowired
     private YardRepository repo;
+    @Autowired
+    private CurrencyUnit currency;
 
     @Override
     public ExtendedYardDto getYardDetails(long id) {
@@ -70,14 +73,14 @@ public class YardServiceImpl extends AbstractService<YardDto, Yard, Long> implem
         Collection<Income> incomes = yard.getIncomes();
         Collection<Expense> expenses = yard.getExpenses();
 
-        BigDecimal paidIncomes = sum().paid().on(incomes);
-        BigDecimal paidExpenses = sum().paid().on(expenses);
-        BigDecimal unPaidExpenses = sum().unpaid().on(expenses);
+        Money paidIncomes = sum().paid().on(incomes, currency);
+        Money paidExpenses = sum().paid().on(expenses, currency);
+        Money unPaidExpenses = sum().unpaid().on(expenses, currency);
 
-        BigDecimal deltaPaid = paidIncomes.subtract(paidExpenses);
+        Money deltaPaid = paidIncomes.minus(paidExpenses);
 
-        BigDecimal contractTotalAmount = yard.getContractTotalAmount();
-        BigDecimal deltaMissingIncome = contractTotalAmount.subtract(paidIncomes);
+        Money contractTotalAmount = yard.getContractTotalAmount();
+        Money deltaMissingIncome = contractTotalAmount.minus(paidIncomes);
 
         return new YardSummaryDto(paidIncomes, paidExpenses, unPaidExpenses, deltaPaid, deltaMissingIncome);
     }

@@ -2,12 +2,12 @@ package com.spring.cms.service.dto;
 
 import com.spring.cms.persistence.domain.ExpenseCategory;
 import com.spring.cms.persistence.domain.PaymentState;
+import org.joda.money.Money;
 
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.math.BigDecimal;
 import java.util.Date;
 
 public class ExpenseDto {
@@ -24,9 +24,7 @@ public class ExpenseDto {
     @Size(min= 1, max= 200)
     private String title;
     @NotNull
-    @Digits(integer=10, fraction=2)
-    @Min(0)
-    private BigDecimal amount;
+    private Money amount;
     @NotNull
     private PaymentState status;
     @NotNull
@@ -36,8 +34,8 @@ public class ExpenseDto {
     @NotNull
     private Date emissionAt;
 
-
-    public ExpenseDto() {}
+    public ExpenseDto() {
+    }
 
     public ExpenseDto(long id) {
         this.id = id;
@@ -59,7 +57,7 @@ public class ExpenseDto {
         return note;
     }
 
-    public BigDecimal getAmount() {
+    public Money getAmount() {
         return amount;
     }
 
@@ -83,7 +81,7 @@ public class ExpenseDto {
         this.note = note;
     }
 
-    public void setAmount(BigDecimal amount) {
+    public void setAmount(Money amount) {
         this.amount = amount;
     }
 

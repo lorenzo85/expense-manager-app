@@ -11,17 +11,17 @@ import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
 import java.util.List;
 
-import static java.lang.String.*;
+import static java.lang.String.format;
 
 
 @Transactional(readOnly = true)
-public abstract class AbstractService<M, T, ID extends Serializable> implements BaseService<M, ID> {
+public abstract class AbstractService<M, T, I extends Serializable> implements BaseService<M, I> {
 
     @Autowired
     protected Mapper mapper;
 
     @Override
-    public M findOne(ID id) {
+    public M findOne(I id) {
         T entity = findOneOrThrow(id);
         return mapper.map(entity, getDtoClass());
     }
@@ -34,7 +34,7 @@ public abstract class AbstractService<M, T, ID extends Serializable> implements 
 
     @Override
     @Transactional(readOnly = false)
-    public void delete(ID id) {
+    public void delete(I id) {
         getRepository().delete(id);
     }
 
@@ -43,9 +43,9 @@ public abstract class AbstractService<M, T, ID extends Serializable> implements 
         return getRepository().count();
     }
 
-    protected abstract CrudRepository<T, ID> getRepository();
+    protected abstract CrudRepository<T, I> getRepository();
 
-    protected T findOneOrThrow(ID id) {
+    protected T findOneOrThrow(I id) {
         T entity = getRepository().findOne(id);
         if(entity == null) {
             throw new EntityNotFoundException();
@@ -53,7 +53,7 @@ public abstract class AbstractService<M, T, ID extends Serializable> implements 
         return entity;
     }
 
-    protected void throwIfFound(ID id) {
+    protected void throwIfFound(I id) {
         T entity = getRepository().findOne(id);
         if(entity != null) {
             throw new IllegalArgumentException(format("An entity with id %s was already found!", id));
@@ -62,7 +62,7 @@ public abstract class AbstractService<M, T, ID extends Serializable> implements 
 
     protected List<M> mapAll(Iterable<T> entities) {
         List<M> mapped = new ArrayList<>();
-        entities.forEach((e) -> {
+        entities.forEach(e -> {
             M mappedEntity = mapper.map(e, getDtoClass());
             mapped.add(mappedEntity);
         });

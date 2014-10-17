@@ -12,8 +12,8 @@ import static org.springframework.boot.SpringApplication.run;
 @EnableTransactionManagement
 public class Application {
 
-        public static void main(String[] args) {
-            run(Application.class, args);
-        }
+    public static void main(String[] args) {
+        run(Application.class, args);
+    }
 
 }

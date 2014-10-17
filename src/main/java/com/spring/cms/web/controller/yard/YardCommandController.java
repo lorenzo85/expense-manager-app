@@ -21,17 +21,17 @@ public class YardCommandController {
     private YardService service;
 
     @RequestMapping(value= "/yards", method= POST)
-    public @ResponseBody YardDto postNew(@Valid @RequestBody YardDto dto) {
+    @ResponseBody public YardDto postNew(@Valid @RequestBody YardDto dto) {
         return service.save(dto);
     }
 
     @RequestMapping(value= "/yards", method= PUT)
-    public @ResponseBody YardDto putUpdate(@Valid @RequestBody YardDto dto) {
+    @ResponseBody public YardDto putUpdate(@Valid @RequestBody YardDto dto) {
         return service.update(dto);
     }
 
     @RequestMapping(value= "/yards/{id}", method= DELETE)
-    public @ResponseBody void delete(@PathVariable("id") long id) {
+    @ResponseBody public void delete(@PathVariable("id") long id) {
         service.delete(id);
     }
 }

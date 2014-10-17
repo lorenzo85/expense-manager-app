@@ -1,8 +1,8 @@
 package com.spring.cms.service.analysis;
 
-import java.math.BigDecimal;
+import org.joda.money.Money;
 
 public interface AnalysisStrategy {
 
-    BigDecimal execute();
+    Money execute();
 }

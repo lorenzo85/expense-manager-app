@@ -3,10 +3,14 @@ package com.spring.cms.web.controller.reports.templates;
 import com.spring.cms.web.controller.reports.styles.StyleFactory;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.joda.money.Money;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
-import java.math.BigDecimal;
 import java.util.Date;
 
+@Component("cellBuilder")
+@Scope("prototype")
 public class CellBuilderImpl implements CellBuilder {
 
     private int cellIndex;
@@ -29,9 +33,9 @@ public class CellBuilderImpl implements CellBuilder {
     }
 
     @Override
-    public CellBuilder addCell(BigDecimal value) {
+    public CellBuilder addCell(Money value) {
         HSSFCell cell = row.createCell(cellIndex);
-        cell.setCellValue(value.doubleValue());
+        cell.setCellValue(value.getAmount().doubleValue());
         cell.setCellStyle(style.getCurrencyStyle());
         cellIndex++;
         return this;

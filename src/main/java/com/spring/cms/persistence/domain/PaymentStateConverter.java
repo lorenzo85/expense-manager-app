@@ -3,7 +3,7 @@ package com.spring.cms.persistence.domain;
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
 
-import static com.spring.cms.persistence.domain.PaymentState.*;
+import static com.spring.cms.persistence.domain.PaymentState.getFromValue;
 
 @Converter(autoApply = true)
 public class PaymentStateConverter implements AttributeConverter<PaymentState, Integer> {

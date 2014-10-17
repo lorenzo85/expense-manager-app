@@ -10,7 +10,8 @@ public class ExtendedYardDto extends YardDto {
     private List<ExpenseDto> expenses = new ArrayList<ExpenseDto>();
 
 
-    public ExtendedYardDto() {}
+    public ExtendedYardDto() {
+    }
 
     public ExtendedYardDto(YardDto dto) {
         super(dto);

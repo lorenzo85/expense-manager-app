@@ -11,6 +11,10 @@
             <a>yardId</a>
             <b>yard.id</b>
         </field>
+        <field custom-converter="com.spring.cms.service.converters.MoneyConverter">
+            <a>amount</a>
+            <b>amount</b>
+        </field>
     </mapping>
 
     <mapping>
@@ -19,6 +23,19 @@
         <field>
             <a>yardId</a>
             <b>yard.id</b>
+        </field>
+        <field custom-converter="com.spring.cms.service.converters.MoneyConverter">
+            <a>amount</a>
+            <b>amount</b>
+        </field>
+    </mapping>
+
+    <mapping>
+        <class-a>com.spring.cms.service.dto.YardDto</class-a>
+        <class-b>com.spring.cms.persistence.domain.Yard</class-b>
+        <field custom-converter="com.spring.cms.service.converters.MoneyConverter">
+            <a>contractTotalAmount</a>
+            <b>contractTotalAmount</b>
         </field>
     </mapping>
 

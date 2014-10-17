@@ -1,9 +1,13 @@
 package com.spring.cms.web.controller.reports.templates;
 
 import com.spring.cms.service.dto.ExpenseDto;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 import java.util.Collection;
 
+@Component("expenseTemplate")
+@Scope("prototype")
 public class ExpenseTableTemplate extends AbstractExcelTableTemplate<ExpenseDto> {
 
     public ExpenseTableTemplate(Collection<ExpenseDto> entities) {

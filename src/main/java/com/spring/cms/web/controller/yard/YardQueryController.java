@@ -20,17 +20,17 @@ public class YardQueryController {
     private YardService service;
 
     @RequestMapping(value="/yards", method= GET)
-    public @ResponseBody List<YardDto> getAll() {
+    @ResponseBody public List<YardDto> getAll() {
         return service.findAll();
     }
 
     @RequestMapping(value= "/yards/{id}", method= GET)
-    public @ResponseBody YardDto getYard(@PathVariable("id") long id) {
+    @ResponseBody public YardDto getYard(@PathVariable("id") long id) {
         return service.findOne(id);
     }
 
     @RequestMapping(value= "/yards/{id}/details", method= GET)
-    public @ResponseBody ExtendedYardDto getYardDetails(@PathVariable("id") long id) {
+    @ResponseBody public ExtendedYardDto getYardDetails(@PathVariable("id") long id) {
         return service.getYardDetails(id);
     }
 }

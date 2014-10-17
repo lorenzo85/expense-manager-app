@@ -20,24 +20,24 @@ public class ExpenseCommandController {
     private ExpenseService service;
 
     @RequestMapping(value= "/yards/{yardId}/expenses", method= POST)
-    public @ResponseBody ExpenseDto postNew(@Valid @RequestBody ExpenseDto dto, @PathVariable("yardId") long yardId) {
+    @ResponseBody public ExpenseDto postNew(@Valid @RequestBody ExpenseDto dto, @PathVariable("yardId") long yardId) {
         dto.setYardId(yardId);
         return service.save(dto);
     }
 
     @RequestMapping(value= "/yards/{yardId}/expenses", method= PUT)
-    public @ResponseBody ExpenseDto putUpdate(@Valid @RequestBody ExpenseDto dto, @PathVariable("yardId") long yardId) {
+    @ResponseBody public ExpenseDto putUpdate(@Valid @RequestBody ExpenseDto dto, @PathVariable("yardId") long yardId) {
         dto.setYardId(yardId);
         return service.update(dto);
     }
 
     @RequestMapping(value = "/yards/{yardId}/expenses/{id}", method = DELETE)
-    public @ResponseBody void delete(@PathVariable("yardId") long yardId, @PathVariable("id") long id) {
+    @ResponseBody public void delete(@PathVariable("yardId") long yardId, @PathVariable("id") long id) {
         service.delete(id, yardId);
     }
 
     @RequestMapping(value = "/yards/{yardId}/expenses/{id}/markAsPaid", method= PUT)
-    public @ResponseBody void putMarkAsPaid(@PathVariable("yardId") long yardId, @PathVariable("id") long id) {
+    @ResponseBody public void putMarkAsPaid(@PathVariable("yardId") long yardId, @PathVariable("id") long id) {
         service.markAsPaid(id, yardId);
     }
 }

@@ -1,7 +1,9 @@
 package com.spring.cms.persistence.domain;
 
+import org.hibernate.annotations.Type;
+import org.joda.money.Money;
+
 import javax.persistence.*;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,7 +21,9 @@ public class Yard {
     @Column(name="description")
     protected String description;
     @Column(name="contract_total_amount")
-    protected BigDecimal contractTotalAmount;
+    @Type(type="org.jadira.usertype.moneyandcurrency.joda.PersistentMoneyAmount",
+            parameters = {@org.hibernate.annotations.Parameter(name= "currencyCode", value="EUR")})
+    protected Money contractTotalAmount;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "yard")
     @OrderBy("status DESC , expires_at DESC ")
@@ -29,7 +33,8 @@ public class Yard {
     @OrderBy("status DESC, created_at DESC ")
     protected List<Income> incomes = new ArrayList<Income>();
 
-    public Yard() {}
+    public Yard() {
+    }
 
     public Yard(long id) {
         this.id = id;
@@ -60,7 +65,7 @@ public class Yard {
         return description;
     }
 
-    public BigDecimal getContractTotalAmount() {
+    public Money getContractTotalAmount() {
         return contractTotalAmount;
     }
 
@@ -72,7 +77,7 @@ public class Yard {
         return expenses;
     }
 
-    public void setContractTotalAmount(BigDecimal contractTotalAmount) {
+    public void setContractTotalAmount(Money contractTotalAmount) {
         this.contractTotalAmount = contractTotalAmount;
     }
 

@@ -1,60 +1,32 @@
 package com.spring.cms.service.dto;
 
 import com.spring.cms.persistence.domain.ExpenseCategory;
+import org.joda.money.Money;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static java.math.RoundingMode.HALF_UP;
-
 public class DeadlinesDto {
 
     private String year;
     private String month;
-    private BigDecimal total = getZeroAmount();
+    private Money total;
     private List<ExpenseDto> expenses = new ArrayList<>();
-    private Map<ExpenseCategory, BigDecimal> EXPENSES_CATEGORY_TOTALS = new HashMap<>();
-
-    public DeadlinesDto() {
-        for(ExpenseCategory category : ExpenseCategory.values()) {
-            EXPENSES_CATEGORY_TOTALS.put(category, getZeroAmount());
-        }
-    }
+    private Map<ExpenseCategory, Money> expenseCategoryTotals = new HashMap<>();
 
     public DeadlinesDto(String year, String month) {
-        this();
         this.year = year;
         this.month = month;
     }
 
     public void addExpense(ExpenseDto expense) {
-        BigDecimal amount = expense.getAmount();
-        total = total.add(amount);
-
-        ExpenseCategory category = expense.getCategory();
-        BigDecimal updated = EXPENSES_CATEGORY_TOTALS.get(category).add(amount);
-        EXPENSES_CATEGORY_TOTALS.put(category, updated);
-
-        expenses.add(expense);
+        this.expenses.add(expense);
     }
 
-    public String getYear() {
-        return year;
-    }
-
-    public void setYear(String year) {
-        this.year = year;
-    }
-
-    public String getMonth() {
-        return month;
-    }
-
-    public void setMonth(String month) {
-        this.month = month;
+    public Money getTotalForCategory(ExpenseCategory category) {
+        return expenseCategoryTotals.get(category);
     }
 
     public List<ExpenseDto> getExpenses() {
@@ -65,25 +37,27 @@ public class DeadlinesDto {
         this.expenses = expenses;
     }
 
-    public BigDecimal getTotal() {
+    public String getYear() {
+        return year;
+    }
+
+    public String getMonth() {
+        return month;
+    }
+
+    public Money getTotal() {
         return total;
     }
 
-    public void setTotal(BigDecimal total) {
+    public Map<ExpenseCategory, Money> getExpenseCategoryTotals() {
+        return expenseCategoryTotals;
+    }
+
+    public void updateTotal(Money total) {
         this.total = total;
     }
 
-    public Map<ExpenseCategory, BigDecimal> getExpensesCategoryTotals() {
-        return EXPENSES_CATEGORY_TOTALS;
-    }
-
-    public void computeTotal() {
-        for(ExpenseDto dto : expenses) {
-            total = total.add(dto.getAmount());
-        }
-    }
-
-    private static BigDecimal getZeroAmount() {
-        return new BigDecimal(0.00).setScale(2, HALF_UP);
+    public void updateTotalForCategory(ExpenseCategory category, Money monthCategoryTotal) {
+        this.expenseCategoryTotals.put(category, monthCategoryTotal);
     }
 }

@@ -1,11 +1,12 @@
-package com.spring.cms.service;
+package com.spring.cms.service.yard;
 
+import com.spring.cms.service.AbstractBaseServiceTest;
 import com.spring.cms.service.dto.*;
 import com.spring.cms.service.exceptions.EntityNotFoundException;
+import org.joda.money.Money;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.math.BigDecimal;
 import java.text.ParseException;
 import java.util.Collection;
 
@@ -18,12 +19,11 @@ import static org.apache.commons.lang3.builder.EqualsBuilder.reflectionEquals;
 import static org.junit.Assert.*;
 
 
-public class YardServiceGetYardDetailsTest extends BaseServiceTest {
+public class YardServiceGetYardDetailsTest extends AbstractBaseServiceTest {
 
     YardDto yard;
     ExpenseDto paidExpense;
     ExpenseDto unpaidExpense;
-
 
     @Before
     public void setup() throws ParseException {
@@ -38,7 +38,7 @@ public class YardServiceGetYardDetailsTest extends BaseServiceTest {
         long unexistentId = MAX_VALUE;
 
         // When
-        service.getYardDetails(unexistentId);
+        yardService.getYardDetails(unexistentId);
     }
 
     // This test checks that the base YardDto parameters are correct!
@@ -48,7 +48,7 @@ public class YardServiceGetYardDetailsTest extends BaseServiceTest {
         YardDto dto = persistYardDto("A name", "A description", createAmount(23.1));
 
         // When
-        YardDto found = service.getYardDetails(dto.getId());
+        YardDto found = yardService.getYardDetails(dto.getId());
 
         // Then
         assertTrue(reflectionEquals(dto, found, "summary", "expenses", "incomes"));
@@ -60,7 +60,7 @@ public class YardServiceGetYardDetailsTest extends BaseServiceTest {
         YardDto dto = persistYardDto("A name", "A description", createAmount(23.23));
 
         // When
-        ExtendedYardDto found = service.getYardDetails(dto.getId());
+        ExtendedYardDto found = yardService.getYardDetails(dto.getId());
 
         // Then
         assertTrue(found.getExpenses().isEmpty());
@@ -73,7 +73,7 @@ public class YardServiceGetYardDetailsTest extends BaseServiceTest {
         YardDto dto = persistYardDto("A name", "A description", createAmount(3453.23));
 
         // When
-        ExtendedYardDto found = service.getYardDetails(dto.getId());
+        ExtendedYardDto found = yardService.getYardDetails(dto.getId());
 
         // Then
         YardSummaryDto summary = found.getSummary();
@@ -90,7 +90,7 @@ public class YardServiceGetYardDetailsTest extends BaseServiceTest {
         YardDto yard = this.yard;
 
         // When
-        ExtendedYardDto extendedYardDto = service.getYardDetails(yard.getId());
+        ExtendedYardDto extendedYardDto = yardService.getYardDetails(yard.getId());
 
         // Then
         Collection<ExpenseDto> expenses = extendedYardDto.getExpenses();
@@ -107,7 +107,7 @@ public class YardServiceGetYardDetailsTest extends BaseServiceTest {
         IncomeDto incomeDto2 = persistIncomeDto(dto.getId(), 90723, PAID, createAmount(234234), "A note income");
 
         // When
-        ExtendedYardDto extendedYardDto = service.getYardDetails(yard.getId());
+        ExtendedYardDto extendedYardDto = yardService.getYardDetails(yard.getId());
 
         // Then
         Collection<IncomeDto> incomes = extendedYardDto.getIncomes();
@@ -129,12 +129,11 @@ public class YardServiceGetYardDetailsTest extends BaseServiceTest {
         persistIncomeDto(dto.getId(), 322, PAID, createAmount(incomePaidAmount2), "A desc");
 
         // When
-        ExtendedYardDto extendedYardDto = service.getYardDetails(yard.getId());
-        BigDecimal actual = extendedYardDto.getSummary().getPaidIncomes();
+        ExtendedYardDto extendedYardDto = yardService.getYardDetails(yard.getId());
+        Money actual = extendedYardDto.getSummary().getPaidIncomes();
 
         // Then
-        BigDecimal expected = createAmount(incomePaidAmount1 + incomePaidAmount2);
+        Money expected = createAmount(incomePaidAmount1).plus(incomePaidAmount2);
         assertEquals(expected, actual);
-
     }
 }

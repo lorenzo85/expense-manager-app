@@ -2,8 +2,8 @@ package com.spring.cms.service.dto;
 
 public class ExpenseCategoryDto {
 
-    public String value;
-    public String name;
+    private String value;
+    private String name;
 
     public ExpenseCategoryDto(String value, String name) {
         this.value = value;

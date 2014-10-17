@@ -1,10 +1,10 @@
 package com.spring.cms.persistence.domain;
 
-import java.math.BigDecimal;
+import org.joda.money.Money;
 
 public interface Amount {
 
-    BigDecimal getAmount();
+    Money getAmount();
 
     PaymentState getStatus();
 }

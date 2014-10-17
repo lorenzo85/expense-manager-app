@@ -1,7 +1,9 @@
 package com.spring.cms.persistence.domain;
 
+import org.hibernate.annotations.Type;
+import org.joda.money.Money;
+
 import javax.persistence.*;
-import java.math.BigDecimal;
 
 import static javax.persistence.GenerationType.AUTO;
 
@@ -15,7 +17,9 @@ public class Income implements Amount {
     @Column(name="invoice_id")
     protected long invoiceId;
     @Column(name="amount")
-    protected BigDecimal amount;
+    @Type(type="org.jadira.usertype.moneyandcurrency.joda.PersistentMoneyAmount",
+            parameters = {@org.hibernate.annotations.Parameter(name= "currencyCode", value="EUR")})
+    protected Money amount;
     @Column(name="status")
     @Convert(converter = PaymentStateConverter.class)
     protected PaymentState status;
@@ -38,7 +42,7 @@ public class Income implements Amount {
         return yard;
     }
 
-    public BigDecimal getAmount() {
+    public Money getAmount() {
         return amount;
     }
 
@@ -58,7 +62,7 @@ public class Income implements Amount {
         this.status = status;
     }
 
-    public void setAmount(BigDecimal amount) {
+    public void setAmount(Money amount) {
         this.amount = amount;
     }
 

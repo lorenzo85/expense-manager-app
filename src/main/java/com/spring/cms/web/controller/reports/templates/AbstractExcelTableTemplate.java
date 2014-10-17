@@ -80,7 +80,7 @@ public abstract class AbstractExcelTableTemplate<T> implements ExcelTemplate<T> 
     }
 
     private void createRows() {
-        entities.forEach((entity) -> {
+        entities.forEach(entity -> {
             CellBuilder builder = createCellBuilder(rowStyle);
             fillRow(builder, entity);
         });

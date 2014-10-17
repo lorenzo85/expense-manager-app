@@ -2,17 +2,17 @@ package com.spring.cms.service;
 
 import java.util.List;
 
-public interface BaseService<T, ID> {
+public interface BaseService<T, I> {
 
     T update(T entity);
 
     T save(T entity);
 
-    T findOne(ID id);
+    T findOne(I id);
 
     List<T> findAll();
 
     long count();
 
-    void delete(ID id);
+    void delete(I id);
 }

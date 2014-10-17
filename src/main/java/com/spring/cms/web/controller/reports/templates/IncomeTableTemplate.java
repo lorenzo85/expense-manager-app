@@ -1,9 +1,13 @@
 package com.spring.cms.web.controller.reports.templates;
 
 import com.spring.cms.service.dto.IncomeDto;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 import java.util.Collection;
 
+@Component("incomeTemplate")
+@Scope("prototype")
 public class IncomeTableTemplate extends AbstractExcelTableTemplate<IncomeDto> {
 
     public IncomeTableTemplate(Collection<IncomeDto> entities) {

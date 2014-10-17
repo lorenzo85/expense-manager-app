@@ -2,25 +2,31 @@ package com.spring.cms.service.analysis;
 
 import com.spring.cms.persistence.domain.Amount;
 import com.spring.cms.persistence.domain.PaymentState;
+import org.joda.money.CurrencyUnit;
+import org.joda.money.Money;
 
-import java.math.BigDecimal;
 import java.util.Collection;
 
-import static java.math.RoundingMode.HALF_UP;
+import static org.joda.money.Money.of;
+
 
 public abstract class AbstractAnalysisStrategy implements AnalysisStrategy {
 
-    protected BigDecimal getZeroAmount() {
-        return new BigDecimal(0.00).setScale(2, HALF_UP);
-    }
-
-    protected BigDecimal getSumFor(PaymentState paymentState, Collection<? extends Amount> amounts) {
-        BigDecimal sum = getZeroAmount();
-        for(Amount amount : amounts) {
-            if(amount.getStatus() == paymentState) {
-                sum = sum.add(amount.getAmount());
+    protected Money getSumFor(PaymentState paymentState, Collection<? extends Amount> amounts, CurrencyUnit currency) {
+        Money sum = of(currency, 0);
+        for (Amount amount : amounts) {
+            if (amount.getStatus() == paymentState) {
+                sum = updateSum(sum, amount);
             }
         }
         return sum;
+    }
+
+    private Money updateSum(Money sum, Amount amount) {
+        if (sum == null) {
+            return of(amount.getAmount());
+        } else {
+            return sum.plus(amount.getAmount());
+        }
     }
 }

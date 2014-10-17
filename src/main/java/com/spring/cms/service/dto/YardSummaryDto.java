@@ -1,16 +1,16 @@
 package com.spring.cms.service.dto;
 
-import java.math.BigDecimal;
+import org.joda.money.Money;
 
 public class YardSummaryDto {
-    private BigDecimal deltaPaid;
-    private BigDecimal paidIncomes;
-    private BigDecimal paidExpenses;
-    private BigDecimal unPaidExpenses;
-    private BigDecimal deltaMissingIncome;
+    private Money deltaPaid;
+    private Money paidIncomes;
+    private Money paidExpenses;
+    private Money unPaidExpenses;
+    private Money deltaMissingIncome;
 
-    public YardSummaryDto(BigDecimal paidIncomes, BigDecimal paidExpenses,
-                          BigDecimal unPaidExpenses, BigDecimal deltaPaid, BigDecimal deltaMissingIncome) {
+    public YardSummaryDto(Money paidIncomes, Money paidExpenses,
+                          Money unPaidExpenses, Money deltaPaid, Money deltaMissingIncome) {
         this.deltaPaid = deltaPaid;
         this.paidIncomes = paidIncomes;
         this.paidExpenses = paidExpenses;
@@ -18,23 +18,23 @@ public class YardSummaryDto {
         this.deltaMissingIncome = deltaMissingIncome;
     }
 
-    public BigDecimal getDeltaPaid() {
+    public Money getDeltaPaid() {
         return deltaPaid;
     }
 
-    public BigDecimal getPaidIncomes() {
+    public Money getPaidIncomes() {
         return paidIncomes;
     }
 
-    public BigDecimal getPaidExpenses() {
+    public Money getPaidExpenses() {
         return paidExpenses;
     }
 
-    public BigDecimal getUnPaidExpenses() {
+    public Money getUnPaidExpenses() {
         return unPaidExpenses;
     }
 
-    public BigDecimal getDeltaMissingIncome() {
+    public Money getDeltaMissingIncome() {
         return deltaMissingIncome;
     }
 }
