@@ -10,9 +10,11 @@ app.filter('capitalize', function() {
 
 }).filter('euroCurrency', ["$filter", function($filter) {
     return function(amount) {
+        if(amount == undefined) return;
+
         var currencyFilter = $filter('currency');
         var formatted = currencyFilter(amount, '');
-        return "\u20AC ".concat(formatted.replace('(','-').replace(')', ''));
+        return '\u20AC '.concat(formatted.replace('(','-').replace(')', ''));
     }
 
 }]).filter('dateFormat', ["$filter", function($filter) {

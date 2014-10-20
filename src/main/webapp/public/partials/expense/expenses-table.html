@@ -22,7 +22,7 @@
             <td class="align-right">{{ expense.amount |euroCurrency }}</td>
             <td class="align-center">{{ expense.status |capitalize }}</td>
             <td class="align-center">{{ expense.expiresAt |dateFormat }}</td>
-            <td class="align-center">{{ expense.category }}</td>
+            <td class="align-center">{{ expense.category |capitalize }}</td>
             <td class="align-right">
                 <div class="btn-group">
                     <a class="btn btn-sm btn-primary" href="#/yards/{{ expense.yardId }}/expenses/{{ expense.id }}/view">View</a>

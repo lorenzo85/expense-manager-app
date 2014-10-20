@@ -25,7 +25,7 @@ public abstract class AbstractBaseServiceTest extends AbstractBaseTest {
     public static final SimpleDateFormat DATE_FORMATTER = new SimpleDateFormat(DATE_FORMAT);
 
     @Autowired
-    CurrencyUnit currency;
+    protected CurrencyUnit currency;
 
     @Autowired
     public YardService yardService;

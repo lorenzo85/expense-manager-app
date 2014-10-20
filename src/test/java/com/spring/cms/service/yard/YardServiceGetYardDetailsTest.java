@@ -1,5 +1,6 @@
 package com.spring.cms.service.yard;
 
+import com.spring.cms.persistence.domain.PaymentState;
 import com.spring.cms.service.AbstractBaseServiceTest;
 import com.spring.cms.service.dto.*;
 import com.spring.cms.service.exceptions.EntityNotFoundException;
@@ -9,6 +10,7 @@ import org.junit.Test;
 
 import java.text.ParseException;
 import java.util.Collection;
+import java.util.Date;
 
 import static com.spring.cms.persistence.domain.ExpenseCategory.MORTGAGES;
 import static com.spring.cms.persistence.domain.ExpenseCategory.OTHER;
@@ -16,20 +18,18 @@ import static com.spring.cms.persistence.domain.PaymentState.PAID;
 import static com.spring.cms.persistence.domain.PaymentState.UNPAID;
 import static java.lang.Long.MAX_VALUE;
 import static org.apache.commons.lang3.builder.EqualsBuilder.reflectionEquals;
+import static org.joda.money.CurrencyUnit.EUR;
+import static org.joda.money.Money.of;
 import static org.junit.Assert.*;
 
 
 public class YardServiceGetYardDetailsTest extends AbstractBaseServiceTest {
 
     YardDto yard;
-    ExpenseDto paidExpense;
-    ExpenseDto unpaidExpense;
 
     @Before
     public void setup() throws ParseException {
         yard = persistYardDto("A yard name", "A yard description", createAmount(86573.1));
-        paidExpense = persistExpenseDto(yard.getId(), 324324, "An expense1 title", "An expense 1 note", createAmount(234.23), DATE_FORMATTER.parse("12/01/2013"), DATE_FORMATTER.parse("1/1/2000"), PAID, MORTGAGES);
-        unpaidExpense = persistExpenseDto(yard.getId(), 2535, "An expense2 title", "An expense 2 note", createAmount(354.23), DATE_FORMATTER.parse("1/06/2005"), DATE_FORMATTER.parse("11/2/1990"), UNPAID, OTHER);
     }
 
     @Test(expected = EntityNotFoundException.class)
@@ -88,6 +88,8 @@ public class YardServiceGetYardDetailsTest extends AbstractBaseServiceTest {
     public void thatGetYardDetailsHasAllExpenses() throws ParseException {
         // Given
         YardDto yard = this.yard;
+        ExpenseDto paidExpense = persistExpenseDto(yard.getId(), 324324, "An expense1 title", "An expense 1 note", createAmount(234.23), DATE_FORMATTER.parse("12/01/2013"), DATE_FORMATTER.parse("1/1/2000"), PAID, MORTGAGES);
+        ExpenseDto unpaidExpense = persistExpenseDto(yard.getId(), 2535, "An expense2 title", "An expense 2 note", createAmount(354.23), DATE_FORMATTER.parse("1/06/2005"), DATE_FORMATTER.parse("11/2/1990"), UNPAID, OTHER);
 
         // When
         ExtendedYardDto extendedYardDto = yardService.getYardDetails(yard.getId());
@@ -117,23 +119,143 @@ public class YardServiceGetYardDetailsTest extends AbstractBaseServiceTest {
     }
 
     @Test
-    public void thatTotalIncomesPaidIsComputedCorrectly() {
+    public void thatTotalPaidIncomesIsComputedCorrectly() {
         // Given
-        double incomePaidAmount1 = 560750.92;
-        double incomePaidAmount2 = 34123.02;
-
         YardDto dto = this.yard;
 
-        persistIncomeDto(dto.getId(), 3454, PAID, createAmount(incomePaidAmount1), "A note");
-        persistIncomeDto(dto.getId(), 90723, UNPAID, createAmount(234234), "A note income");
-        persistIncomeDto(dto.getId(), 322, PAID, createAmount(incomePaidAmount2), "A desc");
+        Money amount1 = of(EUR, 45.23);
+        Money amount2 = of(EUR, 500.23);
+        Money amount3 = of(EUR, 1250);
+
+        persistIncomeDtoWithAmount(amount1, PAID, dto.getId());
+        persistIncomeDtoWithAmount(amount2, PAID, dto.getId());
+        persistIncomeDtoWithAmount(amount3, UNPAID, dto.getId());
 
         // When
-        ExtendedYardDto extendedYardDto = yardService.getYardDetails(yard.getId());
+        ExtendedYardDto extendedYardDto = yardService.getYardDetails(dto.getId());
         Money actual = extendedYardDto.getSummary().getPaidIncomes();
 
         // Then
-        Money expected = createAmount(incomePaidAmount1).plus(incomePaidAmount2);
+        Money expected = amount1.plus(amount2);
         assertEquals(expected, actual);
+    }
+
+    @Test
+    public void thatTotalPaidIncomesIsZeroWhenNoIncomes() {
+        // Given
+        YardDto dto = this.yard;
+
+        Money amount1 = of(EUR, 23423);
+
+        persistIncomeDtoWithAmount(amount1, UNPAID, dto.getId());
+
+        // When
+        ExtendedYardDto extendedYardDto = yardService.getYardDetails(dto.getId());
+        Money actual = extendedYardDto.getSummary().getPaidIncomes();
+
+        // Then
+        assertEquals(of(EUR, 0), actual);
+    }
+
+    @Test
+    public void thatTotalPaidExpensesIsComputedCorrectly() throws ParseException {
+        // Given
+        YardDto dto = this.yard;
+
+        Money amount1 = of(EUR, 12.23);
+        Money amount2 = of(EUR, 234324);
+        Money amount3 = of(EUR, 234234.23);
+
+        persistExpenseDtoWithAmount(amount1, PAID, dto.getId());
+        persistExpenseDtoWithAmount(amount2, UNPAID, dto.getId());
+        persistExpenseDtoWithAmount(amount3, PAID, dto.getId());
+
+        // When
+        ExtendedYardDto extendedYardDto = yardService.getYardDetails(dto.getId());
+        Money actual = extendedYardDto.getSummary().getPaidExpenses();
+
+        // Then
+        Money expected = amount1.plus(amount3);
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void thatTotalUnPaidExpensesIsComputedCorrectly() throws ParseException {
+        // Given
+        YardDto dto = this.yard;
+
+        Money amount1 = of(EUR, 342.23);
+        Money amount2 = of(EUR, 4325.23);
+        Money amount3 = of(EUR, 12.3);
+
+        persistExpenseDtoWithAmount(amount1, UNPAID, dto.getId());
+        persistExpenseDtoWithAmount(amount2, PAID, dto.getId());
+        persistExpenseDtoWithAmount(amount3, UNPAID, dto.getId());
+
+        // When
+        ExtendedYardDto extendedYardDto = yardService.getYardDetails(dto.getId());
+        Money actual = extendedYardDto.getSummary().getUnPaidExpenses();
+
+        // Then
+        Money expected = amount1.plus(amount3);
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void thatDeltaPaidIsComputedCorrectly() throws ParseException {
+        // Given
+        YardDto dto = this.yard;
+
+        Money expenseAmount1 = of(EUR, 234.23);
+        Money expenseAmount2 = of(EUR, 98);
+        Money incomeAmount1 = of(EUR, 234);
+        Money incomeAmount2 = of(EUR, 987);
+        Money incomeAmount3 = of(EUR, 23423423);
+
+        persistExpenseDtoWithAmount(expenseAmount1, PAID, dto.getId());
+        persistExpenseDtoWithAmount(expenseAmount2, UNPAID, dto.getId());
+        persistIncomeDtoWithAmount(incomeAmount1, UNPAID, dto.getId());
+        persistIncomeDtoWithAmount(incomeAmount2, PAID, dto.getId());
+        persistIncomeDtoWithAmount(incomeAmount3, PAID, dto.getId());
+
+        // When
+        ExtendedYardDto extendedYardDto = yardService.getYardDetails(dto.getId());
+        Money actual = extendedYardDto.getSummary().getDeltaPaid();
+
+        // Then
+        Money expected = incomeAmount2.plus(incomeAmount3).minus(expenseAmount1);
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void thatDeltaMissingIncomeIsComputedCorrectly() {
+        // Given
+        YardDto dto = this.yard;
+
+        Money incomeAmount1 = of(EUR, 234.23);
+        Money incomeAmount2 = of(EUR, 2342223423L);
+        Money incomeAmount3 = of(EUR, 23);
+
+        persistIncomeDtoWithAmount(incomeAmount1, PAID, dto.getId());
+        persistIncomeDtoWithAmount(incomeAmount2, UNPAID, dto.getId());
+        persistIncomeDtoWithAmount(incomeAmount3, PAID, dto.getId());
+
+        // When
+        ExtendedYardDto extendedYardDto = yardService.getYardDetails(dto.getId());
+        Money actual = extendedYardDto.getSummary().getDeltaMissingIncome();
+
+        // Then
+        Money expected = dto.getContractTotalAmount().minus(incomeAmount1.plus(incomeAmount3));
+        assertEquals(actual, expected);
+    }
+
+    private ExpenseDto persistExpenseDtoWithAmount(Money amount, PaymentState state, long yardId) throws ParseException {
+        Date date1 = DATE_FORMATTER.parse("30/9/1999");
+        Date date2 = DATE_FORMATTER.parse("12/1/2000");
+        return persistExpenseDto(yardId, 234L, "A title", "A note", amount, date1, date2, state, MORTGAGES);
+    }
+
+    private IncomeDto persistIncomeDtoWithAmount(Money amount, PaymentState state, long yardId) {
+        return persistIncomeDto(yardId, 3454, state, amount, "A note");
     }
 }

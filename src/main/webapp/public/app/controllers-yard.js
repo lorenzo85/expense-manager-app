@@ -12,6 +12,11 @@ app.controller('YardsController', function($rootScope, $scope, $location, Yard) 
     }
 
 }).controller('YardsViewController', function($rootScope, $scope, $routeParams, Yard) {
+
+    $rootScope.$on('data::updated', function(){
+        $scope.yard = Yard.getYardDetails({ id: $routeParams.id });
+    });
+
     $scope.yard = Yard.getYardDetails({ id: $routeParams.id }, function(){
         $rootScope.title = $scope.yard.name;
     });

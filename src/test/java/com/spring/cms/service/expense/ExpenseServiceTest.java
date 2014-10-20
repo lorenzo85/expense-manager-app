@@ -1,6 +1,5 @@
 package com.spring.cms.service.expense;
 
-import com.spring.cms.persistence.domain.PaymentState;
 import com.spring.cms.service.AbstractBaseServiceTest;
 import com.spring.cms.service.dto.ExpenseDto;
 import com.spring.cms.service.dto.YardDto;
@@ -67,38 +66,6 @@ public class ExpenseServiceTest extends AbstractBaseServiceTest {
     }
 
     @Test(expected = DataIntegrityViolationException.class)
-    public void thatSaveExpenseThrowsExceptionIfPaymentStateIsNull() {
-        // Given
-        PaymentState state = null;
-        ExpenseDto expected = expenseDto;
-        expected.setStatus(state);
-
-        // Expect
-        expenseService.save(expected);
-    }
-
-    @Test(expected = DataIntegrityViolationException.class)
-    public void thatSaveExpenseThrowsExceptionIfTitleIsNull() {
-        // Given
-        String title = null;
-        ExpenseDto expected = expenseDto;
-        expected.setTitle(title);
-
-        // Expect
-        expenseService.save(expected);
-    }
-
-    @Test(expected = NullPointerException.class)
-    public void thatSaveExpenseThrowsExceptionWhenAmountIsNull() {
-        // Given
-        ExpenseDto expected = expenseDto;
-        expected.setAmount(null);
-
-        // Expect
-        expenseService.save(expected);
-    }
-
-    @Test(expected = DataIntegrityViolationException.class)
     public void thatSaveExpenseThrowsExceptionWhenAmountTooHigh() {
         // Given
         ExpenseDto expected = expenseDto;
@@ -135,21 +102,6 @@ public class ExpenseServiceTest extends AbstractBaseServiceTest {
         // Then
         ExpenseDto actual = expenseService.findOne(persisted.getId());
         assertNull(actual.getNote());
-    }
-
-    @Test(expected = DataIntegrityViolationException.class)
-    public void thatExceptionIsThrownWhenTitleStringIsTooLong() {
-        // Given
-        StringBuilder builder = new StringBuilder();
-        for(int i = 0; i <= 200; i++) {
-            builder.append('a');
-        }
-
-        ExpenseDto expected = expenseDto;
-        expected.setTitle(builder.toString());
-
-        // Expect
-        expenseService.save(expected);
     }
 
     @Test

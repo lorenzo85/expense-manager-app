@@ -1,7 +1,6 @@
 var app = angular.module('incomeControllers', []);
 
 app.controller('IncomesController', function($rootScope, $scope, $routeParams, Income) {
-
     $scope.incomes = Income.query({ yardId: $routeParams.id });
 
     $scope.getYardId = function() {
@@ -11,6 +10,7 @@ app.controller('IncomesController', function($rootScope, $scope, $routeParams, I
     $scope.deleteIncome = function(income) {
         income.$delete(function() {
             $scope.incomes = Income.query({ yardId: $routeParams.id })
+            $rootScope.$emit('data::updated');
         })
     };
 

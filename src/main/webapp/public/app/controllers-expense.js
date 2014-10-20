@@ -9,9 +9,10 @@ app.controller('ExpensesController', function ($rootScope, $scope, $routeParams,
 
     $scope.deleteExpense = function(expense) {
         expense.$delete(function() {
-            $scope.expenses = Expense.query({ yardId: $routeParams.id })
+            $scope.expenses = Expense.query({ yardId: $routeParams.id });
+            $rootScope.$emit('data::updated');
         });
-    }
+    };
 
 
 }).controller('ExpenseViewController', function ($rootScope, $scope, $routeParams, Expense) {

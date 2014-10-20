@@ -26,7 +26,7 @@ public class ExpenseServiceImpl extends AbstractService<ExpenseDto, Expense, Lon
     private ExpenseRepository repo;
 
     @Override
-    public ExpenseDto save(ExpenseDto dto) {
+    public ExpenseDto save(@IsValid ExpenseDto dto) {
         throwIfFound(dto.getId());
 
         Expense expense = mapper.map(dto, Expense.class);

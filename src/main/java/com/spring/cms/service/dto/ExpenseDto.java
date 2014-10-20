@@ -41,6 +41,17 @@ public class ExpenseDto {
         this.id = id;
     }
 
+    public ExpenseDto(Long invoiceId, String title, Money amount, PaymentState status,
+                      ExpenseCategory category, Date expiresAt, Date emissionAt) {
+        this.invoiceId = invoiceId;
+        this.title = title;
+        this.amount = amount;
+        this.status = status;
+        this.category = category;
+        this.expiresAt = expiresAt;
+        this.emissionAt = emissionAt;
+    }
+
     public long getYardId() {
         return yardId;
     }

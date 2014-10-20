@@ -18,7 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
 
-import static com.spring.cms.service.analysis.AnalysisStrategyBuilder.sum;
+import static com.spring.cms.service.yard.YardSummaryBuilder.sum;
 import static org.springframework.transaction.annotation.Propagation.REQUIRED;
 
 @Service
@@ -73,9 +73,9 @@ public class YardServiceImpl extends AbstractService<YardDto, Yard, Long> implem
         Collection<Income> incomes = yard.getIncomes();
         Collection<Expense> expenses = yard.getExpenses();
 
-        Money paidIncomes = sum().paid().on(incomes, currency);
-        Money paidExpenses = sum().paid().on(expenses, currency);
-        Money unPaidExpenses = sum().unpaid().on(expenses, currency);
+        Money paidIncomes = sum().paid().on(incomes).compute(currency);
+        Money paidExpenses = sum().paid().on(expenses).compute(currency);
+        Money unPaidExpenses = sum().unpaid().on(expenses).compute(currency);
 
         Money deltaPaid = paidIncomes.minus(paidExpenses);
 

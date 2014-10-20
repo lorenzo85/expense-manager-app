@@ -6,21 +6,27 @@
             <label for="name">Nome</label>
             <input id="name"
                    type="text"
-                   ng-model="yard.name"
                    class="form-control"
-                   placeholder="Nome cantiere">
+                   placeholder="Yard name"
+                   ng-model="yard.name"
+                   minlength="1"
+                   required />
         </div>
     </div>
     <div class="col-lg-3">
         <div class="form-group">
-            <label for="contractTotalAmount">Valore appalto</label>
+            <label for="contractTotalAmount">Yard value:</label>
 
             <div class="input-group">
                 <input id="contractTotalAmount"
-                       type="text"
+                       min="0.01"
+                       step="0.01"
+                       type="number"
+                       max="9000000"
+                       placeholder="0.00"
                        class="form-control"
-                       placeholder="10000.00"
-                       ng-model="yard.contractTotalAmount">
+                       ng-model="yard.contractTotalAmount"
+                       required />
                 <span class="input-group-addon">€</span>
             </div>
         </div>
@@ -39,5 +45,5 @@
     </div>
 </div>
 
-<button type="submit" class="btn btn-primary">Salva</button>
+<button type="submit" class="btn btn-primary">Save</button>
 <button ng-click="reset()" class="btn btn-warning">Reset</button>
