@@ -173,3 +173,7 @@ table thead {
 .font-08 {
     font-size: 0.8em;
 }
+
+[ng\:cloak], [ng-cloak], .ng-cloak {
+    display: none !important;
+}
