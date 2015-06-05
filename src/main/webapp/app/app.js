@@ -6,12 +6,14 @@ var app = angular.module('manager', [
     'incomeControllers',
     'expenseControllers',
     'deadlineControllers',
+    'navigationControllers',
     'directives',
     'resources',
     'filters']);
 
 app.config(['$routeProvider', function($routeProvider) {
-    $routeProvider.when('/', {
+    $routeProvider
+            .when('/yards', {
                 templateUrl: 'partials/yards.html',
                 controller: 'YardsController'
 
@@ -53,6 +55,10 @@ app.config(['$routeProvider', function($routeProvider) {
             }).when('/yards/:yardId/incomes/:id/edit', {
                 templateUrl: 'partials/income/income-edit.html',
                 controller: 'IncomeEditController'
+
+            }).when('/login', {
+                templateUrl: 'partials/login.html',
+                controller: 'LoginController'
 
             }).otherwise({
                 redirectTo: '/'

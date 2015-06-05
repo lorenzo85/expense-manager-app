@@ -1,14 +1,15 @@
-<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation" ng-controller="NavigationController">
     <div class="container">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="/">
-                <span class="glyphicon glyphicon-home"></span>&nbsp;&nbsp;Admin
-            </a>
+        <div class="navbar-header navbar-brand">
+            <span class="glyphicon glyphicon-home"></span>
+            <span class="padding-left-10" ng-bind="title"></span>
         </div>
-        <div class="collapse navbar-collapse">
+        <div class="collapse navbar-collapse pull-right">
             <ul class="nav navbar-nav">
-                <li><a href="#/yards">Yards</a></li>
-                <li><a href="#/deadlines">Deadlines</a></li>
+                <li ng-show="loggedIn"><a ng-href="#/yards">Yards</a></li>
+                <li ng-show="loggedIn"><a ng-href="#/deadlines">Deadlines</a></li>
+                <li ng-show="!loggedIn"><a ng-href="#/login">Login</a></li>
+                <li ng-show="loggedIn"><a href="" ng-click="logout()">Logout</a></li>
             </ul>
         </div>
     </div>

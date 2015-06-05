@@ -32,7 +32,7 @@ app.controller('YardsController', function($rootScope, $scope, $location, Yard) 
 
     $scope.addYard = function() {
         $scope.yard.$save(function() {
-            $location.path('/');
+            $location.path('/yards');
         });
     }
 
@@ -47,7 +47,7 @@ app.controller('YardsController', function($rootScope, $scope, $location, Yard) 
 
     $scope.updateYard = function() {
         $scope.yard.$update(function() {
-            $location.path('/');
+            $location.path('/yards');
         });
     };
 });

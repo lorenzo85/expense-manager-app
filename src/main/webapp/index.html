@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html ng-app="manager">
+<html>
     <head>
         <meta charset="UTF-8"/>
         <title>Admin</title>
@@ -8,7 +8,7 @@
         <link rel="stylesheet" href="assets/css/bootstrap-theme.min.css">
         <link rel="stylesheet" href="assets/css/style.css">
     </head>
-<body>
+<body ng-app="manager" ng-cloak class="ng-cloak">
     <div ng-include="'includes/nav.html'"></div>
 
     <div class="container">
@@ -43,6 +43,7 @@
     <script src="app/controllers-income.js"></script>
     <script src="app/controllers-expense.js"></script>
     <script src="app/controllers-deadline.js"></script>
+    <script src="app/controllers-navigation.js"></script>
 
 </body>
 </html>
