@@ -1,8 +1,9 @@
 package org.cms.data.yard;
 
 import org.cms.data.AbstractBaseServiceTest;
-import org.cms.data.dto.*;
 import org.cms.data.domain.PaymentState;
+import org.cms.data.domain.Yard;
+import org.cms.data.dto.*;
 import org.cms.data.utilities.EntityNotFoundException;
 import org.joda.money.Money;
 import org.junit.Before;
@@ -30,6 +31,18 @@ public class YardServiceGetYardDetailsTest extends AbstractBaseServiceTest {
     @Before
     public void setup() throws ParseException {
         yard = persistYardDto("A yard name", "A yard description", createAmount(86573.1));
+    }
+
+    @Test
+    public void testSOmething() {
+        Yard yard = new Yard();
+        yard.setName("yay");
+        yard.setContractTotalAmount(createAmount(234));
+        yardRepo.save(yard);
+        yardRepo.saveAndFlush(yard);
+        YardDto found = yardService.findOne(yard.getId());
+        assertNotNull(found);
+
     }
 
     @Test(expected = EntityNotFoundException.class)

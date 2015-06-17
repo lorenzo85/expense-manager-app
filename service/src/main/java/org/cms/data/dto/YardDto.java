@@ -5,7 +5,7 @@ import org.joda.money.Money;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-public class YardDto {
+public class YardDto implements Dto<Long> {
 
     private long id;
     @NotNull
@@ -60,5 +60,10 @@ public class YardDto {
 
     public void setContractTotalAmount(Money contractTotalAmount) {
         this.contractTotalAmount = contractTotalAmount;
+    }
+
+    @Override
+    public Long getIdentifier() {
+        return id;
     }
 }

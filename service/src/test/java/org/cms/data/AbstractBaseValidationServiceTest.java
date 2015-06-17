@@ -8,9 +8,11 @@ import org.junit.runners.Parameterized;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.TestContextManager;
 import org.springframework.test.context.TestExecutionListeners;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 
 @RunWith(Parameterized.class)
+@TestPropertySource("classpath:test.properties")
 @SpringApplicationConfiguration(classes = { ServiceConfig.class, RepositoryConfig.class })
 @TestExecutionListeners({DependencyInjectionTestExecutionListener.class})
 public abstract class AbstractBaseValidationServiceTest {

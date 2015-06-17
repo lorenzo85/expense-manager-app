@@ -1,11 +1,12 @@
 package org.cms.data.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 
-public class UserDto implements UserDetails {
+public class UserDto implements UserDetails, Dto<Long> {
 
     private long id;
     private String username;
@@ -40,23 +41,33 @@ public class UserDto implements UserDetails {
     }
 
     @Override
+    @JsonIgnore
     public boolean isAccountNonExpired() {
         return !accountExpired;
     }
 
     @Override
+    @JsonIgnore
     public boolean isAccountNonLocked() {
         return !accountLocked;
     }
 
     @Override
+    @JsonIgnore
     public boolean isCredentialsNonExpired() {
         return !credentialsExpired;
     }
 
     @Override
+    @JsonIgnore
     public boolean isEnabled() {
         return accountEnabled;
+    }
+
+    @Override
+    @JsonIgnore
+    public Long getIdentifier() {
+        return id;
     }
 
     public void setUsername(String username) {
@@ -106,4 +117,5 @@ public class UserDto implements UserDetails {
     public void setId(long id) {
         this.id = id;
     }
+
 }

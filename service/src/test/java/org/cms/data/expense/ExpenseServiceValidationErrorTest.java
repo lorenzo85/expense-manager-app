@@ -23,7 +23,7 @@ import static org.joda.money.Money.of;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
-// TODO: Fix this test
+
 @Ignore
 public class ExpenseServiceValidationErrorTest extends AbstractBaseValidationServiceTest {
 

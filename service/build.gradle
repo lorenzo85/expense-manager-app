@@ -25,7 +25,7 @@ dependencies {
 
     testCompile group: 'org.mockito', name: 'mockito-all', version: '1.9.5'
     testCompile group: 'com.jayway.jsonpath', name:'json-path-assert', version: '0.9.1'
-    testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: '1.2.3.RELEASE'
+    testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: '1.2.4.RELEASE'
     testCompile('com.jayway.restassured:spring-mock-mvc:2.3.3') {
         exclude group: 'org.codehaus.groovy', module: 'groovy'
     }

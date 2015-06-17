@@ -1,0 +1,1 @@
+INSERT INTO user (accountEnabled, accountExpired, accountLocked, credentialsExpired, password, username) VALUES (1, 0, 0, 0, '$2a$04$U8MQ3yty0R7x5zAnMriyn.XoveCOjehAzgZuzQE8c/AMJy1YNBGqS', 'aUsername');

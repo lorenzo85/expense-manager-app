@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class UserQueryController {
 
-    @RequestMapping("/user")
-    public UserDetails getUser() {
+    @RequestMapping("/auth/user")
+    public UserDetails getCurrentUser() {
         final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication instanceof UserAuthenticationDto) {
             return ((UserAuthenticationDto) authentication).getDetails();

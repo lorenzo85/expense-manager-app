@@ -3,6 +3,14 @@ allprojects {
 
 	group = 'org.cms'
 	version = '0.0.1-SNAPSHOT'
+
+
+	idea {
+		module {
+			excludeDirs += file('.idea')
+			excludeDirs += file('gradle')
+		}
+	}
 }
 
 subprojects {
@@ -19,6 +27,7 @@ subprojects {
 		mavenLocal()
 		mavenCentral()
 	}
+
 }
 
 task wrapper(type: Wrapper) {

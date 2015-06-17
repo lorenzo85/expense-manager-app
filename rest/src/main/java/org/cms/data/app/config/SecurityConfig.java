@@ -42,7 +42,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .antMatchers("/").permitAll()
                     .antMatchers("/favicon.ico").permitAll()
                     .antMatchers(POST, "/login").permitAll()
-                    .antMatchers(GET, "/user").permitAll()
+                    .antMatchers(GET, "/auth/user").permitAll()
                     .anyRequest().fullyAuthenticated()
                 .and()
                 .addFilterBefore(loginFilter(), UsernamePasswordAuthenticationFilter.class)

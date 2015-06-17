@@ -1,10 +1,10 @@
 package org.cms.data.expense;
 
 import org.cms.data.AbstractBaseServiceTest;
+import org.cms.data.domain.ExpenseCategory;
 import org.cms.data.dto.DeadlinesDto;
 import org.cms.data.dto.ExpenseDto;
 import org.cms.data.dto.YardDto;
-import org.cms.data.domain.ExpenseCategory;
 import org.cms.data.service.ExpenseService;
 import org.joda.money.Money;
 import org.junit.Before;
@@ -17,13 +17,14 @@ import java.util.List;
 
 import static java.lang.String.format;
 import static java.util.stream.Collectors.toList;
-import static org.cms.data.dto.DeadlinesDto.DateFormatter.MONTH_FORMATTER;
-import static org.cms.data.dto.DeadlinesDto.DateFormatter.YEAR_FORMATTER;
 import static org.cms.data.domain.ExpenseCategory.CHECKS;
 import static org.cms.data.domain.ExpenseCategory.SALARIES;
 import static org.cms.data.domain.PaymentState.UNPAID;
+import static org.cms.data.dto.DeadlinesDto.DateFormatter.MONTH_FORMATTER;
+import static org.cms.data.dto.DeadlinesDto.DateFormatter.YEAR_FORMATTER;
 import static org.joda.money.Money.of;
 import static org.junit.Assert.*;
+
 
 
 public class ExpenseServiceMonthlyDeadlinesTest extends AbstractBaseServiceTest {

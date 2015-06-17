@@ -1,10 +1,11 @@
 package org.cms.data.service;
 
+import org.cms.data.dto.Dto;
 import org.cms.data.utilities.EntityNotFoundException;
+import org.cms.data.utilities.IsValid;
 import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.CrudRepository;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
@@ -14,8 +15,7 @@ import java.util.List;
 import static java.lang.String.format;
 
 
-@Transactional(readOnly = true)
-public abstract class AbstractService<M, T, I extends Serializable> implements BaseService<M, I> {
+public abstract class AbstractService<M extends Dto<I>, T, I extends Serializable> implements BaseService<M, I> {
 
     @Autowired
     protected Mapper mapper;
@@ -33,9 +33,28 @@ public abstract class AbstractService<M, T, I extends Serializable> implements B
     }
 
     @Override
-    @Transactional(readOnly = false)
     public void delete(I id) {
         getRepository().delete(id);
+    }
+
+    @Override
+    public M save(@IsValid M entity) {
+        throwIfFound(entity.getIdentifier());
+
+        T domain = mapper.map(entity, getDomainClass());
+        domain = getRepository().saveAndFlush(domain);
+
+        return mapper.map(domain, getDtoClass());
+    }
+
+    @Override
+    public M update(@IsValid M entity) {
+        findOneOrThrow(entity.getIdentifier());
+
+        T domain = mapper.map(entity, getDomainClass());
+        domain = getRepository().save(domain);
+
+        return mapper.map(domain, getDtoClass());
     }
 
     @Override
@@ -43,7 +62,7 @@ public abstract class AbstractService<M, T, I extends Serializable> implements B
         return getRepository().count();
     }
 
-    protected abstract CrudRepository<T, I> getRepository();
+    protected abstract JpaRepository<T, I> getRepository();
 
     protected T findOneOrThrow(I id) {
         T entity = getRepository().findOne(id);
@@ -70,9 +89,18 @@ public abstract class AbstractService<M, T, I extends Serializable> implements B
     }
 
     @SuppressWarnings("unchecked")
+    private Class<T> getDomainClass() {
+        return getClazzForParam(1);
+    }
+    @SuppressWarnings("unchecked")
     private Class<M> getDtoClass() {
+        return getClazzForParam(0);
+    }
+
+    @SuppressWarnings("unchecked")
+    private <F> Class<F> getClazzForParam(int index) {
         return (Class) ((ParameterizedType) getClass()
                 .getGenericSuperclass())
-                .getActualTypeArguments()[0];
+                .getActualTypeArguments()[index];
     }
 }

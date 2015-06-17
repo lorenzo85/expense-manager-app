@@ -3,10 +3,9 @@ package org.cms.data.service;
 import org.cms.data.domain.User;
 import org.cms.data.dto.UserDto;
 import org.cms.data.repository.UserRepository;
-import org.cms.data.utilities.IsValid;
 import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -32,27 +31,7 @@ public class UserServiceImpl extends AbstractService<UserDto, User, Long> implem
     }
 
     @Override
-    public UserDto update(@IsValid UserDto dto) {
-        findOneOrThrow(dto.getId());
-
-        User user = mapper.map(dto, User.class);
-        user = repo.save(user);
-
-        return mapper.map(user, UserDto.class);
-    }
-
-    @Override
-    public UserDto save(@IsValid UserDto dto) {
-        throwIfFound(dto.getId());
-
-        User user = mapper.map(dto, User.class);
-        user = repo.save(user);
-
-        return mapper.map(user, UserDto.class);
-    }
-
-    @Override
-    protected CrudRepository<User, Long> getRepository() {
+    protected JpaRepository<User, Long> getRepository() {
         return repo;
     }
 }

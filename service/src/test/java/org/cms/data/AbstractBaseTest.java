@@ -10,10 +10,13 @@ import org.junit.After;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = {ServiceConfig.class, RepositoryConfig.class})
+@TestPropertySource("classpath:test.properties")
+@SpringApplicationConfiguration(classes = { ServiceConfig.class, RepositoryConfig.class })
 public abstract class AbstractBaseTest {
 
     @Autowired

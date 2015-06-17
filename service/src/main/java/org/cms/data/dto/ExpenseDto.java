@@ -10,7 +10,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Date;
 
-public class ExpenseDto {
+public class ExpenseDto implements Dto<Long> {
 
     private long id;
     private long yardId;
@@ -130,5 +130,10 @@ public class ExpenseDto {
 
     public ExpenseCategory getCategory() {
         return category;
+    }
+
+    @Override
+    public Long getIdentifier() {
+        return id;
     }
 }

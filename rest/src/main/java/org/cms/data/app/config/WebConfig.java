@@ -7,10 +7,12 @@ import org.cms.data.app.serializer.JodaMoneySerializer;
 import org.joda.money.CurrencyUnit;
 import org.joda.money.Money;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 @Configuration
+@ComponentScan({"org.cms.data.app.rest"})
 public class WebConfig extends WebMvcConfigurerAdapter {
 
     @Bean

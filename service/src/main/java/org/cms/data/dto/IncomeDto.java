@@ -7,7 +7,7 @@ import javax.validation.constraints.Digits;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
-public class IncomeDto {
+public class IncomeDto implements Dto<Long> {
 
     private long id;
     private long yardId;
@@ -78,4 +78,8 @@ public class IncomeDto {
         this.id = id;
     }
 
+    @Override
+    public Long getIdentifier() {
+        return id;
+    }
 }

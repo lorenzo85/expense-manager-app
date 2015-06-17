@@ -5,9 +5,11 @@ import org.dozer.DozerBeanMapper;
 import org.dozer.Mapper;
 import org.joda.money.CurrencyUnit;
 import org.joda.money.Money;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.*;
-import org.springframework.core.env.Environment;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Scope;
 
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
@@ -24,8 +26,8 @@ public class ServiceConfig {
 
     public static final String DOZER_MAPPER_SPEC = "mapping.xml";
 
-    @Autowired
-    private Environment environment;
+    @Value("${token.secret}")
+    private String tokenSecret;
 
     @Bean
     @Scope("prototype")
@@ -59,7 +61,6 @@ public class ServiceConfig {
     @Bean
     @Scope("singleton")
     public JsonTokenHandler getTokenHandler() throws InvalidKeyException, NoSuchAlgorithmException {
-        String secretKey = environment.getProperty("token.secret");
-        return new JsonTokenHandler(secretKey);
+        return new JsonTokenHandler(tokenSecret);
     }
 }

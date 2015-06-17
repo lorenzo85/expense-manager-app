@@ -1,6 +1,5 @@
 body {
     height: 100%;
-    padding-top: 65px;
 }
 
 footer {
@@ -196,4 +195,8 @@ table thead {
 
 .navbarmargin {
     margin-bottom: 50px;
+}
+
+.navbarpadding {
+    padding-top: 65px;
 }
