@@ -1,0 +1,28 @@
+buildscript {
+	repositories {
+		mavenCentral()
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:1.2.4.RELEASE")
+	}
+}
+
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'spring-boot'
+
+jar {
+	baseName = 'Spring Boot - AngularJS'
+	version = '0.1.0'
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+    compile project(":service")
+	compile group: 'org.apache.poi', name: 'poi', version: '3.12'
+	compile group: 'org.springframework.boot', name: 'spring-boot-starter-web'
+	compile group: 'org.springframework.boot', name: 'spring-boot-starter-security'
+}

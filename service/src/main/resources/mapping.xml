@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mappings xmlns="http://dozer.sourceforge.net"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://dozer.sourceforge.net
+          http://dozer.sourceforge.net/schema/beanmapping.xsd">
+
+    <mapping>
+        <class-a>org.cms.data.dto.ExpenseDto</class-a>
+        <class-b>org.cms.data.domain.Expense</class-b>
+        <field>
+            <a>yardId</a>
+            <b>yard.id</b>
+        </field>
+        <field custom-converter="org.cms.data.converter.MoneyConverter">
+            <a>amount</a>
+            <b>amount</b>
+        </field>
+    </mapping>
+
+    <mapping>
+        <class-a>org.cms.data.dto.IncomeDto</class-a>
+        <class-b>org.cms.data.domain.Income</class-b>
+        <field>
+            <a>yardId</a>
+            <b>yard.id</b>
+        </field>
+        <field custom-converter="org.cms.data.converter.MoneyConverter">
+            <a>amount</a>
+            <b>amount</b>
+        </field>
+    </mapping>
+
+    <mapping>
+        <class-a>org.cms.data.dto.YardDto</class-a>
+        <class-b>org.cms.data.domain.Yard</class-b>
+        <field custom-converter="org.cms.data.converter.MoneyConverter">
+            <a>contractTotalAmount</a>
+            <b>contractTotalAmount</b>
+        </field>
+    </mapping>
+
+</mappings>

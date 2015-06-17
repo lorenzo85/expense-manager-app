@@ -1,0 +1,16 @@
+<nav class="navbar navbar-default navbar-fixed-top navbarmargin" role="navigation" ng-controller="NavigationController" >
+    <div class="container">
+        <div class="navbar-header navbar-brand">
+            <span class="glyphicon glyphicon-home"></span>
+            <span class="padding-left-10" ng-bind="title"></span>
+        </div>
+        <div class="collapse navbar-collapse pull-right">
+            <ul class="nav navbar-nav">
+                <li ng-show="authenticated"><a ng-href="#/yards">Yards</a></li>
+                <li ng-show="authenticated"><a ng-href="#/deadlines">Deadlines</a></li>
+                <li ng-show="!authenticated"><a ng-href="#/login">Login</a></li>
+                <li ng-show="authenticated"><a href="" ng-click="logout()">Logout</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>

@@ -1,0 +1,14 @@
+<div ng-include="'includes/nav.html'"></div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="page-header"><h4>{{ title }}</h4></div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12" ui-view></div>
+    </div>
+</div>
+
+<div ng-include="'includes/footer.html'"></div>
