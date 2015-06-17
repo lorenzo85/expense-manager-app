@@ -20,17 +20,18 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Scanner;
 
 public class LoginFilter extends AbstractAuthenticationProcessingFilter {
 
     private final UserDetailsService userService;
     private final AuthenticationService authenticationService;
 
-    protected LoginFilter(String filterProcessesUrl,
+    protected LoginFilter(AntPathRequestMatcher requestMatcher,
                           UserDetailsService userService,
                           AuthenticationManager authenticationManager,
                           AuthenticationService authenticationService) {
-        super(new AntPathRequestMatcher(filterProcessesUrl));
+        super(requestMatcher);
         this.userService = userService;
         this.authenticationService = authenticationService;
         setAuthenticationManager(authenticationManager);
@@ -38,9 +39,9 @@ public class LoginFilter extends AbstractAuthenticationProcessingFilter {
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException, IOException, ServletException {
-        final UserDto user = new ObjectMapper().readValue(request.getInputStream(), UserDto.class);
-        final UsernamePasswordAuthenticationToken loginToken = new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword());
-        return getAuthenticationManager().authenticate(loginToken);
+            final UserDto user = new ObjectMapper().readValue(request.getInputStream(), UserDto.class);
+            final UsernamePasswordAuthenticationToken loginToken = new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword());
+            return getAuthenticationManager().authenticate(loginToken);
     }
 
     @Override
@@ -54,5 +55,10 @@ public class LoginFilter extends AbstractAuthenticationProcessingFilter {
         } catch (JsonTokenHandler.TokenProcessingException e) {
             throw new ServletException(e);
         }
+    }
+
+    private String extractBody(HttpServletRequest request) throws IOException {
+        Scanner scanner = new Scanner(request.getInputStream(), "UTF-8").useDelimiter("\\A");
+        return scanner.hasNext() ? scanner.next() : "";
     }
 }

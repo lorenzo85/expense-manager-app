@@ -11,12 +11,12 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import javax.servlet.Filter;
 
 import static org.springframework.core.Ordered.HIGHEST_PRECEDENCE;
-import static org.springframework.http.HttpMethod.GET;
-import static org.springframework.http.HttpMethod.POST;
+import static org.springframework.http.HttpMethod.*;
 
 @EnableWebSecurity
 @Configuration
@@ -43,6 +43,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .antMatchers("/favicon.ico").permitAll()
                     .antMatchers(POST, "/login").permitAll()
                     .antMatchers(GET, "/auth/user").permitAll()
+                    .antMatchers(OPTIONS, "/**").permitAll()
                     .anyRequest().fullyAuthenticated()
                 .and()
                 .addFilterBefore(loginFilter(), UsernamePasswordAuthenticationFilter.class)
@@ -57,7 +58,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     private Filter loginFilter() throws Exception {
-        return new LoginFilter("/login", userService, authenticationManager(), authenticationService);
+        AntPathRequestMatcher pathRequestMatcher = new AntPathRequestMatcher("/login", POST.name());
+        return new LoginFilter(pathRequestMatcher, userService, authenticationManager(), authenticationService);
     }
 
     private Filter authFilter() {

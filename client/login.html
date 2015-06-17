@@ -3,17 +3,15 @@
     <form name="form" ng-submit="login()" role="form" style="width: 30%">
         <div class="form-group">
             <label for="username">Username:</label>
-            <input type="text" name="username" id="username" class="form-control"
-                   ng-model="credentials.username"
-                   required>
+            <input type="text" name="username" id="username" class="form-control" ng-model="username" value="aUsername" required>
         </div>
         <div class="form-group">
             <label for="password">Password:</label>
-            <input type="password" name="password" id="password" class="form-control"
-                   ng-model="credentials.password" required>
+            <input type="password" name="password" id="password" class="form-control" value="aPassword" ng-model="password" required>
         </div>
         <div class="form-actions">
             <button type="submit" style="width: 100%" class="btn btn-lg btn-primary">Login</button>
         </div>
+        <div class="has-error">{{ error }}</div>
     </form>
 </div>
