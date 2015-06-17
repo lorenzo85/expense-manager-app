@@ -24,22 +24,26 @@ public class ExpenseQueryController {
     private ExpenseService service;
 
     @RequestMapping(value= "/yards/{yardId}/expenses", method= GET)
-    @ResponseBody public List<ExpenseDto> getAll(@PathVariable("yardId") long yardId) {
+    @ResponseBody
+    public List<ExpenseDto> getAll(@PathVariable("yardId") long yardId) {
         return service.listExpensesForYard(yardId);
     }
 
     @RequestMapping(value= "/yards/{yardId}/expenses/{id}", method= GET)
-    @ResponseBody public ExpenseDto getExpense(@PathVariable("yardId") long yardId, @PathVariable("id") long id) {
+    @ResponseBody
+    public ExpenseDto getExpense(@PathVariable("yardId") long yardId, @PathVariable("id") long id) {
         return service.findByIdAndYardId(id, yardId);
     }
 
     @RequestMapping(value= "/yards/expenses/deadlines", method= GET)
-    @ResponseBody public List<DeadlinesDto> getDeadlines() {
+    @ResponseBody
+    public List<DeadlinesDto> getDeadlines() {
         return service.listMonthlyDeadlines();
     }
 
     @RequestMapping(value= "/yards/expenses/allPaymentStatuses", method= GET)
-    @ResponseBody public List<PaymentStateDto> getListPaymentStatuses() {
+    @ResponseBody
+    public List<PaymentStateDto> getListPaymentStatuses() {
         List<PaymentStateDto> states = new ArrayList<>();
         for (PaymentState state : PaymentState.values()) {
             states.add(new PaymentStateDto(state.toString(), state.getName()));
@@ -48,7 +52,8 @@ public class ExpenseQueryController {
     }
 
     @RequestMapping(value= "/yards/expenses/allExpenseCategories", method= GET)
-    @ResponseBody public List<ExpenseCategoryDto> getListExpenseCategories() {
+    @ResponseBody
+    public List<ExpenseCategoryDto> getListExpenseCategories() {
         List<ExpenseCategoryDto> categories = new ArrayList<>();
         for(ExpenseCategory category : ExpenseCategory.values()) {
             categories.add(new ExpenseCategoryDto(category.toString(), category.getName()));

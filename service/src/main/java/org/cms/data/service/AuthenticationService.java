@@ -6,6 +6,7 @@ import org.cms.data.utilities.JsonTokenHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
@@ -25,7 +26,7 @@ public class AuthenticationService {
     private JsonTokenHandler tokenHandler;
 
     public void addAuthentication(HttpServletResponse response, UserAuthenticationDto userAuthenticationDto) throws JsonTokenHandler.TokenProcessingException {
-        final UserDto user = userAuthenticationDto.getDetails();
+        final UserDetails user = userAuthenticationDto.getDetails();
         String token = tokenHandler.create(user);
         response.addHeader(getTokenHeader(), token);
     }
@@ -34,8 +35,8 @@ public class AuthenticationService {
         Optional<String> token = ofNullable(request.getHeader(getTokenHeader()));
         if (token.isPresent()) {
             UserDto user = tokenHandler.parse(token.get(), UserDto.class);
-            user = userService.loadUserByUsername(user.getUsername());
-            return new UserAuthenticationDto(user);
+            UserDetails userDetails = userService.loadUserByUsername(user.getUsername());
+            return new UserAuthenticationDto(userDetails);
         }
         return null;
     }

@@ -2,15 +2,16 @@ package org.cms.data.dto;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 
 public class UserAuthenticationDto implements Authentication {
 
-    private final UserDto user;
+    private final UserDetails user;
     private boolean authenticated = true;
 
-    public UserAuthenticationDto(UserDto user) {
+    public UserAuthenticationDto(UserDetails user) {
         this.user = user;
     }
 
@@ -25,7 +26,7 @@ public class UserAuthenticationDto implements Authentication {
     }
 
     @Override
-    public UserDto getDetails() {
+    public UserDetails getDetails() {
         return user;
     }
 

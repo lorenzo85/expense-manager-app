@@ -4,13 +4,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.cms.data.dto.UserAuthenticationDto;
 import org.cms.data.dto.UserDto;
 import org.cms.data.service.AuthenticationService;
-import org.cms.data.service.UserService;
 import org.cms.data.utilities.JsonTokenHandler;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
@@ -22,11 +23,11 @@ import java.io.IOException;
 
 public class LoginFilter extends AbstractAuthenticationProcessingFilter {
 
-    private final UserService userService;
+    private final UserDetailsService userService;
     private final AuthenticationService authenticationService;
 
     protected LoginFilter(String filterProcessesUrl,
-                          UserService userService,
+                          UserDetailsService userService,
                           AuthenticationManager authenticationManager,
                           AuthenticationService authenticationService) {
         super(new AntPathRequestMatcher(filterProcessesUrl));
@@ -44,7 +45,7 @@ public class LoginFilter extends AbstractAuthenticationProcessingFilter {
 
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
-        final UserDto authenticatedUser = userService.loadUserByUsername(authResult.getName());
+        final UserDetails authenticatedUser = userService.loadUserByUsername(authResult.getName());
         final UserAuthenticationDto userAuthenticationDto = new UserAuthenticationDto(authenticatedUser);
 
         try {

@@ -19,12 +19,14 @@ public class IncomeQueryController {
     private IncomeService service;
 
     @RequestMapping(value= "/yards/{yardId}/incomes", method= GET)
-    @ResponseBody public List<IncomeDto> getAll(@PathVariable("yardId") long yardId) {
+    @ResponseBody
+    public List<IncomeDto> getAll(@PathVariable("yardId") long yardId) {
         return service.listIncomesForYard(yardId);
     }
 
     @RequestMapping(value= "/yards/{yardId}/incomes/{id}", method= GET)
-    @ResponseBody public IncomeDto getIncome(@PathVariable("yardId") long yardId, @PathVariable("id") long id) {
+    @ResponseBody
+    public IncomeDto getIncome(@PathVariable("yardId") long yardId, @PathVariable("id") long id) {
         return service.findByIdAndYardId(id, yardId);
     }
 }

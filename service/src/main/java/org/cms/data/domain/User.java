@@ -40,6 +40,11 @@ public class User {
         this.username = username;
     }
 
+    public User(String username, String password) {
+        this(username);
+        this.password = password;
+    }
+
     public boolean isCredentialsExpired() {
         return credentialsExpired;
     }
@@ -78,5 +83,25 @@ public class User {
 
     public long getExpires() {
         return expires;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public String getNewPassword() {
+        return newPassword;
+    }
+
+    public Set<UserAuthority> getAuthorities() {
+        return authorities;
     }
 }

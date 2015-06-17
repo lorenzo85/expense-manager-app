@@ -20,19 +20,22 @@ public class IncomeCommandController {
     private IncomeService service;
 
     @RequestMapping(value= "/yards/{yardId}/incomes", method= POST)
-    @ResponseBody public IncomeDto postNew(@Valid @RequestBody IncomeDto dto, @PathVariable("yardId") long yardId) {
+    @ResponseBody
+    public IncomeDto postNew(@Valid @RequestBody IncomeDto dto, @PathVariable("yardId") long yardId) {
         dto.setYardId(yardId);
         return service.save(dto);
     }
 
     @RequestMapping(value= "/yards/{yardId}/incomes", method= PUT)
-    @ResponseBody public IncomeDto putUpdate(@Valid @RequestBody IncomeDto dto, @PathVariable("yardId") long yardId) {
+    @ResponseBody
+    public IncomeDto putUpdate(@Valid @RequestBody IncomeDto dto, @PathVariable("yardId") long yardId) {
         dto.setYardId(yardId);
         return service.update(dto);
     }
 
     @RequestMapping(value= "/yards/{yardId}/incomes/{id}", method= DELETE)
-    @ResponseBody public void delete(@PathVariable("yardId") long yardId, @PathVariable("id") long id) {
+    @ResponseBody
+    public void delete(@PathVariable("yardId") long yardId, @PathVariable("id") long id) {
         service.delete(id, yardId);
     }
 }
