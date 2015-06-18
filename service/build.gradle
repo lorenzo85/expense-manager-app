@@ -3,9 +3,11 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.1.6.RELEASE")
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.2.4.RELEASE")
     }
 }
+
+apply plugin: 'java'
 
 dependencies {
     compile group: 'org.joda', name: 'joda-money', version: '0.9.1'

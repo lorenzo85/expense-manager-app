@@ -1,8 +1,8 @@
 <nav class="navbar navbar-default navbar-fixed-top navbarmargin" role="navigation" ng-controller="NavigationController" >
     <div class="container">
         <div class="navbar-header navbar-brand">
-            <span class="glyphicon glyphicon-home"></span>
-            <span class="padding-left-10" ng-bind="username"></span>
+            <span class="glyphicon glyphicon-user"></span>
+            <span class="padding-left-10">{{ username | capitalize }}</span>
         </div>
         <div class="collapse navbar-collapse pull-right">
             <ul class="nav navbar-nav">

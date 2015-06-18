@@ -1,5 +1,6 @@
 <div class="vertical-center">
     <h1>Sign in</h1>
+    <div class="error" role="alert" ng-show="error">{{ errorMessage }}</div>
     <form name="form" ng-submit="login()" role="form" style="width: 30%">
         <div class="form-group">
             <label for="username">Username:</label>
@@ -12,6 +13,5 @@
         <div class="form-actions">
             <button type="submit" style="width: 100%" class="btn btn-lg btn-primary">Login</button>
         </div>
-        <div class="has-error">{{ error }}</div>
     </form>
 </div>

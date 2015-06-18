@@ -5,37 +5,91 @@
           http://dozer.sourceforge.net/schema/beanmapping.xsd">
 
     <mapping>
-        <class-a>org.cms.data.dto.ExpenseDto</class-a>
-        <class-b>org.cms.data.domain.Expense</class-b>
+        <class-a>org.cms.service.expense.ExpenseDto</class-a>
+        <class-b>org.cms.service.expense.Expense</class-b>
         <field>
             <a>yardId</a>
             <b>yard.id</b>
         </field>
-        <field custom-converter="org.cms.data.converter.MoneyConverter">
+        <field custom-converter="org.cms.service.commons.MoneyConverter">
             <a>amount</a>
             <b>amount</b>
         </field>
     </mapping>
 
     <mapping>
-        <class-a>org.cms.data.dto.IncomeDto</class-a>
-        <class-b>org.cms.data.domain.Income</class-b>
+        <class-a>org.cms.service.income.IncomeDto</class-a>
+        <class-b>org.cms.service.income.Income</class-b>
         <field>
             <a>yardId</a>
             <b>yard.id</b>
         </field>
-        <field custom-converter="org.cms.data.converter.MoneyConverter">
+        <field custom-converter="org.cms.service.commons.MoneyConverter">
             <a>amount</a>
             <b>amount</b>
         </field>
     </mapping>
 
     <mapping>
-        <class-a>org.cms.data.dto.YardDto</class-a>
-        <class-b>org.cms.data.domain.Yard</class-b>
-        <field custom-converter="org.cms.data.converter.MoneyConverter">
+        <class-a>org.cms.service.yard.YardDto</class-a>
+        <class-b>org.cms.service.yard.Yard</class-b>
+        <field custom-converter="org.cms.service.commons.MoneyConverter">
             <a>contractTotalAmount</a>
             <b>contractTotalAmount</b>
+        </field>
+    </mapping>
+
+    <mapping>
+        <class-a>org.cms.service.user.UserDto</class-a>
+        <class-b>org.cms.service.user.User</class-b>
+        <field>
+            <a is-accessible="true">id</a>
+            <b is-accessible="true">id</b>
+        </field>
+        <field>
+            <a is-accessible="true">username</a>
+            <b is-accessible="true">username</b>
+        </field>
+        <field>
+            <a is-accessible="true">password</a>
+            <b is-accessible="true">password</b>
+        </field>
+        <field>
+            <a is-accessible="true">accountLocked</a>
+            <b is-accessible="true">accountLocked</b>
+        </field>
+        <field>
+            <a is-accessible="true">accountExpired</a>
+            <b is-accessible="true">accountExpired</b>
+        </field>
+        <field>
+            <a is-accessible="true">accountEnabled</a>
+            <b is-accessible="true">accountEnabled</b>
+        </field>
+        <field>
+            <a is-accessible="true">credentialsExpired</a>
+            <b is-accessible="true">credentialsExpired</b>
+        </field>
+        <field>
+            <a is-accessible="true">roles</a>
+            <b is-accessible="true">authorities</b>
+        </field>
+    </mapping>
+
+    <mapping>
+        <class-a>org.cms.service.user.UserAuthorityDto</class-a>
+        <class-b>org.cms.service.user.UserAuthority</class-b>
+        <field>
+            <a is-accessible="true">id</a>
+            <b is-accessible="true">id</b>
+        </field>
+        <field>
+            <a is-accessible="true">userDto</a>
+            <b is-accessible="true">user</b>
+        </field>
+        <field>
+            <a is-accessible="true">authority</a>
+            <b is-accessible="true">role</b>
         </field>
     </mapping>
 

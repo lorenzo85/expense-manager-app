@@ -64,13 +64,14 @@ app.controller('NavigationController', function ($rootScope, $scope, $location, 
     $rootScope.authenticated = false;
 
     $scope.login = function() {
-        $http.post(config.url + '/login', {username: $scope.username, password: $scope.password})
+        $http.post(config.url + '/auth/login', {username: $scope.username, password: $scope.password})
             .success(function (data, status, headers) {
                 $rootScope.authenticated = true;
                 TokenStorage.store(headers('X-AUTH-TOKEN'));
                 $location.path("/yards");
-            }).error(function () {
-                $scope.error = "Could not login!";
+            }).error(function (data) {
+                $scope.error = true;
+                $scope.errorMessage = data.message + ' [' + data.status + ']' || "Could not authenticate";
             });
     };
 

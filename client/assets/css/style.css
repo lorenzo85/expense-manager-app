@@ -200,3 +200,8 @@ table thead {
 .navbarpadding {
     padding-top: 65px;
 }
+
+.error {
+    color: red;
+    padding-bottom: 10px;
+}
