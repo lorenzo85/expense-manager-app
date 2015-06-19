@@ -31,11 +31,7 @@ public class UserDto implements Dto<Long> {
     }
 
     @Override
-    public Long getIdentifier() {
-        return id;
-    }
-
-    public long getId() {
+    public Long getId() {
         return id;
     }
 

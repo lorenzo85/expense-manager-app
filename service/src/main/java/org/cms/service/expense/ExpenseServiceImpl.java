@@ -36,7 +36,6 @@ public class ExpenseServiceImpl extends BaseAbstractService<ExpenseDto, Expense,
     public void delete(long id, long yardId) {
         ExpenseDto expense = findOne(id);
         checkArgument(expense.getYardId() == yardId);
-
         delete(id);
     }
 
@@ -62,6 +61,7 @@ public class ExpenseServiceImpl extends BaseAbstractService<ExpenseDto, Expense,
             expenses.add(mapped);
         });
 
+        // TODO: This is totally wrong. Should be in the domain object.
         return DeadlinesDto.computeSumAndSumForCategories(expenses);
     }
 

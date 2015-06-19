@@ -37,7 +37,7 @@ public class YardConverterTest {
         YardDto dto = mapper.map(yard, YardDto.class);
 
         // Then
-        assertEquals(yard.id, dto.getId());
+        assertEquals(yard.id, dto.getId().longValue());
         assertEquals(yard.name, dto.getName());
         assertEquals(yard.description, dto.getDescription());
         assertEquals(yard.contractTotalAmount, dto.getContractTotalAmount());
@@ -56,7 +56,7 @@ public class YardConverterTest {
         Yard yard = mapper.map(dto, Yard.class);
 
         // Then
-        assertEquals(dto.getId(), yard.id);
+        assertEquals(dto.getId().longValue(), yard.id);
         assertEquals(dto.getName(), yard.name);
         assertEquals(dto.getDescription(), yard.description);
         assertEquals(dto.getContractTotalAmount(), yard.contractTotalAmount);

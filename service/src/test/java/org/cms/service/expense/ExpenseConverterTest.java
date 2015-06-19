@@ -60,7 +60,7 @@ public class ExpenseConverterTest {
         assertEquals(getField(expense.yard, "id"), dto.getYardId());
         assertEquals(expense.status, dto.getStatus());
         assertEquals(expense.category, dto.getCategory());
-        assertEquals(expense.id, dto.getId());
+        assertEquals(expense.id, dto.getId().longValue());
         assertEquals(expense.amount, dto.getAmount());
         assertEquals(expense.note, dto.getNote());
         assertEquals(expense.title, dto.getTitle());

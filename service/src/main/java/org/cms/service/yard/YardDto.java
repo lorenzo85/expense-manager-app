@@ -31,7 +31,8 @@ public class YardDto implements Dto<Long> {
         this.contractTotalAmount = contractTotalAmount;
     }
 
-    public long getId() {
+    @Override
+    public Long getId() {
         return id;
     }
 
@@ -63,8 +64,4 @@ public class YardDto implements Dto<Long> {
         this.contractTotalAmount = contractTotalAmount;
     }
 
-    @Override
-    public Long getIdentifier() {
-        return id;
-    }
 }

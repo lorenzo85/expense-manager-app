@@ -19,13 +19,13 @@ public class UserServiceImpl extends BaseAbstractService<UserDto, User, Long> im
 
     @Override
     public UserDto save(@IsValid UserDto dto) {
-        throwIfFound(dto.getIdentifier());
+        throwIfFound(dto.getId());
         return saveOrUpdate(dto);
     }
 
     @Override
     public UserDto update(@IsValid UserDto dto) {
-        findOneOrThrow(dto.getIdentifier());
+        findOneOrThrow(dto.getId());
         return saveOrUpdate(dto);
     }
 

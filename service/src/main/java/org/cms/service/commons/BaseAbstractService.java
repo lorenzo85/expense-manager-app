@@ -36,7 +36,7 @@ public abstract class BaseAbstractService<M extends Dto<I>, T, I extends Seriali
 
     @Override
     public M save(@IsValid M entity) {
-        throwIfFound(entity.getIdentifier());
+        throwIfFound(entity.getId());
 
         T domain = mapper.map(entity, getDomainClass());
         domain = getRepository().save(domain);
@@ -46,7 +46,7 @@ public abstract class BaseAbstractService<M extends Dto<I>, T, I extends Seriali
 
     @Override
     public M update(@IsValid M entity) {
-        findOneOrThrow(entity.getIdentifier());
+        findOneOrThrow(entity.getId());
 
         T domain = mapper.map(entity, getDomainClass());
         domain = getRepository().save(domain);

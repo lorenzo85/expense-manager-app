@@ -27,7 +27,12 @@ public class IncomeDto implements Dto<Long> {
     public IncomeDto() {
     }
 
-    public IncomeDto(long id) {
+    @Override
+    public Long getId() {
+        return id;
+    }
+
+    public IncomeDto(Long id) {
         this.id = id;
     }
 
@@ -35,12 +40,8 @@ public class IncomeDto implements Dto<Long> {
         return yardId;
     }
 
-    public void setYardId(long yardId) {
+    public void setYardId(Long yardId) {
         this.yardId = yardId;
-    }
-
-    public long getId() {
-        return id;
     }
 
     public void setAmount(Money amount) {
@@ -75,12 +76,8 @@ public class IncomeDto implements Dto<Long> {
         return note;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    @Override
-    public Long getIdentifier() {
-        return id;
-    }
 }

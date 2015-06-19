@@ -12,8 +12,8 @@ import java.util.Date;
 
 public class ExpenseDto implements Dto<Long> {
 
-    private Long id;
-    private Long yardId;
+    private long id;
+    private long yardId;
     private String note;
 
     @NotNull
@@ -52,13 +52,13 @@ public class ExpenseDto implements Dto<Long> {
         this.emissionAt = emissionAt;
     }
 
-    public long getYardId() {
-        return yardId;
-    }
-
     @Override
     public Long getId() {
         return id;
+    }
+
+    public long getYardId() {
+        return yardId;
     }
 
     public String getTitle() {

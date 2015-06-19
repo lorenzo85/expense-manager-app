@@ -39,7 +39,7 @@ public class UserServiceTest extends AbstractBaseServiceTest {
         testUser = userService.save(testUser);
 
         // Then
-        assertNotEquals(0, testUser.getId());
+        assertNotEquals(0, testUser.getId().longValue());
     }
 
     @Test

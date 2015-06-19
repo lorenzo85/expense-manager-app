@@ -53,12 +53,28 @@
         <class-a is-accessible="true">org.cms.service.income.IncomeDto</class-a>
         <class-b is-accessible="true">org.cms.service.income.Income</class-b>
         <field>
+            <a>id</a>
+            <b>id</b>
+        </field>
+        <field>
             <a>yardId</a>
             <b>yard.id</b>
+        </field>
+        <field>
+            <a>invoiceId</a>
+            <b>invoiceId</b>
         </field>
         <field custom-converter="org.cms.service.commons.MoneyConverter">
             <a>amount</a>
             <b>amount</b>
+        </field>
+        <field>
+            <a>status</a>
+            <b>status</b>
+        </field>
+        <field>
+            <a>note</a>
+            <b>note</b>
         </field>
     </mapping>
 

@@ -149,7 +149,7 @@ public class ExpenseServiceTest extends AbstractBaseServiceTest {
     public void thatUpdateExpenseThrowsExceptionIfIdDoesNotExists() {
         // Given
         ExpenseDto expected = expenseDto;
-        expected.setId(0);
+        expected.setId(0L);
 
         // Expect
         expenseService.update(expected);
