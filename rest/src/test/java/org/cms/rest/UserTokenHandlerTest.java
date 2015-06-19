@@ -1,6 +1,8 @@
-package org.cms.service.utilities;
+package org.cms.rest;
 
-import org.cms.service.user.UserTokenHandler;
+
+import org.cms.rest.config.security.CurrentUserDetails;
+import org.cms.rest.config.security.UserTokenHandler;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -13,40 +15,37 @@ import static org.junit.Assert.assertEquals;
 public class UserTokenHandlerTest {
 
     UserTokenHandler handler;
-    UserDto userDto;
+    CurrentUserDetails userDetails;
 
     @Before
     public void setUp() throws InvalidKeyException, NoSuchAlgorithmException {
         handler = new UserTokenHandler("secretKey");
-        userDto = new UserDto();
-        userDto.username = "aUsername";
-        userDto.password = "aPassword";
+        userDetails = new CurrentUserDetails.Builder()
+                .username("aUsername")
+                .password("aPassword")
+                .build();
     }
 
     @Test
     public void shouldCreateAndValidateTokenCorrectly() throws UserTokenHandler.TokenProcessingException, UserTokenHandler.InvalidTokenException {
-        // Given
-        UserDto currentUser = userDto;
-
         // When
-        String token = handler.create(currentUser);
-        UserDto parsedUserDto = handler.parse(token, UserDto.class);
+        String token = handler.create(userDetails);
+        CurrentUserDetails parsedUser = handler.parse(token, CurrentUserDetails.class);
 
         // Then
-        assertEquals(currentUser.username, parsedUserDto.username);
-        assertEquals(currentUser.password, parsedUserDto.password);
+        assertEquals(parsedUser.getUsername(), userDetails.getUsername());
+        assertEquals(parsedUser.getPassword(), userDetails.getPassword());
     }
 
     @Test(expected = UserTokenHandler.InvalidTokenException.class)
     public void shouldCreateAndThrowInvalidTokenWhenTokenTampered() throws UserTokenHandler.TokenProcessingException, UserTokenHandler.InvalidTokenException {
         // Given
-        UserDto currentUser = userDto;
-        String token = handler.create(currentUser);
+        String token = handler.create(userDetails);
         String tamperedToken = tamper(token);
         assertEquals(token.length(), tamperedToken.length());
 
         // Expect
-        handler.parse(tamperedToken, UserDto.class);
+        handler.parse(tamperedToken, CurrentUserDetails.class);
     }
 
     private String tamper(String token) {
@@ -66,27 +65,4 @@ public class UserTokenHandlerTest {
         return builder.toString();
     }
 
-    private static class UserDto {
-        String username;
-        String password;
-
-        public UserDto() {
-        }
-
-        public String getUsername() {
-            return username;
-        }
-
-        public void setUsername(String username) {
-            this.username = username;
-        }
-
-        public String getPassword() {
-            return password;
-        }
-
-        public void setPassword(String password) {
-            this.password = password;
-        }
-    }
 }

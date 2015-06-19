@@ -40,8 +40,8 @@
     </mapping>
 
     <mapping>
-        <class-a>org.cms.service.user.UserDto</class-a>
-        <class-b>org.cms.service.user.User</class-b>
+        <class-a>org.cms.service.user.User</class-a>
+        <class-b>org.cms.service.user.UserDto</class-b>
         <field>
             <a is-accessible="true">id</a>
             <b is-accessible="true">id</b>
@@ -70,26 +70,9 @@
             <a is-accessible="true">credentialsExpired</a>
             <b is-accessible="true">credentialsExpired</b>
         </field>
-        <field>
+        <field custom-converter="org.cms.service.user.RoleConverter" type="one-way">
             <a is-accessible="true">roles</a>
-            <b is-accessible="true">authorities</b>
-        </field>
-    </mapping>
-
-    <mapping>
-        <class-a>org.cms.service.user.UserAuthorityDto</class-a>
-        <class-b>org.cms.service.user.UserAuthority</class-b>
-        <field>
-            <a is-accessible="true">id</a>
-            <b is-accessible="true">id</b>
-        </field>
-        <field>
-            <a is-accessible="true">userDto</a>
-            <b is-accessible="true">user</b>
-        </field>
-        <field>
-            <a is-accessible="true">authority</a>
-            <b is-accessible="true">role</b>
+            <b is-accessible="true">roles</b>
         </field>
     </mapping>
 

@@ -1,37 +1,37 @@
-package org.cms.service.user;
+package org.cms.rest.config.security;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 
 import java.util.Collection;
 
-public class UserAuthenticationDto implements Authentication {
+public class UserAuthentication implements Authentication {
 
-    private final UserDto user;
+    private final CurrentUserDetails userDetails;
     private boolean authenticated = true;
 
-    public UserAuthenticationDto(UserDto user) {
-        this.user = user;
+    public UserAuthentication(CurrentUserDetails userDetails) {
+        this.userDetails = userDetails;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return user.getAuthorities();
+        return userDetails.getAuthorities();
     }
 
     @Override
     public Object getCredentials() {
-        return user.getPassword();
+        return userDetails.getPassword();
     }
 
     @Override
-    public UserDto getDetails() {
-        return user;
+    public CurrentUserDetails getDetails() {
+        return userDetails;
     }
 
     @Override
     public Object getPrincipal() {
-        return user.getUsername();
+        return userDetails.getUsername();
     }
 
     @Override
@@ -46,6 +46,6 @@ public class UserAuthenticationDto implements Authentication {
 
     @Override
     public String getName() {
-        return user.getUsername();
+        return userDetails.getUsername();
     }
 }

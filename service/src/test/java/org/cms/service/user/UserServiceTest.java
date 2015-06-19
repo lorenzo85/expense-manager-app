@@ -4,16 +4,12 @@ import org.cms.service.AbstractBaseServiceTest;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.GrantedAuthority;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 
 import static java.util.Arrays.asList;
+import static java.util.Collections.singletonList;
 import static org.apache.commons.lang3.builder.EqualsBuilder.reflectionEquals;
-import static org.cms.service.user.UserRole.ROLE_ADMIN;
-import static org.cms.service.user.UserRole.ROLE_USER;
+import static org.cms.service.user.Role.ROLE_ADMIN;
+import static org.cms.service.user.Role.ROLE_USER;
 import static org.junit.Assert.*;
 
 public class UserServiceTest extends AbstractBaseServiceTest {
@@ -70,17 +66,18 @@ public class UserServiceTest extends AbstractBaseServiceTest {
                 .build();
 
         // When
-        user = userService.save(user);
+        UserDto persisted = userService.save(user);
 
         // Then
-        UserDto foundUser = userService.findOne(user.getId());
-        reflectionEquals(user, foundUser);
+        UserDto foundUser = userService.findOne(persisted.getId());
+        assertTrue(reflectionEquals(user, foundUser, "id", "roles"));
+        assertTrue(foundUser.getRoles().isEmpty());
     }
 
     @Test
     public void shouldCorrectlyPersistAuthority() {
         // Given
-        UserRole role = ROLE_USER;
+        Role role = ROLE_USER;
         UserDto user = new UserDto.Builder(USERNAME)
                 .password(PASSWORD)
                 .accountEnabled(true)
@@ -88,101 +85,122 @@ public class UserServiceTest extends AbstractBaseServiceTest {
                 .accountExpired(false)
                 .credentialsExpired(false)
                 .build();
-
-        user.getRoles().add(new UserAuthorityDto(user, role.toString()));
+        user.roles = singletonList(role);
 
         // When
-        user = userService.save(user);
+        UserDto persistedUser = userService.save(user);
 
         // Then
-        UserDto persistedUser = userService.findOne(user.getId());
-        Collection<? extends GrantedAuthority> persistedUserAuthorities = persistedUser.getAuthorities();
-        assertRoleExistsInAuthorities(persistedUserAuthorities, role);
+        UserDto foundUser = userService.findOne(persistedUser.getId());
+        foundUser.roles.contains(role);
     }
 
     @Test
-    public void shouldCorrectlyUpdateAuthority() {
+    public void shouldCorrectlyUpdateByAddingRole() {
         // Given
-        UserRole admin = ROLE_ADMIN;
-        UserRole user = ROLE_USER;
+        Role adminRole = ROLE_ADMIN;
+        Role userRole = ROLE_USER;
+        UserDto user = new UserDto.Builder(USERNAME)
+                .password(PASSWORD)
+                .build();
+        user.roles = singletonList(adminRole);
 
-        testUser.getRoles().add(new UserAuthorityDto(testUser, admin.toString()));
-        testUser = userService.save(testUser);
+        UserDto persisted = userService.save(user);
+        persisted.roles.add(userRole);
 
-        testUser.getRoles().add(new UserAuthorityDto(testUser, user.toString()));
-        userService.update(testUser);
+        // When
+        persisted = userService.update(persisted);
 
-        UserDto persistedUser = userService.findOne(testUser.getId());
-        assertRoleExistsInAuthorities(persistedUser.getAuthorities(), admin, user);
+        // Then
+        UserDto foundUser = userService.findOne(persisted.getId());
+        assertTrue(reflectionEquals(persisted, foundUser, "roles"));
+        assertContains(foundUser.getRoles(), adminRole);
+        assertContains(persisted.getRoles(), userRole);
+    }
+
+    @Test
+    public void shouldCorrectlyUpdateByRemovingRole() {
+        // Given
+        Role adminRole = ROLE_ADMIN;
+        Role userRole = ROLE_USER;
+        UserDto user = new UserDto.Builder(USERNAME)
+                .password(PASSWORD)
+                .build();
+        user.roles = asList(adminRole, userRole);
+
+        UserDto persisted = userService.save(user);
+        persisted.roles.remove(adminRole);
+
+        // When
+        persisted = userService.update(persisted);
+
+        // Then
+        UserDto foundUser = userService.findOne(persisted.getId());
+        assertTrue(foundUser.getRoles().size() == 1);
+        assertFalse(foundUser.getRoles().contains(adminRole));
     }
 
     @Test
     public void shouldCorrectlyRevokeRole() {
         // Given
-        UserRole admin = ROLE_ADMIN;
-        UserRole user = ROLE_USER;
-        testUser.getRoles().addAll(asList(
-                new UserAuthorityDto(testUser, admin.toString()),
-                new UserAuthorityDto(testUser, user.toString())));
-        testUser = userService.save(testUser);
+        Role adminRole = ROLE_ADMIN;
+        Role userRole = ROLE_USER;
+        UserDto user = new UserDto.Builder(USERNAME)
+                .password(PASSWORD)
+                .build();
+        user.roles = asList(adminRole, userRole);
+
+        UserDto persisted = userService.save(user);
 
         // When
-        userService.revokeRole(testUser.getId(), admin);
+        userService.revokeRole(persisted.getId(), adminRole);
 
         // Then
-        testUser = userService.findOne(testUser.getId());
-        assertRoleDoesNotExistsInAuthorities(testUser.getAuthorities(), admin);
+        UserDto found = userService.findOne(persisted.getId());
+        assertTrue(found.getRoles().size() == 1);
+        assertTrue(found.getRoles().contains(userRole));
     }
 
     @Test
     public void shouldCorrectlyGrantRole() {
         // Given
-        UserRole user = ROLE_USER;
-        testUser = userService.save(testUser);
+        Role adminRole = ROLE_ADMIN;
+        Role userRole = ROLE_USER;
+        UserDto user = new UserDto.Builder(USERNAME)
+                .password(PASSWORD)
+                .build();
+        user.roles = singletonList(adminRole);
+
+        UserDto persisted = userService.save(user);
 
         // When
-        userService.grantRole(testUser.getId(), user);
+        userService.grantRole(persisted.getId(), userRole);
 
         // Then
-        testUser = userService.findOne(testUser.getId());
-        assertRoleExistsInAuthorities(testUser.getAuthorities(), user);
+        UserDto found = userService.findOne(persisted.getId());
+        assertTrue(found.getRoles().size() == 2);
+        assertTrue(found.getRoles().contains(adminRole));
+        assertTrue(found.getRoles().contains(userRole));
+
     }
 
     @Test
     public void shouldNotAddTwiceSameRole() {
         // Given
-        UserRole user = ROLE_ADMIN;
-        testUser.getRoles().add(new UserAuthorityDto(testUser, user.toString()));
-        testUser = userService.save(testUser);
+        Role adminRole = ROLE_ADMIN;
+        UserDto user = new UserDto.Builder(USERNAME)
+                .password(PASSWORD)
+                .build();
+        user.roles = singletonList(adminRole);
+
+        UserDto persisted = userService.save(user);
 
         // When
-        userService.grantRole(testUser.getId(), user);
+        userService.grantRole(persisted.getId(), adminRole);
 
         // Then
-        testUser = userService.findOne(testUser.getId());
-        assertEquals(1, testUser.getRoles().size());
-    }
-
-    private void assertRoleDoesNotExistsInAuthorities(Collection<? extends GrantedAuthority> persistedUserAuthorities, UserRole role) {
-        boolean found = false;
-        for (GrantedAuthority authority : persistedUserAuthorities) {
-            if (authority.getAuthority().equals(role.toString())) {
-                found = true;
-            }
-        }
-        assertFalse(found);
-    }
-
-    private void assertRoleExistsInAuthorities(Collection<? extends GrantedAuthority> persistedUserAuthorities, UserRole... roles) {
-        List<UserRole> founds = new ArrayList<>();
-        for (GrantedAuthority authority : persistedUserAuthorities) {
-            UserRole userRole = UserRole.valueOf(authority.getAuthority());
-            for (UserRole role : roles) {
-                if (role.equals(userRole)) {
-                    founds.add(role);
-                }
-            }
-        }
-        assertEquals(founds.size(), roles.length);
+        UserDto found = userService.findOne(persisted.getId());
+        assertTrue(found.getRoles().size() == 1);
+        assertTrue(found.getRoles().contains(adminRole));
     }
 }

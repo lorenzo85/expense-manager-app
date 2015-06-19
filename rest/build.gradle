@@ -21,6 +21,7 @@ repositories {
 
 dependencies {
     compile project(":service")
+	compile group: 'commons-codec', name: 'commons-codec', version: '1.2'
 	compile group: 'org.apache.poi', name: 'poi', version: '3.12'
 	compile group: 'org.springframework.boot', name: 'spring-boot-starter-web'
 	compile group: 'org.springframework.boot', name: 'spring-boot-starter-security'

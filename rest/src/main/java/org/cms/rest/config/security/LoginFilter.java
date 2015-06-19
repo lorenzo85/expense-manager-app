@@ -1,16 +1,12 @@
 package org.cms.rest.config.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.cms.service.user.UserAuthenticationDto;
-import org.cms.service.user.UserAuthenticationService;
 import org.cms.service.user.UserDto;
-import org.cms.service.user.UserTokenHandler;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
@@ -44,12 +40,12 @@ public class LoginFilter extends AbstractAuthenticationProcessingFilter {
 
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
-        final UserDto authenticatedUser = (UserDto) userService.loadUserByUsername(authResult.getName());
-        final UserAuthenticationDto userAuthenticationDto = new UserAuthenticationDto(authenticatedUser);
+        final CurrentUserDetails userDetails = userService.loadUserByUsername(authResult.getName());
+        final UserAuthentication userAuthentication = new UserAuthentication(userDetails);
 
         try {
-            userAuthenticationService.addAuthentication(response, userAuthenticationDto);
-            SecurityContextHolder.getContext().setAuthentication(userAuthenticationDto);
+            userAuthenticationService.addAuthentication(response, userAuthentication);
+            SecurityContextHolder.getContext().setAuthentication(userAuthentication);
         } catch (UserTokenHandler.TokenProcessingException e) {
             throw new ServletException(e);
         }

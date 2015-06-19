@@ -1,11 +1,9 @@
 package org.cms.service;
 
-import org.cms.service.user.UserTokenHandler;
 import org.dozer.DozerBeanMapper;
 import org.dozer.Mapper;
 import org.joda.money.CurrencyUnit;
 import org.joda.money.Money;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -13,8 +11,6 @@ import org.springframework.context.annotation.Scope;
 
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,8 +22,6 @@ public class ConfigurationService {
 
     public static final String DOZER_MAPPER_SPEC = "mapping.xml";
 
-    @Value("${token.secret}")
-    private String tokenSecret;
 
     @Bean
     @Scope("prototype")
@@ -58,9 +52,4 @@ public class ConfigurationService {
         return CurrencyUnit.EUR;
     }
 
-    @Bean
-    @Scope("singleton")
-    public UserTokenHandler getTokenHandler() throws InvalidKeyException, NoSuchAlgorithmException {
-        return new UserTokenHandler(tokenSecret);
-    }
 }

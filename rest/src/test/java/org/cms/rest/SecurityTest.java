@@ -2,6 +2,7 @@ package org.cms.rest;
 
 
 import com.jayway.restassured.RestAssured;
+import com.jayway.restassured.http.ContentType;
 import com.jayway.restassured.response.Header;
 import com.jayway.restassured.response.Response;
 import org.cms.service.user.UserDto;
@@ -22,9 +23,9 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import static com.jayway.restassured.RestAssured.given;
 import static com.jayway.restassured.RestAssured.when;
 import static com.jayway.restassured.http.ContentType.JSON;
-import static org.apache.http.HttpStatus.SC_FORBIDDEN;
-import static org.apache.http.HttpStatus.SC_OK;
-import static org.apache.http.HttpStatus.SC_UNAUTHORIZED;
+import static org.apache.http.HttpStatus.*;
+import static org.cms.service.user.Role.ROLE_ADMIN;
+import static org.cms.service.user.Role.ROLE_USER;
 import static org.hamcrest.Matchers.*;
 
 
@@ -57,6 +58,8 @@ public class SecurityTest {
                 .accountExpired(false)
                 .accountLocked(false)
                 .build();
+        user.getRoles().add(ROLE_ADMIN);
+        user.getRoles().add(ROLE_USER);
         user = userService.save(user);
     }
 
@@ -135,7 +138,7 @@ public class SecurityTest {
                 .assertThat()
                 .contentType(JSON)
                 .body("username", equalTo(USERNAME))
-                .body("accountLocked", equalTo(false));
+                .body("roles", hasItems(ROLE_ADMIN.toString(), ROLE_USER.toString()));
     }
 
     @Test
@@ -167,6 +170,7 @@ public class SecurityTest {
         return given()
                 .log().all()
                 .body(loginRequestBody)
+                .contentType(ContentType.JSON)
                 .when()
                 .post("/auth/login");
     }

@@ -1,9 +1,10 @@
 package org.cms.rest.config.security;
 
-import org.cms.service.user.UserAuthenticationService;
-import org.cms.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Scope;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -15,6 +16,9 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import javax.servlet.Filter;
 
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+
 import static org.springframework.core.Ordered.HIGHEST_PRECEDENCE;
 import static org.springframework.http.HttpMethod.*;
 
@@ -23,8 +27,11 @@ import static org.springframework.http.HttpMethod.*;
 @Order(HIGHEST_PRECEDENCE)
 public class ConfigurationSecurity extends WebSecurityConfigurerAdapter {
 
+    @Value("${token.secret}")
+    private String tokenSecret;
+
     @Autowired
-    private UserService userService;
+    private UserDetailsService userDetailsService;
     @Autowired
     private UserAuthenticationService userAuthenticationService;
 
@@ -53,13 +60,19 @@ public class ConfigurationSecurity extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth
-                .userDetailsService(userService)
+                .userDetailsService(userDetailsService)
                 .passwordEncoder(new BCryptPasswordEncoder());
+    }
+
+    @Bean
+    @Scope("singleton")
+    public UserTokenHandler getTokenHandler() throws InvalidKeyException, NoSuchAlgorithmException {
+        return new UserTokenHandler(tokenSecret);
     }
 
     private Filter loginFilter() throws Exception {
         AntPathRequestMatcher pathRequestMatcher = new AntPathRequestMatcher("/auth/login", POST.name());
-        return new LoginFilter(pathRequestMatcher, userService, authenticationManager(), userAuthenticationService);
+        return new LoginFilter(pathRequestMatcher, userDetailsService, authenticationManager(), userAuthenticationService);
     }
 
     private Filter authFilter() {

@@ -1,16 +1,13 @@
 package org.cms.service.user;
 
 import org.cms.service.commons.BaseAbstractService;
+import org.cms.service.commons.IsValid;
 import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
-
-import static java.lang.String.format;
 
 @Service
 public class UserServiceImpl extends BaseAbstractService<UserDto, User, Long> implements UserService {
@@ -21,23 +18,32 @@ public class UserServiceImpl extends BaseAbstractService<UserDto, User, Long> im
     private UserRepository userRepository;
 
     @Override
-    public UserDto loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<User> user = userRepository.findByUsername(username);
-        if (!user.isPresent()) {
-            throw new UsernameNotFoundException(format("Username %s was not found!", username));
-        }
-        return mapper.map(user.get(), UserDto.class);
+    public UserDto save(@IsValid UserDto dto) {
+        throwIfFound(dto.getIdentifier());
+        return saveOrUpdate(dto);
     }
 
     @Override
-    public void revokeRole(long userId, UserRole role) {
+    public UserDto update(@IsValid UserDto dto) {
+        findOneOrThrow(dto.getIdentifier());
+        return saveOrUpdate(dto);
+    }
+
+    @Override
+    public UserDto findByUsername(String username) {
+        Optional<User> user = userRepository.findByUsername(username);
+        return user.isPresent() ? mapper.map(user.get(), UserDto.class) : null;
+    }
+
+    @Override
+    public void revokeRole(long userId, Role role) {
         User user = userRepository.findOne(userId);
         user.revokeRole(role);
         userRepository.save(user);
     }
 
     @Override
-    public void grantRole(long userId, UserRole role) {
+    public void grantRole(long userId, Role role) {
         User user = userRepository.findOne(userId);
         user.grantRole(role);
         userRepository.save(user);
@@ -46,5 +52,21 @@ public class UserServiceImpl extends BaseAbstractService<UserDto, User, Long> im
     @Override
     protected JpaRepository<User, Long> getRepository() {
         return userRepository;
+    }
+
+    // Note that the mapper DOES NOT map from UserDto to User object the role!
+    // When we save the first time the user Object the roles are all removed.
+    // With the grantRole(role) call we then update the roles for the user and save again
+    // with the updated roles.
+    private UserDto saveOrUpdate(@IsValid UserDto dto) {
+        User user = mapper.map(dto, User.class);
+        user = userRepository.save(user);
+
+        for (Role role : dto.getRoles()) {
+            user.grantRole(role);
+        }
+
+        user = userRepository.save(user);
+        return mapper.map(user, UserDto.class);
     }
 }

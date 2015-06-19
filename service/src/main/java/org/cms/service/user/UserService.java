@@ -1,11 +1,12 @@
 package org.cms.service.user;
 
 import org.cms.service.commons.BaseService;
-import org.springframework.security.core.userdetails.UserDetailsService;
 
-public interface UserService extends BaseService<UserDto, Long>, UserDetailsService {
+public interface UserService extends BaseService<UserDto, Long> {
 
-    void revokeRole(long userId, UserRole role);
+    UserDto findByUsername(String username);
 
-    void grantRole(long userId, UserRole role);
+    void revokeRole(long userId, Role role);
+
+    void grantRole(long userId, Role role);
 }

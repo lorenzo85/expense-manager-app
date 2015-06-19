@@ -1,8 +1,6 @@
 package org.cms.rest.config.security;
 
 
-import org.cms.service.user.UserAuthenticationService;
-import org.cms.service.user.UserTokenHandler;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.GenericFilterBean;

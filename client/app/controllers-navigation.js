@@ -42,13 +42,14 @@ app.controller('NavigationController', function ($rootScope, $scope, $location, 
     $scope.init = function () {
         $http.get(config.url + '/auth/user').success(function (user) {
             if (user.username !== 'anonymousUser') {
+                $rootScope.admin = $.inArray("ROLE_ADMIN", user.authorities);
                 $rootScope.authenticated = true;
                 $rootScope.username = user.username;
                 $location.path("/yards");
             } else {
                 $location.path("/login");
             }
-        })
+        });
     };
 
     $scope.logout = function () {
@@ -74,6 +75,4 @@ app.controller('NavigationController', function ($rootScope, $scope, $location, 
                 $scope.errorMessage = data.message + ' [' + data.status + ']' || "Could not authenticate";
             });
     };
-
-
 });

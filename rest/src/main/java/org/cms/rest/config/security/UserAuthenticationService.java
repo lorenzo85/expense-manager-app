@@ -1,4 +1,4 @@
-package org.cms.service.user;
+package org.cms.rest.config.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,13 +18,13 @@ public class UserAuthenticationService {
     @Value("${token.header.name}")
     private String tokenHeaderName;
     @Autowired
-    private UserService userService;
+    private UserDetailsService userDetailsService;
     @Autowired
     private UserTokenHandler tokenHandler;
 
 
-    public void addAuthentication(HttpServletResponse response, UserAuthenticationDto userAuthenticationDto) throws UserTokenHandler.TokenProcessingException {
-        final UserDetails user = userAuthenticationDto.getDetails();
+    public void addAuthentication(HttpServletResponse response, UserAuthentication userAuthentication) throws UserTokenHandler.TokenProcessingException {
+        final CurrentUserDetails user = userAuthentication.getDetails();
         String token = tokenHandler.create(user);
         response.addHeader(tokenHeaderName, token);
     }
@@ -32,9 +32,9 @@ public class UserAuthenticationService {
     public Authentication getAuthentication(HttpServletRequest request) throws UserTokenHandler.TokenProcessingException, UserTokenHandler.InvalidTokenException {
         Optional<String> token = ofNullable(request.getHeader(tokenHeaderName));
         if (token.isPresent()) {
-            UserDto user = tokenHandler.parse(token.get(), UserDto.class);
-            UserDto userDetails = (UserDto) userService.loadUserByUsername(user.getUsername());
-            return new UserAuthenticationDto(userDetails);
+            UserDetails parsedUser = tokenHandler.parse(token.get(), CurrentUserDetails.class);
+            CurrentUserDetails userDetails = userDetailsService.loadUserByUsername(parsedUser.getUsername());
+            return new UserAuthentication(userDetails);
         }
         return null;
     }

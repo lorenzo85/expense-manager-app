@@ -12,14 +12,12 @@ apply plugin: 'java'
 dependencies {
     compile group: 'org.joda', name: 'joda-money', version: '0.9.1'
     compile group: 'com.google.guava', name: 'guava', version: '18.0'
-    compile group: 'commons-codec', name: 'commons-codec', version: '1.2'
+
     compile group: 'mysql', name: 'mysql-connector-java', version: '5.1.32'
     compile group: 'org.jadira.usertype', name: 'usertype.core', version: '3.2.0.GA'
     compile group: 'javax.validation', name: 'validation-api', version: '1.1.0.Final'
     compile group: 'org.hibernate', name: 'hibernate-validator', version: '5.0.1.Final'
-    compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: '1.2.4.RELEASE'
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: '1.2.4.RELEASE'
-    compile group: 'org.springframework.boot', name: 'spring-boot-starter-security', version: '1.2.4.RELEASE'
     compile("net.sf.dozer:dozer:5.5.1") {
         exclude group: "org.slf4j", module: "slf4j-log4j12"
         exclude group: "log4j", module: "log4j"

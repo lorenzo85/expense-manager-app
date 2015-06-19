@@ -33,20 +33,24 @@ public class User {
     @NotNull
     boolean credentialsExpired;
     @OneToMany(cascade = ALL, mappedBy = "user", fetch = EAGER, orphanRemoval = true)
-    Set<UserAuthority> authorities = new HashSet<>();
+    Set<UserRole> roles = new HashSet<>();
 
-    public void revokeRole(UserRole role) {
-        checkNotNull(role);
-        for (Iterator<UserAuthority> iterator = authorities.iterator(); iterator.hasNext();) {
-            UserAuthority authority = iterator.next();
-            if (authority.hasRole(role)) {
+    public void revokeRole(Role roleToRevoke) {
+        checkNotNull(roleToRevoke);
+        for (Iterator<UserRole> iterator = roles.iterator(); iterator.hasNext();) {
+            UserRole role = iterator.next();
+            if (role.hasRole(roleToRevoke)) {
                 iterator.remove();
             }
         }
     }
 
-    public void grantRole(UserRole role) {
-        checkNotNull(authorities);
-        authorities.add(new UserAuthority(this, role));
+    public void grantRole(Role roleToGrant) {
+        checkNotNull(roles);
+        roles.add(new UserRole(this, roleToGrant));
+    }
+
+    public Set<UserRole> getRoles() {
+        return roles;
     }
 }

@@ -1,23 +1,21 @@
 package org.cms.service.user;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.cms.service.commons.Dto;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.HashSet;
 
-public class UserDto implements UserDetails, Dto<Long> {
+public class UserDto implements Dto<Long> {
 
-    private long id;
-    private String username;
-    private String password;
-    private boolean accountExpired;
-    private boolean accountLocked;
-    private boolean accountEnabled;
-    private boolean credentialsExpired;
-    private Collection<UserAuthorityDto> roles;
+    long id;
+    boolean accountLocked;
+    boolean accountExpired;
+    boolean accountEnabled;
+    boolean credentialsExpired;
+
+    String username;
+    String password;
+    Collection<Role> roles;
 
     public UserDto() {
     }
@@ -33,56 +31,12 @@ public class UserDto implements UserDetails, Dto<Long> {
     }
 
     @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return roles;
-    }
-
-    @Override
-    public String getPassword() {
-        return password;
-    }
-
-    @Override
-    public String getUsername() {
-        return username;
-    }
-
-    @Override
-    @JsonIgnore
-    public boolean isAccountNonExpired() {
-        return !accountExpired;
-    }
-
-    @Override
-    @JsonIgnore
-    public boolean isAccountNonLocked() {
-        return !accountLocked;
-    }
-
-    @Override
-    @JsonIgnore
-    public boolean isCredentialsNonExpired() {
-        return !credentialsExpired;
-    }
-
-    @Override
-    @JsonIgnore
-    public boolean isEnabled() {
-        return accountEnabled;
-    }
-
-    @Override
-    @JsonIgnore
     public Long getIdentifier() {
         return id;
     }
 
     public long getId() {
         return id;
-    }
-
-    public Collection<UserAuthorityDto> getRoles() {
-        return this.roles;
     }
 
     public void setId(long id) {
@@ -129,8 +83,16 @@ public class UserDto implements UserDetails, Dto<Long> {
         this.credentialsExpired = credentialsExpired;
     }
 
-    public void setRoles(Collection<UserAuthorityDto> roles) {
-        this.roles = roles;
+    public String getUsername() {
+        return username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public Collection<Role> getRoles() {
+        return roles;
     }
 
     public static class Builder {
@@ -141,7 +103,7 @@ public class UserDto implements UserDetails, Dto<Long> {
         private boolean credentialsExpired;
         private String username;
         private String password;
-        private Collection<UserAuthorityDto> authorityDtos = new HashSet<>();
+        private Collection<Role> authorityDtos = new HashSet<>();
 
         public Builder(String username) {
             this.username = username;
@@ -169,11 +131,6 @@ public class UserDto implements UserDetails, Dto<Long> {
 
         public Builder credentialsExpired(boolean credentialsExpired) {
             this.credentialsExpired = credentialsExpired;
-            return this;
-        }
-
-        public Builder authority(Collection<UserAuthorityDto> authorityDtos) {
-            this.authorityDtos.addAll(authorityDtos);
             return this;
         }
 
