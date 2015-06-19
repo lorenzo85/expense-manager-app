@@ -165,4 +165,28 @@
         </field>
     </mapping>
 
+    <mapping>
+        <class-a is-accessible="true">org.cms.service.expense.ExpensesGroupByYearAndMonth</class-a>
+        <class-b is-accessible="true">org.cms.service.expense.DeadlinesDto</class-b>
+        <field>
+            <a>year</a>
+            <b>year</b>
+        </field>
+        <field>
+            <a>month</a>
+            <b>month</b>
+        </field>
+        <field custom-converter="org.cms.service.commons.MoneyConverter">
+            <a>total</a>
+            <b>total</b>
+        </field>
+        <field>
+            <a>expenses</a>
+            <b>expenses</b>
+        </field>
+        <field custom-converter="org.cms.service.commons.SumsForCategoryConverter">
+            <a>expensesSumsForCategory</a>
+            <b>expensesSumsForCategory</b>
+        </field>
+    </mapping>
 </mappings>

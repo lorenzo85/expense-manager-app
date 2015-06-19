@@ -12,12 +12,7 @@ public class YardExtendedDto extends YardDto {
     private List<IncomeDto> incomes = new ArrayList<IncomeDto>();
     private List<ExpenseDto> expenses = new ArrayList<ExpenseDto>();
 
-
     public YardExtendedDto() {
-    }
-
-    public YardExtendedDto(YardDto dto) {
-        super(dto);
     }
 
     public List<ExpenseDto> getExpenses() {

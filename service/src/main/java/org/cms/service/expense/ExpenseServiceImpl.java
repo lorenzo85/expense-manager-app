@@ -1,18 +1,23 @@
 package org.cms.service.expense;
 
-import org.cms.service.commons.PaymentState;
+import org.apache.commons.lang3.tuple.Pair;
 import org.cms.service.commons.BaseAbstractService;
+import org.cms.service.commons.PaymentAggregator;
+import org.joda.money.CurrencyUnit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
+import static java.util.stream.Collectors.toList;
+import static org.cms.service.commons.PaymentState.PAID;
+import static org.cms.service.commons.PaymentState.UNPAID;
 
 @Service
 @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
@@ -20,15 +25,17 @@ public class ExpenseServiceImpl extends BaseAbstractService<ExpenseDto, Expense,
 
     @Autowired
     private ExpenseRepository repo;
+    @Autowired
+    private CurrencyUnit currencyUnit;
 
     @Override
     public ExpenseDto markAsPaid(long id, long yardId) {
         ExpenseDto expense = findOne(id);
 
         checkArgument(expense.getYardId() == yardId);
-        checkState(expense.getStatus() == PaymentState.UNPAID);
+        checkState(expense.getStatus() == UNPAID);
 
-        expense.setStatus(PaymentState.PAID);
+        expense.setStatus(PAID);
         return update(expense);
     }
 
@@ -52,17 +59,28 @@ public class ExpenseServiceImpl extends BaseAbstractService<ExpenseDto, Expense,
     }
 
     @Override
-    public List<DeadlinesDto> listMonthlyDeadlines() {
-        List<Expense> unpaidExpenses = repo.listUnpaidExpensesOrderedByYearAndMonthAndCategory();
+    public List<DeadlinesDto> listDeadlinesGroupedByYearAndMonth() {
+        List<Expense> unpaidExpenses = repo.listByPaymentStateOrderedByYearAndMonthAndCategory(UNPAID);
+        Map<Pair<String, String>, List<Expense>> expensesGroupedByYearAndMonth =
+                PaymentAggregator.groupByYearAndMonth(unpaidExpenses);
 
-        List<ExpenseDto> expenses = new ArrayList<>();
-        unpaidExpenses.forEach(e -> {
-            ExpenseDto mapped = mapper.map(e, ExpenseDto.class);
-            expenses.add(mapped);
-        });
+        // Construct new ExpensesGroupByYearAndMonth which takes care of computing
+        // the total sum and the partial sum for each expense category.
+        List<ExpensesGroupByYearAndMonth> expensesGroupsList = expensesGroupedByYearAndMonth
+                .entrySet()
+                .stream()
+                .map(expensesForYearAndMonth -> {
+                    Pair<String, String> key = expensesForYearAndMonth.getKey();
+                    return ExpensesGroupByYearAndMonth.builder(currencyUnit)
+                            .year(key.getLeft())
+                            .month(key.getRight())
+                            .expenses(expensesForYearAndMonth.getValue())
+                            .build();
+                }).collect(toList());
 
-        // TODO: This is totally wrong. Should be in the domain object.
-        return DeadlinesDto.computeSumAndSumForCategories(expenses);
+        return expensesGroupsList.stream()
+                .map(expenseGroup -> mapper.map(expenseGroup, DeadlinesDto.class))
+                .collect(toList());
     }
 
     @Override

@@ -1,39 +1,37 @@
-package org.cms.service.yard;
+package org.cms.service.commons;
 
 import com.google.common.base.Preconditions;
-import org.cms.service.commons.Amount;
-import org.cms.service.commons.PaymentState;
 import org.joda.money.CurrencyUnit;
 import org.joda.money.Money;
 
 import java.util.Collection;
 
-import static org.cms.service.yard.YardSummaryBuilder.MathOperator.SUM;
+import static org.cms.service.commons.PaymentCollectionMathBuilder.MathOperator.SUM;
 
-public class YardSummaryBuilder {
+public class PaymentCollectionMathBuilder {
 
     private MathOperator operator;
     private PaymentState paymentState;
-    private Collection<? extends Amount> amounts;
+    private Collection<? extends Payment> amounts;
 
-    private YardSummaryBuilder(MathOperator operator) {
+    private PaymentCollectionMathBuilder(MathOperator operator) {
         this.operator = operator;
     }
 
-    public static YardSummaryBuilder sum() {
-        return new YardSummaryBuilder(SUM);
+    public static PaymentCollectionMathBuilder sum() {
+        return new PaymentCollectionMathBuilder(SUM);
     }
 
-    public YardSummaryBuilder unpaid() {
+    public PaymentCollectionMathBuilder unpaid() {
         this.paymentState = PaymentState.UNPAID;
         return this;
     }
-    public YardSummaryBuilder paid() {
+    public PaymentCollectionMathBuilder paid() {
         this.paymentState = PaymentState.PAID;
         return this;
     }
 
-    public YardSummaryBuilder on(Collection<? extends Amount> amounts) {
+    public PaymentCollectionMathBuilder on(Collection<? extends Payment> amounts) {
         this.amounts = amounts;
         return this;
     }
@@ -45,7 +43,7 @@ public class YardSummaryBuilder {
         if(operator == SUM) {
             return amounts.stream()
                     .filter(x -> x.getStatus() == paymentState)
-                    .map(Amount::getAmount)
+                    .map(Payment::getAmount)
                     .reduce(Money.of(currency, 0), Money::plus);
         }
 

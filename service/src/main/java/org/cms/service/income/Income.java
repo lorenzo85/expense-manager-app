@@ -2,7 +2,7 @@ package org.cms.service.income;
 
 
 import org.cms.service.commons.PaymentStateConverter;
-import org.cms.service.commons.Amount;
+import org.cms.service.commons.Payment;
 import org.cms.service.commons.PaymentState;
 import org.cms.service.yard.Yard;
 import org.hibernate.annotations.Parameter;
@@ -10,11 +10,12 @@ import org.hibernate.annotations.Type;
 import org.joda.money.Money;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.util.Date;
 
 @Entity
 @Table(name="income")
-public class Income implements Amount {
+public class Income implements Payment {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     long id;
@@ -51,5 +52,10 @@ public class Income implements Amount {
     @Override
     public PaymentState getStatus() {
         return status;
+    }
+
+    @Override
+    public Timestamp getExpiresAt() {
+        throw new UnsupportedOperationException("Entity does not expiresAt field.");
     }
 }

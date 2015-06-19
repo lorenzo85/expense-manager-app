@@ -1,9 +1,9 @@
 package org.cms.service.expense;
 
 
-import org.cms.service.commons.PaymentStateConverter;
-import org.cms.service.commons.Amount;
+import org.cms.service.commons.Payment;
 import org.cms.service.commons.PaymentState;
+import org.cms.service.commons.PaymentStateConverter;
 import org.cms.service.yard.Yard;
 import org.hibernate.annotations.Parameter;
 import org.hibernate.annotations.Type;
@@ -15,7 +15,7 @@ import java.util.Date;
 
 @Entity
 @Table(name="expense")
-public class Expense implements Amount {
+public class Expense implements Payment {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     long id;
@@ -62,4 +62,10 @@ public class Expense implements Amount {
     public PaymentState getStatus() {
         return status;
     }
+
+    @Override
+    public Timestamp getExpiresAt() {
+        return expiresAt;
+    }
+
 }

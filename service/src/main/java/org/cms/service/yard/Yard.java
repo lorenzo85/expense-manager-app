@@ -1,9 +1,11 @@
 package org.cms.service.yard;
 
+import org.cms.service.commons.PaymentCollectionMathBuilder;
 import org.cms.service.income.Income;
 import org.cms.service.expense.Expense;
 import org.hibernate.annotations.Parameter;
 import org.hibernate.annotations.Type;
+import org.joda.money.CurrencyUnit;
 import org.joda.money.Money;
 
 import javax.persistence.*;
@@ -42,4 +44,28 @@ public class Yard {
             parameters = {@Parameter(name= "currencyCode", value="EUR")})
     Money contractTotalAmount;
 
+
+    protected Money sumOfPaidExpenses(CurrencyUnit currency) {
+        return PaymentCollectionMathBuilder
+                .sum()
+                .paid()
+                .on(expenses)
+                .compute(currency);
+    }
+
+    protected Money sumOfUnPaidExpenses(CurrencyUnit currencyUnit) {
+        return PaymentCollectionMathBuilder
+                .sum()
+                .unpaid()
+                .on(expenses)
+                .compute(currencyUnit);
+    }
+
+    protected Money sumOfPaidIncomes(CurrencyUnit currencyUnit) {
+        return PaymentCollectionMathBuilder
+                .sum()
+                .paid()
+                .on(incomes)
+                .compute(currencyUnit);
+    }
 }

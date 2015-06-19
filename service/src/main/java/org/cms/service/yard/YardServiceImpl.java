@@ -1,7 +1,5 @@
 package org.cms.service.yard;
 
-import org.cms.service.expense.Expense;
-import org.cms.service.income.Income;
 import org.cms.service.commons.BaseAbstractService;
 import org.joda.money.CurrencyUnit;
 import org.joda.money.Money;
@@ -10,8 +8,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Collection;
 
 @Service
 @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
@@ -25,13 +21,10 @@ public class YardServiceImpl extends BaseAbstractService<YardDto, Yard, Long> im
     @Override
     public YardExtendedDto getYardDetails(long id) {
         Yard yard = findOneOrThrow(id);
-
-        YardExtendedDto dto = mapper.map(yard, YardExtendedDto.class);
-
+        YardExtendedDto extendedYardDto = mapper.map(yard, YardExtendedDto.class);
         YardSummaryDto summaryDto = generateYardSummary(yard);
-        dto.setSummary(summaryDto);
-
-        return dto;
+        extendedYardDto.setSummary(summaryDto);
+        return extendedYardDto;
     }
 
     @Override
@@ -40,18 +33,11 @@ public class YardServiceImpl extends BaseAbstractService<YardDto, Yard, Long> im
     }
 
     private YardSummaryDto generateYardSummary(Yard yard) {
-        Collection<Income> incomes = yard.incomes;
-        Collection<Expense> expenses = yard.expenses;
-
-        Money paidIncomes = YardSummaryBuilder.sum().paid().on(incomes).compute(currency);
-        Money paidExpenses = YardSummaryBuilder.sum().paid().on(expenses).compute(currency);
-        Money unPaidExpenses = YardSummaryBuilder.sum().unpaid().on(expenses).compute(currency);
-
+        Money paidIncomes = yard.sumOfPaidIncomes(currency);
+        Money paidExpenses = yard.sumOfPaidExpenses(currency);
+        Money unPaidExpenses = yard.sumOfUnPaidExpenses(currency);
         Money deltaPaid = paidIncomes.minus(paidExpenses);
-
-        Money contractTotalAmount = yard.contractTotalAmount;
-        Money deltaMissingIncome = contractTotalAmount.minus(paidIncomes);
-
+        Money deltaMissingIncome = yard.contractTotalAmount.minus(paidIncomes);
         return new YardSummaryDto(paidIncomes, paidExpenses, unPaidExpenses, deltaPaid, deltaMissingIncome);
     }
 }

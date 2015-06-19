@@ -16,8 +16,8 @@ import static java.util.stream.Collectors.toList;
 import static org.cms.service.expense.ExpenseCategory.CHECKS;
 import static org.cms.service.expense.ExpenseCategory.SALARIES;
 import static org.cms.service.commons.PaymentState.UNPAID;
-import static org.cms.service.expense.DeadlinesDto.DateFormatter.MONTH_FORMATTER;
-import static org.cms.service.expense.DeadlinesDto.DateFormatter.YEAR_FORMATTER;
+import static org.cms.service.commons.PaymentAggregator.DateFormatter.MONTH_FORMATTER;
+import static org.cms.service.commons.PaymentAggregator.DateFormatter.YEAR_FORMATTER;
 import static org.joda.money.Money.of;
 import static org.junit.Assert.*;
 
@@ -58,7 +58,7 @@ public class ExpenseServiceMonthlyDeadlinesTest extends AbstractBaseServiceTest 
         persistUnpaidExpenseDtoWithAmountAndCategory(amount2, CATEGORY_CHECKS, january2099);
 
         // When
-        List<DeadlinesDto> deadlines = expenseService.listMonthlyDeadlines();
+        List<DeadlinesDto> deadlines = expenseService.listDeadlinesGroupedByYearAndMonth();
 
         // Then
         DeadlinesDto January2099Deadlines = findDeadlineForYearAndMonth(deadlines, january2099);
@@ -72,7 +72,7 @@ public class ExpenseServiceMonthlyDeadlinesTest extends AbstractBaseServiceTest 
         persistUnpaidExpenseDtoWithAmountAndCategory(amount2, CATEGORY_CHECKS, february2099);
 
         // When
-        List<DeadlinesDto> deadlines = expenseService.listMonthlyDeadlines();
+        List<DeadlinesDto> deadlines = expenseService.listDeadlinesGroupedByYearAndMonth();
 
         // Then
         findDeadlineForYearAndMonth(deadlines, january2099);
@@ -86,7 +86,7 @@ public class ExpenseServiceMonthlyDeadlinesTest extends AbstractBaseServiceTest 
         persistUnpaidExpenseDtoWithAmountAndCategory(amount2, CATEGORY_SALARIES, january2099);
 
         // When
-        List<DeadlinesDto> deadlines = expenseService.listMonthlyDeadlines();
+        List<DeadlinesDto> deadlines = expenseService.listDeadlinesGroupedByYearAndMonth();
 
         // Then
         DeadlinesDto dto = findDeadlineForYearAndMonth(deadlines, january2099);
@@ -104,11 +104,11 @@ public class ExpenseServiceMonthlyDeadlinesTest extends AbstractBaseServiceTest 
         persistUnpaidExpenseDtoWithAmountAndCategory(amount3, CATEGORY_SALARIES, january2099);
 
         // When
-        List<DeadlinesDto> deadlines = expenseService.listMonthlyDeadlines();
+        List<DeadlinesDto> deadlines = expenseService.listDeadlinesGroupedByYearAndMonth();
 
         // Then
         DeadlinesDto dto = findDeadlineForYearAndMonth(deadlines, january2099);
-        Money checksSum = dto.getMapCategorySums().get(CATEGORY_CHECKS);
+        Money checksSum = dto.getExpensesSumsForCategory().get(CATEGORY_CHECKS);
 
         Money expected = amount1.plus(amount2);
         assertEquals(expected, checksSum);
@@ -120,11 +120,11 @@ public class ExpenseServiceMonthlyDeadlinesTest extends AbstractBaseServiceTest 
         persistUnpaidExpenseDtoWithAmountAndCategory(amount1, CATEGORY_SALARIES, january2099);
 
         // When
-        List<DeadlinesDto> deadlines = expenseService.listMonthlyDeadlines();
+        List<DeadlinesDto> deadlines = expenseService.listDeadlinesGroupedByYearAndMonth();
 
         // Then
         DeadlinesDto dto = findDeadlineForYearAndMonth(deadlines, january2099);
-        Money checksSum = dto.getMapCategorySums().get(CATEGORY_CHECKS);
+        Money checksSum = dto.getExpensesSumsForCategory().get(CATEGORY_CHECKS);
 
         assertNull(checksSum);
     }

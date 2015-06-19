@@ -14,5 +14,5 @@ public interface ExpenseService extends BaseService<ExpenseDto, Long> {
 
     ExpenseDto findByIdAndYardId(long id, long yardId);
 
-    List<DeadlinesDto> listMonthlyDeadlines();
+    List<DeadlinesDto> listDeadlinesGroupedByYearAndMonth();
 }
