@@ -1,6 +1,5 @@
 package org.cms.service.user;
 
-import org.cms.service.user.UserRole;
 import org.dozer.CustomConverter;
 
 import java.util.Set;
@@ -12,7 +11,10 @@ public class RoleConverter implements CustomConverter {
     @Override
     public Object convert(Object destination, Object source, Class destClass, Class sourceClass) {
         Set<UserRole> rolesSet = (Set<UserRole>) source;
-        return rolesSet.stream().map(UserRole::getRole).collect(Collectors.toList());
+        return rolesSet
+                .stream()
+                .map(userRole -> userRole.role)
+                .collect(Collectors.toList());
     }
 
 }

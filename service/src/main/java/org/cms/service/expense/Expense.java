@@ -16,126 +16,50 @@ import java.util.Date;
 @Entity
 @Table(name="expense")
 public class Expense implements Amount {
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    protected long id;
+    long id;
     @Column(name="invoice_id")
-    protected long invoiceId;
+    long invoiceId;
     @Column(name="title")
-    protected String title;
+    String title;
     @Column(name="note")
-    protected String note;
+    String note;
     @Column(name="status")
     @Convert(converter = PaymentStateConverter.class)
-    protected PaymentState status;
+    PaymentState status;
     @Column(name="category")
     @Convert(converter = ExpenseCategoryConverter.class)
-    protected ExpenseCategory category;
+    ExpenseCategory category;
     @Column(name="emission_at")
-    protected Timestamp emissionAt;
+    Timestamp emissionAt;
     @Column(name="expires_at")
-    protected Timestamp expiresAt;
+    Timestamp expiresAt;
     @Column(name="created_at",
             insertable = false,
             updatable = false,
             columnDefinition = "TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP")
-    protected Date createdAt;
+    Date createdAt;
     @Column(name="updated_at",
             insertable = false,
             updatable = false,
             columnDefinition = "TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP")
-    protected Date updatedAt;
+    Date updatedAt;
     @Column(name="amount")
     @Type(type="org.jadira.usertype.moneyandcurrency.joda.PersistentMoneyAmount",
             parameters = {@Parameter(name= "currencyCode", value="EUR")})
-    protected Money amount;
-
-
+    Money amount;
     @ManyToOne
     @JoinColumn(name="yard_id")
-    protected Yard yard;
+    Yard yard;
 
-    public Expense() {
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public String getNote() {
-        return note;
-    }
-
+    @Override
     public Money getAmount() {
         return amount;
     }
 
+    @Override
     public PaymentState getStatus() {
         return status;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public void setNote(String note) {
-        this.note = note;
-    }
-
-    public void setAmount(Money amount) {
-        this.amount = amount;
-    }
-
-    public void setStatus(PaymentState status) {
-        this.status = status;
-    }
-
-    public void setYard(Yard yard) {
-        this.yard = yard;
-    }
-
-    public Yard getYard() {
-        return yard;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public void setExpiresAt(Timestamp expiresAt) {
-        this.expiresAt = expiresAt;
-    }
-
-    public Timestamp getExpiresAt() {
-        return expiresAt;
-    }
-
-    public void setInvoiceId(long invoiceId) {
-        this.invoiceId = invoiceId;
-    }
-
-    public long getInvoiceId() {
-        return invoiceId;
-    }
-
-    public Timestamp getEmissionAt() {
-        return emissionAt;
-    }
-
-    public void setEmissionAt(Timestamp emissionAt) {
-        this.emissionAt = emissionAt;
-    }
-
-    public ExpenseCategory getCategory() {
-        return category;
-    }
-
-    public void setCategory(ExpenseCategory category) {
-        this.category = category;
     }
 }

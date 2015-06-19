@@ -30,12 +30,8 @@ public class UserRole {
         this.role = role;
     }
 
-    public boolean hasRole(Role role) {
+    public boolean sameAs(Role role) {
         return this.role.equals(role);
-    }
-
-    public Role getRole() {
-        return role;
     }
 
     @Override
@@ -51,4 +47,5 @@ public class UserRole {
     public int hashCode() {
         return Objects.hashCode(user, role);
     }
+
 }

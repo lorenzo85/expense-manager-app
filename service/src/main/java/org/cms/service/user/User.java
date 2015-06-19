@@ -17,7 +17,7 @@ import static javax.persistence.GenerationType.AUTO;
 public class User {
     @Id
     @GeneratedValue(strategy = AUTO)
-    Long id;
+    long id;
     @NotNull
     @Size(min = 1, max = 50)
     String username;
@@ -39,7 +39,7 @@ public class User {
         checkNotNull(roleToRevoke);
         for (Iterator<UserRole> iterator = roles.iterator(); iterator.hasNext();) {
             UserRole role = iterator.next();
-            if (role.hasRole(roleToRevoke)) {
+            if (role.sameAs(roleToRevoke)) {
                 iterator.remove();
             }
         }
@@ -50,7 +50,4 @@ public class User {
         roles.add(new UserRole(this, roleToGrant));
     }
 
-    public Set<UserRole> getRoles() {
-        return roles;
-    }
 }

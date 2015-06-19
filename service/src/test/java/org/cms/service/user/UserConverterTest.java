@@ -10,6 +10,7 @@ import java.util.Random;
 import static com.google.common.collect.Sets.newHashSet;
 import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
+import static org.cms.service.ConfigurationService.DOZER_MAPPER_SPEC;
 import static org.cms.service.user.Role.ROLE_ADMIN;
 import static org.cms.service.user.Role.ROLE_USER;
 import static org.junit.Assert.assertEquals;
@@ -25,7 +26,7 @@ public class UserConverterTest {
     public void setUp() {
         random = new Random();
         mapper = new DozerBeanMapper();
-        mapper.setMappingFiles(singletonList("mapping.xml"));
+        mapper.setMappingFiles(singletonList(DOZER_MAPPER_SPEC));
     }
 
     @Test
@@ -49,9 +50,9 @@ public class UserConverterTest {
 
         // Then
         Collection<Role> dtoRoles = dto.getRoles();
-        dtoRoles.contains(adminRole.getRole());
-        dtoRoles.contains(userRole.getRole());
-        assertEquals(dto.id, user.id.longValue());
+        dtoRoles.contains(adminRole.role);
+        dtoRoles.contains(userRole.role);
+        assertEquals(dto.id, user.id);
         assertEquals(dto.username, user.username);
         assertEquals(dto.password, user.password);
         assertEquals(dto.accountLocked, user.accountLocked);
@@ -77,7 +78,7 @@ public class UserConverterTest {
         User user = mapper.map(dto, User.class);
 
         // Then
-        assertEquals(user.id.longValue(), dto.id);
+        assertEquals(user.id, dto.id);
         assertEquals(user.username, dto.username);
         assertEquals(user.password, dto.password);
         assertEquals(user.accountLocked, dto.accountLocked);
@@ -89,9 +90,9 @@ public class UserConverterTest {
 
     private UserRole createUserRole(Role role, User user) {
         UserRole userRole = new UserRole();
+        userRole.id = random.nextLong();
         userRole.role = role;
         userRole.user = user;
-        userRole.id = random.nextLong();
         return userRole;
     }
 }

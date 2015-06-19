@@ -36,11 +36,11 @@ public class YardServiceGetYardDetailsTest extends AbstractBaseServiceTest {
     @Test
     public void testSOmething() {
         Yard yard = new Yard();
-        yard.setName("yay");
-        yard.setContractTotalAmount(createAmount(234));
+        yard.name = "yay";
+        yard.contractTotalAmount = createAmount(234);
         yardRepo.save(yard);
-        yardRepo.saveAndFlush(yard);
-        YardDto found = yardService.findOne(yard.getId());
+        yardRepo.save(yard);
+        YardDto found = yardService.findOne(yard.id);
         assertNotNull(found);
 
     }

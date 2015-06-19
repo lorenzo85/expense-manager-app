@@ -40,8 +40,8 @@ public class YardServiceImpl extends BaseAbstractService<YardDto, Yard, Long> im
     }
 
     private YardSummaryDto generateYardSummary(Yard yard) {
-        Collection<Income> incomes = yard.getIncomes();
-        Collection<Expense> expenses = yard.getExpenses();
+        Collection<Income> incomes = yard.incomes;
+        Collection<Expense> expenses = yard.expenses;
 
         Money paidIncomes = YardSummaryBuilder.sum().paid().on(incomes).compute(currency);
         Money paidExpenses = YardSummaryBuilder.sum().paid().on(expenses).compute(currency);
@@ -49,7 +49,7 @@ public class YardServiceImpl extends BaseAbstractService<YardDto, Yard, Long> im
 
         Money deltaPaid = paidIncomes.minus(paidExpenses);
 
-        Money contractTotalAmount = yard.getContractTotalAmount();
+        Money contractTotalAmount = yard.contractTotalAmount;
         Money deltaMissingIncome = contractTotalAmount.minus(paidIncomes);
 
         return new YardSummaryDto(paidIncomes, paidExpenses, unPaidExpenses, deltaPaid, deltaMissingIncome);
