@@ -39,6 +39,7 @@ public class ConfigurationSecurity extends WebSecurityConfigurerAdapter {
         super(true);
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
@@ -53,8 +54,8 @@ public class ConfigurationSecurity extends WebSecurityConfigurerAdapter {
                     .antMatchers(OPTIONS, "/**").permitAll()
                     .anyRequest().fullyAuthenticated()
                 .and()
-                .addFilterBefore(loginFilter(), UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(authFilter(), UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(loginFilter(), (Class<? extends Filter>) UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(authFilter(), (Class<? extends Filter>) UsernamePasswordAuthenticationFilter.class);
     }
 
     @Override
@@ -72,7 +73,7 @@ public class ConfigurationSecurity extends WebSecurityConfigurerAdapter {
 
     private Filter loginFilter() throws Exception {
         AntPathRequestMatcher pathRequestMatcher = new AntPathRequestMatcher("/auth/login", POST.name());
-        return new LoginFilter(pathRequestMatcher, userDetailsService, authenticationManager(), userAuthenticationService);
+        return (Filter) new LoginFilter(pathRequestMatcher, userDetailsService, authenticationManager(), userAuthenticationService);
     }
 
     private Filter authFilter() {
