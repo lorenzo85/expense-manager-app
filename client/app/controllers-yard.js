@@ -11,7 +11,7 @@ app.controller('YardsController', function($rootScope, $scope, $location, Yard) 
         });
     }
 
-}).controller('YardsViewController', function($rootScope, $scope, $stateParams, Yard) {
+}).controller('YardsViewController', function($rootScope, $scope, $stateParams, $http, config, Yard) {
     $rootScope.$on('data::updated', function(){
         $scope.yard = Yard.getYardDetails({ id: $stateParams.id });
     });

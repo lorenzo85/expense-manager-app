@@ -26,9 +26,6 @@
     </div>
 </div>
 <h5>
-    <span class="fa fa-file-excel-o"></span>
-    <a ng-href="/reports/yards/{{ yard.id }}/expenses">Expenses report</a>
-    &nbsp;&nbsp;
-    <span class="fa fa-file-excel-o"></span>
-    <a ng-href="/reports/yards/{{ yard.id }}/incomes">Incomes report</a>
+    <file-download name="Income report" url="/reports/yards/{{ yard.id }}/incomes"></file-download>
+    <file-download name="Expense report" url="/reports/yards/{{ yard.id }}/expenses"></file-download>
 </h5>
