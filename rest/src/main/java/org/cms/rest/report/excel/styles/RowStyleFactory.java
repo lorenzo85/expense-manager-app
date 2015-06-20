@@ -1,4 +1,4 @@
-package org.cms.rest.report.styles;
+package org.cms.rest.report.excel.styles;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.CellStyle;
@@ -14,13 +14,9 @@ import static org.apache.poi.ss.usermodel.CellStyle.SOLID_FOREGROUND;
 @Scope("prototype")
 public class RowStyleFactory extends BaseAbstractStyleFactory {
 
-    public RowStyleFactory(HSSFWorkbook workbook) {
-        super(workbook);
-    }
-
     @Override
-    public CellStyle getStringStyle() {
-        Font font = createFont(BLACK.index);
+    public CellStyle getStringStyle(HSSFWorkbook workbook) {
+        Font font = createFont(workbook, BLACK.index);
         CellStyle style = workbook.createCellStyle();
         style.setFillForegroundColor(WHITE.index);
         style.setFillPattern(SOLID_FOREGROUND);

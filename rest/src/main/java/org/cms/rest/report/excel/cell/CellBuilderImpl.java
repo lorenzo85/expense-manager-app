@@ -1,6 +1,7 @@
-package org.cms.rest.report.templates;
+package org.cms.rest.report.excel.cell;
 
-import org.cms.rest.report.styles.StyleFactory;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.cms.rest.report.excel.styles.StyleFactory;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.joda.money.Money;
@@ -15,19 +16,21 @@ public class CellBuilderImpl implements CellBuilder {
 
     private int cellIndex;
     private HSSFRow row;
+    private HSSFWorkbook workbook;
     private StyleFactory style;
 
-    public CellBuilderImpl(HSSFRow row, StyleFactory style) {
+    public CellBuilderImpl(HSSFRow row, HSSFWorkbook workbook, StyleFactory style) {
+        this.cellIndex = 0;
         this.row = row;
         this.style = style;
-        this.cellIndex = 0;
+        this.workbook = workbook;
     }
 
     @Override
     public CellBuilder addCell(String value) {
         HSSFCell cell = row.createCell(cellIndex);
         cell.setCellValue(value);
-        cell.setCellStyle(style.getStringStyle());
+        cell.setCellStyle(style.getStringStyle(workbook));
         cellIndex++;
         return this;
     }
@@ -36,7 +39,7 @@ public class CellBuilderImpl implements CellBuilder {
     public CellBuilder addCell(Money value) {
         HSSFCell cell = row.createCell(cellIndex);
         cell.setCellValue(value.getAmount().doubleValue());
-        cell.setCellStyle(style.getCurrencyStyle());
+        cell.setCellStyle(style.getCurrencyStyle(workbook));
         cellIndex++;
         return this;
     }
@@ -45,7 +48,7 @@ public class CellBuilderImpl implements CellBuilder {
     public CellBuilder addCell(Date date) {
         HSSFCell cell = row.createCell(cellIndex);
         cell.setCellValue(date);
-        cell.setCellStyle(style.getDateStyle());
+        cell.setCellStyle(style.getDateStyle(workbook));
         cellIndex++;
         return this;
     }
@@ -54,7 +57,7 @@ public class CellBuilderImpl implements CellBuilder {
     public CellBuilder addCell(Long value) {
         HSSFCell cell = row.createCell(cellIndex);
         cell.setCellValue(value);
-        cell.setCellStyle(style.getLongStyle());
+        cell.setCellStyle(style.getLongStyle(workbook));
         cellIndex++;
         return this;
     }

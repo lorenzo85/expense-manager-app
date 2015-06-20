@@ -1,4 +1,4 @@
-package org.cms.rest.report.styles;
+package org.cms.rest.report.excel.styles;
 
 import org.apache.poi.hssf.usermodel.HSSFDataFormat;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -12,20 +12,15 @@ import static org.apache.poi.ss.usermodel.CellStyle.SOLID_FOREGROUND;
 import static org.apache.poi.ss.usermodel.Font.BOLDWEIGHT_BOLD;
 import static org.apache.poi.ss.util.DateFormatConverter.convert;
 
+
 public abstract class BaseAbstractStyleFactory implements StyleFactory {
 
     private static final String FONT_ARIAL = "Arial";
     private static final String DATE_FORMAT = "dd/MM/yyyy";
     private static final String CURRENCY_FORMAT = "€ #,##0.00";
 
-    protected HSSFWorkbook workbook;
-
-    public BaseAbstractStyleFactory(HSSFWorkbook workbook) {
-        this.workbook = workbook;
-    }
-
     @Override
-    public CellStyle getCurrencyStyle() {
+    public CellStyle getCurrencyStyle(HSSFWorkbook workbook) {
         HSSFDataFormat cf = workbook.createDataFormat();
         CellStyle style = workbook.createCellStyle();
         style.setDataFormat(cf.getFormat(CURRENCY_FORMAT));
@@ -33,7 +28,7 @@ public abstract class BaseAbstractStyleFactory implements StyleFactory {
     }
 
     @Override
-    public CellStyle getDateStyle() {
+    public CellStyle getDateStyle(HSSFWorkbook workbook) {
         String excelFormatPattern = convert(ENGLISH, DATE_FORMAT);
         CellStyle dateStyle = workbook.createCellStyle();
         DataFormat poiFormat = workbook.createDataFormat();
@@ -42,14 +37,14 @@ public abstract class BaseAbstractStyleFactory implements StyleFactory {
     }
 
     @Override
-    public CellStyle getLongStyle() {
+    public CellStyle getLongStyle(HSSFWorkbook workbook) {
         CellStyle style = workbook.createCellStyle();
         style.setFillForegroundColor(WHITE.index);
         style.setFillPattern(SOLID_FOREGROUND);
         return style;
     }
 
-    protected Font createFont(short color) {
+    protected Font createFont(HSSFWorkbook workbook, short color) {
         Font font = workbook.createFont();
         font.setFontName(FONT_ARIAL);
         font.setBoldweight(BOLDWEIGHT_BOLD);

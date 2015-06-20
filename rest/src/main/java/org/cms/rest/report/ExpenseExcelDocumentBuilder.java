@@ -1,17 +1,24 @@
-package org.cms.rest.report.templates;
+package org.cms.rest.report;
 
+import org.cms.rest.report.excel.AbstractExcelDocumentBuilder;
+import org.cms.rest.report.excel.cell.CellBuilder;
+import org.cms.rest.report.excel.styles.StyleFactory;
 import org.cms.service.expense.ExpenseDto;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import java.util.Collection;
-
-@Component("expenseTemplate")
 @Scope("prototype")
-public class ExpenseTableTemplate extends AbstractExcelTableTemplate<ExpenseDto> {
+@Component("expenseTemplate")
+public class ExpenseExcelDocumentBuilder extends AbstractExcelDocumentBuilder<ExpenseDto> {
 
-    public ExpenseTableTemplate(Collection<ExpenseDto> entities) {
-        super(entities);
+
+    @Autowired
+    public ExpenseExcelDocumentBuilder(
+            @Qualifier("headerStyleFactory") StyleFactory headerStyle,
+            @Qualifier("rowStyleFactory") StyleFactory rowStyle) {
+        super(headerStyle, rowStyle);
     }
 
     @Override

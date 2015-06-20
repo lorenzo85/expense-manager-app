@@ -1,11 +1,13 @@
-package org.cms.rest.report.templates;
+package org.cms.rest.report.excel;
 
-import org.cms.rest.report.styles.StyleFactory;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.cms.rest.report.excel.cell.CellBuilder;
+import org.cms.rest.report.excel.cell.CellBuilderImpl;
+import org.cms.rest.report.excel.styles.StyleFactory;
 
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
@@ -14,51 +16,42 @@ import java.util.Date;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static java.lang.String.format;
 
-@SuppressWarnings("SpringJavaAutowiredMembersInspection")
-public abstract class AbstractExcelTableTemplate<T> implements ExcelTemplate<T> {
 
-    @Autowired
-    private ApplicationContext context;
+public abstract class AbstractExcelDocumentBuilder<T> implements ExcelDocumentBuilder<T> {
 
+    private static final int DEFAULT_COLUMN_WIDTH = 20;
     private static final String REPORT_NAME = "%s-%s.xls";
     private static final String FILE_NAME_DATE_FORMAT = "dd-MM-yyy hh.mm";
 
     private int rowIndex;
     private HSSFSheet sheet;
+    private HSSFWorkbook workbook;
     private StyleFactory rowStyle;
     private Collection<T> entities;
     private StyleFactory headerStyle;
 
-    public AbstractExcelTableTemplate(Collection<T> entities) {
+    public AbstractExcelDocumentBuilder(StyleFactory headerStyle, StyleFactory rowStyle) {
         this.rowIndex = 0;
-        this.entities = entities;
-    }
-
-    @Override
-    public void build() {
-        checkNotNull(sheet);
-        checkNotNull(rowStyle);
-        checkNotNull(headerStyle);
-
-        createHeader();
-        createRows();
-    }
-
-    @Override
-    public AbstractExcelTableTemplate<T> setSheet(HSSFSheet sheet) {
-        this.sheet = sheet;
-        return this;
-    }
-
-    @Override
-    public AbstractExcelTableTemplate<T> setHeaderStyle(StyleFactory headerStyle) {
-        this.headerStyle = headerStyle;
-        return this;
-    }
-
-    @Override
-    public AbstractExcelTableTemplate<T> setRowStyle(StyleFactory rowStyle) {
+        this.workbook = new HSSFWorkbook();
+        this.sheet = workbook.createSheet(getFilename());
+        this.sheet.setDefaultColumnWidth(DEFAULT_COLUMN_WIDTH);
         this.rowStyle = rowStyle;
+        this.headerStyle = headerStyle;
+    }
+
+    @Override
+    public ExcelDocument build() throws IOException {
+        checkNotNull(rowStyle);
+        checkNotNull(entities);
+        checkNotNull(headerStyle);
+        buildHeader();
+        buildRows();
+        return new ExcelDocument(getFilename(), workbook);
+    }
+
+    @Override
+    public AbstractExcelDocumentBuilder<T> setEntities(Collection<T> entities) {
+        this.entities = entities;
         return this;
     }
 
@@ -74,20 +67,18 @@ public abstract class AbstractExcelTableTemplate<T> implements ExcelTemplate<T> 
 
     protected abstract void fillRow(CellBuilder builder, T entity);
 
-    private void createHeader() {
-        CellBuilder cellBuilder = createCellBuilder(headerStyle);
+    private void buildHeader() {
+        HSSFRow row = createRow();
+        CellBuilder cellBuilder = new CellBuilderImpl(row, workbook, headerStyle);
         fillHeader(cellBuilder);
     }
 
-    private void createRows() {
+    private void buildRows() {
         entities.forEach(entity -> {
-            CellBuilder builder = createCellBuilder(rowStyle);
+            HSSFRow row = createRow();
+            CellBuilder builder = new CellBuilderImpl(row, workbook, rowStyle);
             fillRow(builder, entity);
         });
-    }
-
-    private CellBuilder createCellBuilder(StyleFactory factory) {
-        return (CellBuilder) context.getBean("cellBuilder", createRow(), factory);
     }
 
     private HSSFRow createRow() {

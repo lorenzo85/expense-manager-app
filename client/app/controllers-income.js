@@ -8,6 +8,7 @@ app.controller('IncomesController', function($rootScope, $scope, $stateParams, I
     };
 
     $scope.deleteIncome = function(income) {
+        console.log("Delete income");
         income.$delete(function() {
             $scope.incomes = Income.query({ yardId: $stateParams.id });
             $rootScope.$emit('data::updated');

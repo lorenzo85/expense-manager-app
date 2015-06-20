@@ -6,7 +6,7 @@
                 {{ deadline.year }} - Total: &nbsp;
                 {{ deadline.total |euroCurrency }}
                 <br/>
-                <span ng-repeat="(key, value) in deadline.mapCategorySums">
+                <span ng-repeat="(key, value) in deadline.expensesSumsForCategory">
                     <span class="glyphicon glyphicon-circle-arrow-right padding-left-30 font-08"></span>
                     <span class="font-lighter font-09">
                         {{ key |capitalize }} {{ value |euroCurrency }}

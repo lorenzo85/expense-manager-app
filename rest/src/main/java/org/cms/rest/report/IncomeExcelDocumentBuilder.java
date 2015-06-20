@@ -1,17 +1,23 @@
-package org.cms.rest.report.templates;
+package org.cms.rest.report;
 
+import org.cms.rest.report.excel.AbstractExcelDocumentBuilder;
+import org.cms.rest.report.excel.cell.CellBuilder;
+import org.cms.rest.report.excel.styles.StyleFactory;
 import org.cms.service.income.IncomeDto;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import java.util.Collection;
-
-@Component("incomeTemplate")
 @Scope("prototype")
-public class IncomeTableTemplate extends AbstractExcelTableTemplate<IncomeDto> {
+@Component("incomeTemplate")
+public class IncomeExcelDocumentBuilder extends AbstractExcelDocumentBuilder<IncomeDto> {
 
-    public IncomeTableTemplate(Collection<IncomeDto> entities) {
-        super(entities);
+    @Autowired
+    public IncomeExcelDocumentBuilder(
+            @Qualifier("headerStyleFactory") StyleFactory headerStyle,
+            @Qualifier("rowStyleFactory") StyleFactory rowStyle) {
+        super(headerStyle, rowStyle);
     }
 
     @Override

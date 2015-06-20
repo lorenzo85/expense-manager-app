@@ -1,4 +1,4 @@
-package org.cms.rest.report.templates;
+package org.cms.rest.report.excel.cell;
 
 import org.joda.money.Money;
 
