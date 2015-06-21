@@ -20,7 +20,7 @@ import static org.cms.service.commons.PaymentState.PAID;
 import static org.cms.service.commons.PaymentState.UNPAID;
 
 @Service
-@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
+@Transactional(propagation = Propagation.REQUIRED)
 public class ExpenseServiceImpl extends BaseAbstractService<ExpenseDto, Expense, Long> implements ExpenseService {
 
     @Autowired

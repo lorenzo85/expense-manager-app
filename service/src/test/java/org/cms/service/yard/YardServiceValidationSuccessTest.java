@@ -6,8 +6,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import static org.joda.money.CurrencyUnit.EUR;
-import static org.joda.money.Money.of;
 import static org.junit.Assert.assertEquals;
 
 public class YardServiceValidationSuccessTest extends AbstractBaseServiceTest {
@@ -19,7 +17,11 @@ public class YardServiceValidationSuccessTest extends AbstractBaseServiceTest {
 
     @Before
     public void setup() {
-        yardDto = new YardDto("A name", "A description", of(EUR, 234));
+        yardDto = YardDto.builder()
+                .name("A name")
+                .description("A description")
+                .contractTotalAmount(createAmount(234.43))
+                .build();
     }
 
     @Test

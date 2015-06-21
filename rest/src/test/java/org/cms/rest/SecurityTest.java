@@ -23,6 +23,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import static com.jayway.restassured.RestAssured.given;
 import static com.jayway.restassured.RestAssured.when;
 import static com.jayway.restassured.http.ContentType.JSON;
+import static java.util.Arrays.asList;
 import static org.apache.http.HttpStatus.*;
 import static org.cms.service.user.Role.ROLE_ADMIN;
 import static org.cms.service.user.Role.ROLE_USER;
@@ -52,14 +53,14 @@ public class SecurityTest {
     @Before
     public void setUp() {
         RestAssured.port = port;
-        user = new UserDto.Builder(USERNAME)
+        user = UserDto.builder()
+                .username(USERNAME)
                 .password(encrypt(PASSWORD))
                 .accountEnabled(true)
                 .accountExpired(false)
                 .accountLocked(false)
+                .roles(asList(ROLE_ADMIN, ROLE_USER))
                 .build();
-        user.getRoles().add(ROLE_ADMIN);
-        user.getRoles().add(ROLE_USER);
         user = userService.save(user);
     }
 

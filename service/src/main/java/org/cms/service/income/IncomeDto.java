@@ -1,5 +1,8 @@
 package org.cms.service.income;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.cms.service.commons.PaymentState;
 import org.cms.service.commons.Dto;
 import org.joda.money.Money;
@@ -8,6 +11,9 @@ import javax.validation.constraints.Digits;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
+@Getter
+@Setter
+@NoArgsConstructor
 public class IncomeDto implements Dto<Long> {
 
     private long id;
@@ -24,60 +30,10 @@ public class IncomeDto implements Dto<Long> {
     @NotNull
     private String note;
 
-    public IncomeDto() {
-    }
 
     @Override
     public Long getId() {
         return id;
-    }
-
-    public IncomeDto(Long id) {
-        this.id = id;
-    }
-
-    public long getYardId() {
-        return yardId;
-    }
-
-    public void setYardId(Long yardId) {
-        this.yardId = yardId;
-    }
-
-    public void setAmount(Money amount) {
-        this.amount = amount;
-    }
-
-    public void setInvoiceId(Long invoiceId) {
-        this.invoiceId = invoiceId;
-    }
-
-    public void setNote(String note) {
-        this.note = note;
-    }
-
-    public void setStatus(PaymentState status) {
-        this.status = status;
-    }
-
-    public Long getInvoiceId() {
-        return invoiceId;
-    }
-
-    public Money getAmount() {
-        return amount;
-    }
-
-    public PaymentState getStatus() {
-        return status;
-    }
-
-    public String getNote() {
-        return note;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
 }

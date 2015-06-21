@@ -11,9 +11,10 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static org.springframework.transaction.annotation.Propagation.*;
 
 @Service
-@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
+@Transactional(propagation = REQUIRED)
 public class IncomeServiceImpl extends BaseAbstractService<IncomeDto, Income, Long> implements IncomeService {
 
     @Autowired
@@ -25,6 +26,7 @@ public class IncomeServiceImpl extends BaseAbstractService<IncomeDto, Income, Lo
     }
 
     @Override
+    @Transactional(readOnly = false)
     public void delete(long id, long yardId) {
         IncomeDto income = findOne(id);
         checkArgument(income.getYardId() == yardId);

@@ -1,7 +1,11 @@
 package org.cms.service.yard;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.joda.money.Money;
 
+@Getter
+@Setter
 public class YardSummaryDto {
     private Money deltaPaid;
     private Money paidIncomes;
@@ -18,23 +22,4 @@ public class YardSummaryDto {
         this.deltaMissingIncome = deltaMissingIncome;
     }
 
-    public Money getDeltaPaid() {
-        return deltaPaid;
-    }
-
-    public Money getPaidIncomes() {
-        return paidIncomes;
-    }
-
-    public Money getPaidExpenses() {
-        return paidExpenses;
-    }
-
-    public Money getUnPaidExpenses() {
-        return unPaidExpenses;
-    }
-
-    public Money getDeltaMissingIncome() {
-        return deltaMissingIncome;
-    }
 }

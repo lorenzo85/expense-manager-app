@@ -64,7 +64,8 @@ public class UserConverterTest {
     @Test
     public void shouldMapCorrectlyToUserExcludingRoles() {
         // Given
-        UserDto dto = new UserDto.Builder("username")
+        UserDto dto = UserDto.builder()
+                .username("username")
                 .password("aPassword")
                 .accountLocked(true)
                 .accountEnabled(true)

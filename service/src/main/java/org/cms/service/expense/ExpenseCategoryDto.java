@@ -1,5 +1,10 @@
 package org.cms.service.expense;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class ExpenseCategoryDto {
 
     private String value;
@@ -8,13 +13,5 @@ public class ExpenseCategoryDto {
     public ExpenseCategoryDto(String value, String name) {
         this.value = value;
         this.name = name;
-    }
-
-    public String getValue() {
-        return value;
-    }
-
-    public String getName() {
-        return name;
     }
 }

@@ -35,8 +35,16 @@ public class ExpenseServiceValidationSuccessTest extends AbstractBaseServiceTest
         Date date1 = DATE_FORMATTER.parse("23/1/1990");
         Date date2 = DATE_FORMATTER.parse("11/9/1999");
 
-        expenseDto = new ExpenseDto(234L, "A title", of(EUR, 560), PAID, CHECKS, date1, date2);
-        expenseDto.setYardId(yardDto.getId());
+        expenseDto = ExpenseDto.builder()
+                .invoiceId(234L)
+                .title("A title")
+                .amount(createAmount(560))
+                .status(PAID)
+                .category(CHECKS)
+                .expiresAt(date1)
+                .emissionAt(date2)
+                .yardId(yardDto.getId())
+                .build();
     }
 
     @Test

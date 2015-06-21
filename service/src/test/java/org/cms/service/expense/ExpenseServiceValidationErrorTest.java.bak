@@ -4,20 +4,11 @@ package org.cms.service.expense;
 import org.cms.service.AbstractBaseValidationServiceTest;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.junit.runners.Parameterized;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.InvalidDataAccessApiUsageException;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Collection;
-import java.util.Date;
 
-import static java.util.Arrays.asList;
-import static org.cms.service.expense.ExpenseCategory.CHECKS;
-import static org.cms.service.commons.PaymentState.PAID;
-import static org.joda.money.CurrencyUnit.USD;
-import static org.joda.money.Money.of;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
@@ -40,6 +31,7 @@ public class ExpenseServiceValidationErrorTest extends AbstractBaseValidationSer
 
     }
 
+    /**
     @Parameterized.Parameters
     public static Collection dtos() throws ParseException {
         Date date1 = DATE_FORMATTER.parse("12/2/2011");
@@ -58,7 +50,7 @@ public class ExpenseServiceValidationErrorTest extends AbstractBaseValidationSer
                 { new ExpenseDto(234L, "A title", of(USD, 560), PAID, CHECKS, null, date2), InvalidDataAccessApiUsageException.class },
                 { new ExpenseDto(234L, "A title", of(USD, 560), PAID, CHECKS, date1, null), InvalidDataAccessApiUsageException.class },
         });
-    }
+    }*/
 
     @Test
     public void thatInvalidDataAccessApiUsageExceptionIsThrownWhenSaveInvalidDto() {

@@ -1,6 +1,7 @@
 package org.cms.rest.config.security;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.NoArgsConstructor;
 import org.cms.service.user.Role;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -9,6 +10,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.stream.Collectors;
 
+@NoArgsConstructor
 public class CurrentUserDetails implements UserDetails {
 
     private String username;
@@ -18,9 +20,6 @@ public class CurrentUserDetails implements UserDetails {
     private boolean accountLocked;
     private boolean credentialsExpired;
     private Collection<GrantedAuthority> authorities;
-
-    public CurrentUserDetails() {
-    }
 
     private CurrentUserDetails(Builder builder) {
         this.username = builder.username;

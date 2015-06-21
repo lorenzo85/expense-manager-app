@@ -131,8 +131,16 @@ public class ExpenseServiceMonthlyDeadlinesTest extends AbstractBaseServiceTest 
 
     private ExpenseDto persistUnpaidExpenseDtoWithAmountAndCategory(Money amount, ExpenseCategory category, Date expiryDate) throws ParseException {
         Date emissionAt = DATE_FORMATTER.parse("3/2/1997");
-        ExpenseDto expenseDto = new ExpenseDto(234L, "A title", amount, UNPAID, category, expiryDate, emissionAt);
-        expenseDto.setYardId(yardDto.getId());
+        ExpenseDto expenseDto = ExpenseDto.builder()
+                .emissionAt(emissionAt)
+                .expiresAt(expiryDate)
+                .amount(amount)
+                .status(UNPAID)
+                .title("A title")
+                .category(category)
+                .invoiceId(234L)
+                .yardId(yardDto.getId())
+                .build();
         return expenseService.save(expenseDto);
     }
 

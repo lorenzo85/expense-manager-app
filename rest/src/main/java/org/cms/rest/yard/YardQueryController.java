@@ -36,4 +36,10 @@ public class YardQueryController {
     public YardExtendedDto getYardDetails(@PathVariable("id") long id) {
         return service.getYardDetails(id);
     }
+
+    @RequestMapping(value="/yards/page/{page}/size/{size}", method = GET)
+    @ResponseBody
+    public List<YardDto> getAll(@PathVariable int page, @PathVariable int size) {
+        return service.findAll(page, size);
+    }
 }

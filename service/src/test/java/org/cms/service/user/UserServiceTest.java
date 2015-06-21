@@ -24,7 +24,8 @@ public class UserServiceTest extends AbstractBaseServiceTest {
 
     @Before
     public void setUp() {
-        testUser = new UserDto.Builder(USERNAME)
+        testUser = UserDto.builder()
+                .username(USERNAME)
                 .password(PASSWORD)
                 .accountEnabled(true)
                 .accountLocked(false)
@@ -57,7 +58,8 @@ public class UserServiceTest extends AbstractBaseServiceTest {
     @Test
     public void shouldCorrectlyPersistUserData() {
         // Given
-        UserDto user = new UserDto.Builder(USERNAME)
+        UserDto user = UserDto.builder()
+                .username(USERNAME)
                 .password(PASSWORD)
                 .accountEnabled(true)
                 .accountLocked(true)
@@ -78,7 +80,8 @@ public class UserServiceTest extends AbstractBaseServiceTest {
     public void shouldCorrectlyPersistAuthority() {
         // Given
         Role role = ROLE_USER;
-        UserDto user = new UserDto.Builder(USERNAME)
+        UserDto user = UserDto.builder()
+                .username(USERNAME)
                 .password(PASSWORD)
                 .accountEnabled(true)
                 .accountLocked(false)
@@ -100,7 +103,8 @@ public class UserServiceTest extends AbstractBaseServiceTest {
         // Given
         Role adminRole = ROLE_ADMIN;
         Role userRole = ROLE_USER;
-        UserDto user = new UserDto.Builder(USERNAME)
+        UserDto user = UserDto.builder()
+                .username(USERNAME)
                 .password(PASSWORD)
                 .build();
         user.roles = singletonList(adminRole);
@@ -123,7 +127,8 @@ public class UserServiceTest extends AbstractBaseServiceTest {
         // Given
         Role adminRole = ROLE_ADMIN;
         Role userRole = ROLE_USER;
-        UserDto user = new UserDto.Builder(USERNAME)
+        UserDto user = UserDto.builder()
+                .username(USERNAME)
                 .password(PASSWORD)
                 .build();
         user.roles = asList(adminRole, userRole);
@@ -145,7 +150,8 @@ public class UserServiceTest extends AbstractBaseServiceTest {
         // Given
         Role adminRole = ROLE_ADMIN;
         Role userRole = ROLE_USER;
-        UserDto user = new UserDto.Builder(USERNAME)
+        UserDto user = UserDto.builder()
+                .username(USERNAME)
                 .password(PASSWORD)
                 .build();
         user.roles = asList(adminRole, userRole);
@@ -166,7 +172,8 @@ public class UserServiceTest extends AbstractBaseServiceTest {
         // Given
         Role adminRole = ROLE_ADMIN;
         Role userRole = ROLE_USER;
-        UserDto user = new UserDto.Builder(USERNAME)
+        UserDto user = UserDto.builder()
+                .username(USERNAME)
                 .password(PASSWORD)
                 .build();
         user.roles = singletonList(adminRole);
@@ -188,7 +195,8 @@ public class UserServiceTest extends AbstractBaseServiceTest {
     public void shouldNotAddTwiceSameRole() {
         // Given
         Role adminRole = ROLE_ADMIN;
-        UserDto user = new UserDto.Builder(USERNAME)
+        UserDto user = UserDto.builder()
+                .username(USERNAME)
                 .password(PASSWORD)
                 .build();
         user.roles = singletonList(adminRole);
