@@ -1,12 +1,6 @@
 Spring Boot Angular JS demo
 ============================
-- The project must be compiled using Java 8.
-- Apache Maven version: 3.2.3
-
-- To compile and create .war: mvn clean install
-- To compile, create .war and sonar analysis: mvn clean install sonar:sonar
-- To run .war with built-in Tomcat embedded container: java -jar target/spring-angular-0.0.1-SNAPSHOT.war
-- To provide custom config, create in the same .war folder another directory called "config/" and add customized "application.properties" file inside it. Run the app: java -jar target/spring-angular-0.0.1-SNAPSHOT.war --spring.config.location=/config
+- The project requires Java 8 and gradle.
 
 Purpose of the project:
 ===========================
