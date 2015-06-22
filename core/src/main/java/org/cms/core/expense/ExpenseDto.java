@@ -14,6 +14,7 @@ import java.util.Date;
 @Getter
 @Setter
 @Builder
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 public class ExpenseDto implements Dto<Long> {

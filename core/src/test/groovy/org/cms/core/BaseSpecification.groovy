@@ -6,6 +6,8 @@ import org.cms.core.expense.ExpenseService
 import org.cms.core.income.IncomeDto
 import org.cms.core.income.IncomeRepository
 import org.cms.core.income.IncomeService
+import org.cms.core.user.UserRepository
+import org.cms.core.user.UserService
 import org.cms.core.yard.YardDto
 import org.cms.core.yard.YardRepository
 import org.cms.core.yard.YardService
@@ -25,6 +27,8 @@ import java.text.SimpleDateFormat
 @TestPropertySource("classpath:test.properties")
 class BaseSpecification extends Specification {
 
+    @Autowired UserService userService
+    @Autowired UserRepository userRepository
     @Autowired YardService yardService
     @Autowired YardRepository yardRepository
     @Autowired ExpenseService expenseService
@@ -39,6 +43,7 @@ class BaseSpecification extends Specification {
         incomeRepository.deleteAll()
         expenseRepository.deleteAll()
         yardRepository.deleteAll()
+        userRepository.deleteAll()
     }
 
     def amountOf(anAmount) {
