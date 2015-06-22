@@ -1,6 +1,5 @@
 package org.cms.core.yard
-
-import java.text.SimpleDateFormat
+import org.cms.core.BaseSpecification
 
 import static org.apache.commons.lang3.builder.EqualsBuilder.reflectionEquals
 import static org.cms.core.commons.PaymentState.PAID
@@ -8,10 +7,7 @@ import static org.cms.core.commons.PaymentState.UNPAID
 import static org.cms.core.expense.ExpenseCategory.CHECKS
 import static org.cms.core.expense.ExpenseCategory.MORTGAGES
 
-class YardDetailsServiceTest extends YardBaseSpecification {
-
-    def DATE_FORMAT = "dd/MM/yyyy";
-    def DATE_FORMATTER = new SimpleDateFormat(DATE_FORMAT);
+class YardDetailsServiceTest extends BaseSpecification {
 
     def aYard = YardDto.builder()
             .name("A name")
@@ -21,10 +17,10 @@ class YardDetailsServiceTest extends YardBaseSpecification {
 
     def "Should have all collections empty"() {
         given:
-        def yardId = service.save(aYard).id
+        def yardId = yardService.save(aYard).id
 
         when:
-        def extendedYard = service.getYardDetails(yardId)
+        def extendedYard = yardService.getYardDetails(yardId)
 
         then:
         extendedYard.expenses.isEmpty()
@@ -33,10 +29,10 @@ class YardDetailsServiceTest extends YardBaseSpecification {
 
     def "Should have all amounts to zero"() {
         given:
-        def yardId = service.save(aYard).id
+        def yardId = yardService.save(aYard).id
 
         when:
-        def extendedYard = service.getYardDetails(yardId)
+        def extendedYard = yardService.getYardDetails(yardId)
         def summary = extendedYard.summary
 
         then:
@@ -51,13 +47,13 @@ class YardDetailsServiceTest extends YardBaseSpecification {
 
     def "Should have all expenses"() {
         given:
-        def yardId = service.save(aYard).id
+        def yardId = yardService.save(aYard).id
         def expense1 = saveExpense(yardId, 24324L, "Expense title 1", "Expense note 1", amountOf(23.43), DATE_FORMATTER.parse("12/01/2013"), DATE_FORMATTER.parse("1/1/2000"), PAID, MORTGAGES)
         def expense2 = saveExpense(yardId, 543L, "Expense title 2", "Expense note 2", amountOf(54.23), DATE_FORMATTER.parse("20/02/2013"), DATE_FORMATTER.parse("20/02/1999"), UNPAID, CHECKS)
 
 
         when:
-        def persistedYard = service.getYardDetails(yardId)
+        def persistedYard = yardService.getYardDetails(yardId)
         def expenses = persistedYard.expenses
 
         then:
@@ -68,12 +64,12 @@ class YardDetailsServiceTest extends YardBaseSpecification {
 
     def "Should have all incomes"() {
         given:
-        def yardId = service.save(aYard).id
+        def yardId = yardService.save(aYard).id
         def income1 = saveIncome(yardId, 234L, UNPAID, amountOf(234.23), "A note 1")
         def income2 = saveIncome(yardId, 6434L, PAID, amountOf(4532.1), "A note 2")
 
         when:
-        def persistedYard = service.getYardDetails(yardId)
+        def persistedYard = yardService.getYardDetails(yardId)
         def incomes = persistedYard.incomes
 
         then:
@@ -84,7 +80,7 @@ class YardDetailsServiceTest extends YardBaseSpecification {
 
     def "Should compute correctly total paid incomes"() {
         given:
-        def yardId = service.save(aYard).id
+        def yardId = yardService.save(aYard).id
         def amount1 = amountOf(22.12)
         def amount2 = amountOf(654.23)
         def amount3 = amountOf(765.34)
@@ -93,7 +89,7 @@ class YardDetailsServiceTest extends YardBaseSpecification {
         saveIncome(yardId, 6534L, PAID, amount3, "A note 3")
 
         when:
-        def persistedYard = service.getYardDetails(yardId)
+        def persistedYard = yardService.getYardDetails(yardId)
         def summary = persistedYard.summary
 
         then:
@@ -102,7 +98,7 @@ class YardDetailsServiceTest extends YardBaseSpecification {
 
     def "Should compute correctly total paid expenses"() {
         given:
-        def yardId = service.save(aYard).id
+        def yardId = yardService.save(aYard).id
         def amount1 = amountOf(23423.43)
         def amount2 = amountOf(33.23)
         def amount3 = amountOf(645.2)
@@ -111,7 +107,7 @@ class YardDetailsServiceTest extends YardBaseSpecification {
         saveExpense(yardId, 24324L, "Expense title 1", "Expense note 1", amount3, DATE_FORMATTER.parse("12/01/2013"), DATE_FORMATTER.parse("1/1/2000"), PAID, MORTGAGES)
 
         when:
-        def persistedYard = service.getYardDetails(yardId)
+        def persistedYard = yardService.getYardDetails(yardId)
         def summary = persistedYard.summary
 
         then:
@@ -120,7 +116,7 @@ class YardDetailsServiceTest extends YardBaseSpecification {
 
     def "Should compute unpaid expenses correctly"() {
         given:
-        def yardId = service.save(aYard).id
+        def yardId = yardService.save(aYard).id
         def amount1 = amountOf(235.23)
         def amount2 = amountOf(345.2)
         def amount3 = amountOf(432.21)
@@ -129,7 +125,7 @@ class YardDetailsServiceTest extends YardBaseSpecification {
         saveExpense(yardId, 24324L, "Expense title 1", "Expense note 1", amount3, DATE_FORMATTER.parse("12/01/2013"), DATE_FORMATTER.parse("1/1/2000"), UNPAID, MORTGAGES)
 
         when:
-        def persistedYard = service.getYardDetails(yardId)
+        def persistedYard = yardService.getYardDetails(yardId)
         def summary = persistedYard.summary
 
         then:
@@ -138,7 +134,7 @@ class YardDetailsServiceTest extends YardBaseSpecification {
 
     def "Should compute delta missing income correctly"() {
         given:
-        def yardId = service.save(aYard).id
+        def yardId = yardService.save(aYard).id
         def amount1 = amountOf(23.2)
         def amount2 = amountOf(235.23)
         def amount3 = amountOf(435.1)
@@ -147,7 +143,7 @@ class YardDetailsServiceTest extends YardBaseSpecification {
         saveIncome(yardId, 6534L, PAID, amount3, "A note 3")
 
         when:
-        def persistedYard = service.getYardDetails(yardId)
+        def persistedYard = yardService.getYardDetails(yardId)
         def summary = persistedYard.summary
         def totalPaidIncomes = amount1.plus(amount3)
 
@@ -157,7 +153,7 @@ class YardDetailsServiceTest extends YardBaseSpecification {
 
     def "Should compute delta paid correctly"() {
         given:
-        def yardId = service.save(aYard).id
+        def yardId = yardService.save(aYard).id
         def amount1 = amountOf(21.2)
         def amount2 = amountOf(1.2)
         def amount3 = amountOf(5.2)
@@ -170,7 +166,7 @@ class YardDetailsServiceTest extends YardBaseSpecification {
         saveIncome(yardId, 6534L, PAID, amount5, "A note 3")
 
         when:
-        def persistedYard = service.getYardDetails(yardId)
+        def persistedYard = yardService.getYardDetails(yardId)
         def summary = persistedYard.summary
         def totalPaidExpenses = amount1
         def totalPaidIncomes = amount3.plus(amount5)

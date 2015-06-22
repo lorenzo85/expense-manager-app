@@ -1,9 +1,10 @@
 package org.cms.core.yard
 
+import org.cms.core.BaseSpecification
 import org.cms.core.commons.EntityNotFoundException
 import org.springframework.beans.factory.annotation.Autowired
 
-public class YardServiceTest extends YardBaseSpecification {
+public class YardServiceTest extends BaseSpecification {
 
     @Autowired YardService service
     @Autowired YardRepository repository

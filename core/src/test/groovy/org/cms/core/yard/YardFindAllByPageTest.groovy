@@ -1,10 +1,12 @@
 package org.cms.core.yard
+
+import org.cms.core.BaseSpecification
 import org.joda.money.Money
 
 import static java.lang.Math.*
 import static java.lang.String.format
 
-class YardFindAllByPageTest extends YardBaseSpecification {
+class YardFindAllByPageTest extends BaseSpecification {
 
     def random = new Random()
     def numberOfRandomYards = 100
@@ -19,7 +21,7 @@ class YardFindAllByPageTest extends YardBaseSpecification {
         def size = 10
 
         when:
-        def yards = service.findAll(page, size)
+        def yards = yardService.findAll(page, size)
         def firstYard = yards.get(0)
         def lastYard = yards.get(yards.size() - 1)
 
@@ -35,7 +37,7 @@ class YardFindAllByPageTest extends YardBaseSpecification {
         def size = 7
 
         when:
-        def yards = service.findAll(page, size)
+        def yards = yardService.findAll(page, size)
         def firstYard = yards.get(0)
         def lastYard = yards.get(yards.size() - 1)
 
@@ -51,7 +53,7 @@ class YardFindAllByPageTest extends YardBaseSpecification {
         def lastPage = floor(numberOfRandomYards / size).toInteger()
 
         when:
-        def yards = service.findAll(lastPage, size)
+        def yards = yardService.findAll(lastPage, size)
         def firstYard = yards.get(0)
         def lastYard = yards.get(yards.size() - 1)
         def numberOfYardsInLastPage = numberOfRandomYards % size
@@ -71,7 +73,7 @@ class YardFindAllByPageTest extends YardBaseSpecification {
             def name = format("%d", i);
             def description = format("Yard description %d", i);
             Money amount = amountOf(random.nextInt(100));
-            service.save(YardDto.builder()
+            yardService.save(YardDto.builder()
                     .name(name)
                     .description(description)
                     .contractTotalAmount(amount)

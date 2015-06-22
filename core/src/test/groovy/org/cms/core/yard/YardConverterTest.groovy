@@ -1,10 +1,12 @@
 package org.cms.core.yard
+
+import org.cms.core.BaseSpecification
 import org.dozer.DozerBeanMapper
 
 import static java.util.Collections.singletonList
 import static org.cms.core.ConfigurationService.DOZER_MAPPER_SPEC
 
-class YardConverterTest extends YardBaseSpecification {
+class YardConverterTest extends BaseSpecification {
 
     def mapper = new DozerBeanMapper();
     def random = new Random();

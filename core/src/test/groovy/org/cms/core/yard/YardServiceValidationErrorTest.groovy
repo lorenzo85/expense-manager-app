@@ -1,15 +1,16 @@
 package org.cms.core.yard
 
+import org.cms.core.BaseSpecification
 import spock.lang.Unroll
 
 import static org.cms.core.yard.YardDto.*
 
-class YardServiceValidationErrorTest extends YardBaseSpecification {
+class YardServiceValidationErrorTest extends BaseSpecification {
 
     @Unroll
     def "Should throw exception when saving invalid dto [#dto]"() {
         when: "Try to save an invalid dto"
-        service.save(dto)
+        yardService.save(dto)
 
         then:
         thrown(IllegalArgumentException)
@@ -27,7 +28,7 @@ class YardServiceValidationErrorTest extends YardBaseSpecification {
     @Unroll
     def "Should throw exception when updating invalid dto [#dto]"() {
         when: "Try to update an invalid dto"
-        service.update(dto)
+        yardService.update(dto)
 
         then:
         thrown(IllegalArgumentException)
