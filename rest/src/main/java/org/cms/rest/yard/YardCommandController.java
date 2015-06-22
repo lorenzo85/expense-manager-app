@@ -1,7 +1,7 @@
 package org.cms.rest.yard;
 
-import org.cms.service.yard.YardDto;
-import org.cms.service.yard.YardService;
+import org.cms.core.yard.YardDto;
+import org.cms.core.yard.YardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;

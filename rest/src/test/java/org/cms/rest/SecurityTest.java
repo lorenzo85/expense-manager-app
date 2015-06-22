@@ -5,8 +5,8 @@ import com.jayway.restassured.RestAssured;
 import com.jayway.restassured.http.ContentType;
 import com.jayway.restassured.response.Header;
 import com.jayway.restassured.response.Response;
-import org.cms.service.user.UserDto;
-import org.cms.service.user.UserService;
+import org.cms.core.user.UserDto;
+import org.cms.core.user.UserService;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -25,8 +25,8 @@ import static com.jayway.restassured.RestAssured.when;
 import static com.jayway.restassured.http.ContentType.JSON;
 import static java.util.Arrays.asList;
 import static org.apache.http.HttpStatus.*;
-import static org.cms.service.user.Role.ROLE_ADMIN;
-import static org.cms.service.user.Role.ROLE_USER;
+import static org.cms.core.user.Role.ROLE_ADMIN;
+import static org.cms.core.user.Role.ROLE_USER;
 import static org.hamcrest.Matchers.*;
 
 

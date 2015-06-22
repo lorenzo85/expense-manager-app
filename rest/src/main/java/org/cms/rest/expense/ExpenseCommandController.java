@@ -1,7 +1,7 @@
 package org.cms.rest.expense;
 
-import org.cms.service.expense.ExpenseDto;
-import org.cms.service.expense.ExpenseService;
+import org.cms.core.expense.ExpenseDto;
+import org.cms.core.expense.ExpenseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;

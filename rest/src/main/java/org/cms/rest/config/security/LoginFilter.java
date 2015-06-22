@@ -1,7 +1,7 @@
 package org.cms.rest.config.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.cms.service.user.UserDto;
+import org.cms.core.user.UserDto;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;

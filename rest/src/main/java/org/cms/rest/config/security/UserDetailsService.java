@@ -1,7 +1,7 @@
 package org.cms.rest.config.security;
 
-import org.cms.service.user.UserDto;
-import org.cms.service.user.UserService;
+import org.cms.core.user.UserDto;
+import org.cms.core.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;

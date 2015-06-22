@@ -1,7 +1,7 @@
 package org.cms.rest.user;
 
 import org.cms.rest.config.security.CurrentUserDetails;
-import org.cms.service.user.Role;
+import org.cms.core.user.Role;
 
 import java.util.Collection;
 import java.util.HashSet;

@@ -3,7 +3,7 @@ package org.cms.rest.report;
 import org.cms.rest.report.excel.AbstractExcelDocumentBuilder;
 import org.cms.rest.report.excel.cell.CellBuilder;
 import org.cms.rest.report.excel.styles.StyleFactory;
-import org.cms.service.income.IncomeDto;
+import org.cms.core.income.IncomeDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;

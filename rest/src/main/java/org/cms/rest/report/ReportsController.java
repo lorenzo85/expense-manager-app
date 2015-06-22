@@ -2,10 +2,10 @@ package org.cms.rest.report;
 
 import org.cms.rest.report.excel.ExcelDocumentBuilder;
 import org.cms.rest.report.excel.ExcelDocument;
-import org.cms.service.expense.ExpenseDto;
-import org.cms.service.expense.ExpenseService;
-import org.cms.service.income.IncomeDto;
-import org.cms.service.income.IncomeService;
+import org.cms.core.expense.ExpenseDto;
+import org.cms.core.expense.ExpenseService;
+import org.cms.core.income.IncomeDto;
+import org.cms.core.income.IncomeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;

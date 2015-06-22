@@ -1,8 +1,8 @@
 package org.cms.rest.yard;
 
-import org.cms.service.yard.YardExtendedDto;
-import org.cms.service.yard.YardDto;
-import org.cms.service.yard.YardService;
+import org.cms.core.yard.YardExtendedDto;
+import org.cms.core.yard.YardDto;
+import org.cms.core.yard.YardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;

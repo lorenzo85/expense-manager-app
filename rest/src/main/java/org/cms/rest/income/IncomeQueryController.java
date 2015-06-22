@@ -1,7 +1,7 @@
 package org.cms.rest.income;
 
-import org.cms.service.income.IncomeDto;
-import org.cms.service.income.IncomeService;
+import org.cms.core.income.IncomeDto;
+import org.cms.core.income.IncomeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
