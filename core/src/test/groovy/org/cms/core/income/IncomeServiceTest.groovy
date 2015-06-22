@@ -1,14 +1,15 @@
-package org.cms.core.income;
+package org.cms.core.income
 
-import org.cms.core.AbstractBaseServiceTest;
-import org.cms.core.commons.EntityNotFoundException;
-import org.cms.core.commons.PaymentState;
-import org.cms.core.yard.YardDto;
-import org.junit.Test;
+import org.cms.core.BaseSpecification
+import org.cms.core.commons.EntityNotFoundException
+import org.cms.core.commons.PaymentState
+import org.cms.core.yard.YardDto
+import org.junit.Test
 
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNotNull
 
-public class IncomeServiceTest extends AbstractBaseServiceTest {
+
+class IncomeServiceTest extends BaseSpecification {
 
 
     @Test
