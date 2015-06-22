@@ -15,7 +15,6 @@ app.controller('IncomesController', function($rootScope, $scope, $stateParams, I
         })
     };
 
-
 }).controller('IncomeCreateController', function($rootScope, $scope, $stateParams, $location, Income, Expense) {
     $rootScope.title = "New income";
 
@@ -31,7 +30,6 @@ app.controller('IncomesController', function($rootScope, $scope, $stateParams, I
            $location.path('/yards/' + $stateParams.yardId + '/view');
         });
     };
-
 
 }).controller('IncomeEditController', function($rootScope, $scope, $stateParams, $location, Income, Expense) {
    $rootScope.title = "Edit income";

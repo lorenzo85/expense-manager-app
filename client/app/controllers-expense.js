@@ -14,7 +14,6 @@ app.controller('ExpensesController', function ($rootScope, $scope, $stateParams,
         });
     };
 
-
 }).controller('ExpenseViewController', function ($rootScope, $scope, $stateParams, Expense) {
     $rootScope.title = "Expense details";
     $scope.expense = Expense.get({ yardId: $stateParams.yardId, id: $stateParams.id })
@@ -54,7 +53,6 @@ app.controller('ExpensesController', function ($rootScope, $scope, $stateParams,
             $location.path('/yards/' + $stateParams.yardId + '/view');
         });
     }
-
 
 }).controller('ExpenseEditController', function ($rootScope, $scope, $stateParams, $location, $controller, Expense) {
     $controller('BaseCommandController', {$scope: $scope, $expense: Expense});
