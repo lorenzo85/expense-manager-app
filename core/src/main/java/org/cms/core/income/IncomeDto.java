@@ -1,8 +1,6 @@
 package org.cms.core.income;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.cms.core.commons.PaymentState;
 import org.cms.core.commons.Dto;
 import org.joda.money.Money;
@@ -13,7 +11,9 @@ import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor
+@AllArgsConstructor
 public class IncomeDto implements Dto<Long> {
 
     private long id;

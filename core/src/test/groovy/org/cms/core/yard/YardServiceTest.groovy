@@ -1,22 +1,9 @@
-package org.cms.core
+package org.cms.core.yard
 
 import org.cms.core.commons.EntityNotFoundException
-import org.cms.core.yard.YardDto
-import org.cms.core.yard.YardRepository
-import org.cms.core.yard.YardService
-import org.joda.money.CurrencyUnit
-import org.joda.money.Money
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.SpringApplicationContextLoader
-import org.springframework.test.context.ContextConfiguration
-import org.springframework.test.context.TestPropertySource;
-import spock.lang.Specification;
 
-@ContextConfiguration(
-        loader = SpringApplicationContextLoader.class,
-        classes = [ConfigurationRepository.class, ConfigurationService.class])
-@TestPropertySource("classpath:test.properties")
-public class YardServiceTest extends Specification {
+public class YardServiceTest extends YardBaseSpecification {
 
     @Autowired YardService service
     @Autowired YardRepository repository
@@ -68,24 +55,12 @@ public class YardServiceTest extends Specification {
     }
 
     def "Should persist all yard parameters correctly"() {
-        given:
-        def name = "A yard name"
-        def description = "A yard description"
-        def contractAmount = amountOf(23.43);
-        def testYard = YardDto.builder()
-                .name(name)
-                .description(description)
-                .contractTotalAmount(contractAmount)
-                .build()
-
         when:
-        def yardId = service.save(testYard).id
+        def yardId = service.save(aYard).id
 
         then:
         def persistedYard = service.findOne(yardId)
-        persistedYard.name == name
-        persistedYard.description == description
-        persistedYard.contractTotalAmount == contractAmount
+        matchesYard(aYard, persistedYard)
     }
 
     def "Should correctly update yard"() {
@@ -138,7 +113,10 @@ public class YardServiceTest extends Specification {
         count == 2L
     }
 
-    def amountOf(anAmount) {
-        Money.of(CurrencyUnit.EUR, anAmount);
+    def matchesYard(expected, given) {
+        expected.name = given.name
+        expected.description = given.description
+        expected.contractTotalAmount = given.contractTotalAmount
     }
+
 }

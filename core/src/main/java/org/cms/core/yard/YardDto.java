@@ -12,17 +12,18 @@ import javax.validation.constraints.Size;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 public class YardDto implements Dto<Long> {
 
     private long id;
+
     @NotNull
     private String description;
     @NotNull
-    @Size(min=1, max = 200)
+    @Size(min=1, max=200)
     private String name;
     @NotNull
     private Money contractTotalAmount;
-
 
     @Override
     public Long getId() {
