@@ -7,7 +7,7 @@ buildscript {
     }
 }
 
-apply plugin: 'java'
+apply plugin: 'groovy'
 
 dependencies {
     compile group: 'org.joda', name: 'joda-money', version: '0.9.1'
@@ -23,6 +23,9 @@ dependencies {
         exclude group: "org.slf4j", module: "slf4j-log4j12"
         exclude group: "log4j", module: "log4j"
     }
+
+    testCompile 'org.codehaus.groovy:groovy-all'
+    testCompile("org.spockframework:spock-spring:1.0-groovy-2.3")
 
     testCompile group: 'org.mockito', name: 'mockito-all', version: '1.9.5'
     testCompile group: 'com.jayway.jsonpath', name:'json-path-assert', version: '0.9.1'

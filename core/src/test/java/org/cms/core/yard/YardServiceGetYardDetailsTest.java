@@ -4,7 +4,6 @@ import org.cms.core.AbstractBaseServiceTest;
 import org.cms.core.commons.PaymentState;
 import org.cms.core.expense.ExpenseDto;
 import org.cms.core.income.IncomeDto;
-import org.cms.core.commons.EntityNotFoundException;
 import org.joda.money.Money;
 import org.junit.Before;
 import org.junit.Test;
@@ -13,12 +12,10 @@ import java.text.ParseException;
 import java.util.Collection;
 import java.util.Date;
 
-import static java.lang.Long.MAX_VALUE;
-import static org.apache.commons.lang3.builder.EqualsBuilder.reflectionEquals;
-import static org.cms.core.expense.ExpenseCategory.MORTGAGES;
-import static org.cms.core.expense.ExpenseCategory.OTHER;
 import static org.cms.core.commons.PaymentState.PAID;
 import static org.cms.core.commons.PaymentState.UNPAID;
+import static org.cms.core.expense.ExpenseCategory.MORTGAGES;
+import static org.cms.core.expense.ExpenseCategory.OTHER;
 import static org.joda.money.CurrencyUnit.EUR;
 import static org.joda.money.Money.of;
 import static org.junit.Assert.*;
@@ -33,40 +30,7 @@ public class YardServiceGetYardDetailsTest extends AbstractBaseServiceTest {
         yard = persistYardDto("A yard name", "A yard description", createAmount(86573.1));
     }
 
-    @Test
-    public void testSOmething() {
-        Yard yard = new Yard();
-        yard.name = "yay";
-        yard.contractTotalAmount = createAmount(234);
-        yardRepo.save(yard);
-        yardRepo.save(yard);
-        YardDto found = yardService.findOne(yard.id);
-        assertNotNull(found);
-
-    }
-
-    @Test(expected = EntityNotFoundException.class)
-    public void thatGetYardDetailsThrowsExceptionIfYardNotFound() {
-        // Given
-        long unexistentId = MAX_VALUE;
-
-        // When
-        yardService.getYardDetails(unexistentId);
-    }
-
-    // This test checks that the base YardDto parameters are correct!
-    @Test
-    public void thatGetYardDetailsReturnsCorrectBaseYardDto() {
-        // Given
-        YardDto dto = persistYardDto("A name", "A description", createAmount(23.1));
-
-        // When
-        YardDto found = yardService.getYardDetails(dto.getId());
-
-        // Then
-        assertTrue(reflectionEquals(dto, found, "summary", "expenses", "incomes"));
-    }
-
+    // TODO: This belongs to yard details test
     @Test
     public void thatGetYardDetailsHasAllCollectionsEmpty() {
         // Given
@@ -80,6 +44,7 @@ public class YardServiceGetYardDetailsTest extends AbstractBaseServiceTest {
         assertTrue(found.getIncomes().isEmpty());
     }
 
+    // TODO: This belongs to YardDetails test
     @Test
     public void thatGetYardDetailsHasTotalsAndIncomesNotNull() {
         // Given
@@ -97,6 +62,7 @@ public class YardServiceGetYardDetailsTest extends AbstractBaseServiceTest {
         assertNotNull(summary.getDeltaMissingIncome());
     }
 
+    // TODO: This belongs to YardDetails test
     @Test
     public void thatGetYardDetailsHasAllExpenses() throws ParseException {
         // Given
@@ -114,6 +80,7 @@ public class YardServiceGetYardDetailsTest extends AbstractBaseServiceTest {
         assertContains(expenses, unpaidExpense);
     }
 
+    // TODO: This belongs to YardDetails test
     @Test
     public void thatGetYardDetailsHasAllIncomes() {
         // Given
@@ -131,6 +98,7 @@ public class YardServiceGetYardDetailsTest extends AbstractBaseServiceTest {
         assertContains(incomes, incomeDto2);
     }
 
+    // TODO: This belongs to YardDetails test
     @Test
     public void thatTotalPaidIncomesIsComputedCorrectly() {
         // Given
