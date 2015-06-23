@@ -9,5 +9,5 @@ public interface ExcelDocumentBuilder<T> {
 
     ExcelDocument build() throws IOException;
 
-    ExcelDocumentBuilder<T> setEntities(Collection<T> entities);
+    ExcelDocumentBuilder<T> entities(Collection<T> entities);
 }

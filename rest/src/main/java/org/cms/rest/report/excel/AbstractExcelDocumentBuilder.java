@@ -50,7 +50,7 @@ public abstract class AbstractExcelDocumentBuilder<T> implements ExcelDocumentBu
     }
 
     @Override
-    public AbstractExcelDocumentBuilder<T> setEntities(Collection<T> entities) {
+    public AbstractExcelDocumentBuilder<T> entities(Collection<T> entities) {
         this.entities = entities;
         return this;
     }
