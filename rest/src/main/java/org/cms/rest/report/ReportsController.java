@@ -40,15 +40,15 @@ public class ReportsController {
     @RequestMapping(value= "/reports/yards/{yardId}/expenses", method= GET)
     public void downloadExpenses(@PathVariable("yardId") long yardId, HttpServletResponse response) throws IOException {
         List<ExpenseDto> expenses = expenseService.listExpensesForYard(yardId);
-        ExcelDocument expensesXls = expenseTemplate.setEntities(expenses).build();
+        ExcelDocument expensesXls = expenseTemplate.entities(expenses).build();
         writeToResponseAndSetHeaders(expensesXls, response);
     }
 
     @RequestMapping(value= "/reports/yards/{yardId}/incomes", method= GET)
     public void downloadIncomes(@PathVariable("yardId") long yardId, HttpServletResponse response) throws IOException {
         List<IncomeDto> incomes = incomeService.listIncomesForYard(yardId);
-        ExcelDocument expensesXls = incomeTemplate.setEntities(incomes).build();
-        writeToResponseAndSetHeaders(expensesXls, response);
+        ExcelDocument incomesXls = incomeTemplate.entities(incomes).build();
+        writeToResponseAndSetHeaders(incomesXls, response);
     }
 
     private void writeToResponseAndSetHeaders(ExcelDocument excelDocument, HttpServletResponse response) throws IOException {
