@@ -1,7 +1,7 @@
 package org.cms.core.deadline;
 
-import org.cms.core.expense.Expense;
-import org.cms.core.expense.ExpenseCategory;
+import org.cms.core.commons.Payment;
+import org.cms.core.expense.PaymentCategory;
 import org.joda.money.CurrencyUnit;
 import org.joda.money.Money;
 
@@ -16,22 +16,22 @@ public class MonthlyDeadlines {
     String year;
     String month;
     Money total;
-    List<Expense> expenses;
-    Map<ExpenseCategory, Money> expensesSumsForCategory = new HashMap<>();
+    List<? extends Payment> payments;
+    Map<PaymentCategory, Money> expensesSumsForCategory = new HashMap<>();
 
     private MonthlyDeadlines(Builder builder) {
         this.year = builder.year;
         this.month = builder.month;
-        this.expenses = builder.expenses;
+        this.payments = builder.expenses;
         this.total = of(builder.currencyUnit, 0);
         computeSumsForEachExpenseCategory();
     }
 
     private void computeSumsForEachExpenseCategory() {
-        expenses.forEach(expense -> {
-            Money amount = expense.getAmount();
+        payments.forEach(payment -> {
+            Money amount = payment.getAmount();
             total = total.plus(amount);
-            expensesSumsForCategory.compute(expense.getCategory(),
+            expensesSumsForCategory.compute(payment.getCategory(),
                     (category, partialSum) -> (partialSum == null) ? amount : partialSum.plus(amount));
         });
     }
@@ -43,7 +43,7 @@ public class MonthlyDeadlines {
     public static class Builder {
         private String year;
         private String month;
-        private List<Expense> expenses;
+        private List<? extends Payment> expenses;
         private CurrencyUnit currencyUnit;
 
         private Builder(CurrencyUnit currencyUnit) {
@@ -60,8 +60,8 @@ public class MonthlyDeadlines {
             return this;
         }
 
-        public Builder expenses(List<Expense> expenses) {
-            this.expenses = expenses;
+        public Builder payments(List<? extends Payment> payments) {
+            this.expenses = payments;
             return this;
         }
 

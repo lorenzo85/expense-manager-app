@@ -1,6 +1,6 @@
 package org.cms.core.expense;
 
-public enum ExpenseCategory {
+public enum PaymentCategory {
 
     OTHER(1, "Other"),
     CHECKS(2, "Checks"),
@@ -11,7 +11,7 @@ public enum ExpenseCategory {
     private int value;
     private String name;
 
-    ExpenseCategory(int value, String name) {
+    PaymentCategory(int value, String name) {
         this.name = name;
         this.value = value;
     }
@@ -24,8 +24,8 @@ public enum ExpenseCategory {
         return this.name;
     }
 
-    public static ExpenseCategory getFromValue(int value) {
-        for(ExpenseCategory category : ExpenseCategory.values()) {
+    public static PaymentCategory getFromValue(int value) {
+        for(PaymentCategory category : PaymentCategory.values()) {
             if(category.getValue() == value) {
                 return category;
             }

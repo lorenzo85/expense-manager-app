@@ -10,8 +10,8 @@ import static java.util.Collections.singletonList
 import static org.cms.core.ConfigurationService.DOZER_MAPPER_SPEC
 import static org.cms.core.commons.PaymentState.PAID
 import static org.cms.core.commons.PaymentState.UNPAID
-import static org.cms.core.expense.ExpenseCategory.CHECKS
-import static org.cms.core.expense.ExpenseCategory.MORTGAGES
+import static PaymentCategory.CHECKS
+import static PaymentCategory.MORTGAGES
 import static org.springframework.test.util.ReflectionTestUtils.getField
 import static org.springframework.test.util.ReflectionTestUtils.setField
 

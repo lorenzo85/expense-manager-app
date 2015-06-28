@@ -3,17 +3,17 @@ package org.cms.core.expense;
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
 
-import static org.cms.core.expense.ExpenseCategory.getFromValue;
+import static org.cms.core.expense.PaymentCategory.getFromValue;
 
 @Converter(autoApply = true)
-public class ExpenseCategoryConverter implements AttributeConverter<ExpenseCategory, Integer> {
+public class ExpenseCategoryConverter implements AttributeConverter<PaymentCategory, Integer> {
     @Override
-    public Integer convertToDatabaseColumn(ExpenseCategory expenseCategory) {
-        return expenseCategory.getValue();
+    public Integer convertToDatabaseColumn(PaymentCategory paymentCategory) {
+        return paymentCategory.getValue();
     }
 
     @Override
-    public ExpenseCategory convertToEntityAttribute(Integer integer) {
+    public PaymentCategory convertToEntityAttribute(Integer integer) {
         return getFromValue(integer);
     }
 }

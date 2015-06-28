@@ -5,7 +5,7 @@ import spock.lang.Unroll
 import java.text.SimpleDateFormat
 
 import static org.cms.core.commons.PaymentState.PAID
-import static org.cms.core.expense.ExpenseCategory.CHECKS
+import static PaymentCategory.CHECKS
 import static org.cms.core.expense.ExpenseDto.*
 
 class ExpenseServiceValidationErrorTest extends BaseSpecification {

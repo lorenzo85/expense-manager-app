@@ -3,7 +3,6 @@ package org.cms.core.deadline;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 import org.cms.core.commons.Payment;
-import org.cms.core.expense.Expense;
 import org.joda.money.CurrencyUnit;
 
 import java.text.DateFormat;
@@ -20,17 +19,15 @@ import static org.cms.core.deadline.Deadline.DateFormatter.YEAR_FORMATTER;
 
 public class Deadline {
 
-    public static List<MonthlyDeadlines> calculateMonthlyDeadlinesForExpenses(List<Expense> payments, CurrencyUnit currencyUnit) {
-        Map<Pair<String, String>, List<Expense>> expensesGroupedByYearAndMonth = groupByYearAndMonth(payments);
-        return expensesGroupedByYearAndMonth
-                .entrySet()
-                .stream()
+    public static <T extends Payment> List<MonthlyDeadlines> calculateMonthlyDeadlinesForPayments(List<T> payments, CurrencyUnit currencyUnit) {
+        Map<Pair<String, String>, List<T>> paymentGroupedByYearAndMonth = groupByYearAndMonth(payments);
+        return paymentGroupedByYearAndMonth.entrySet().stream()
                 .map(expensesForYearAndMonth -> {
                     Pair<String, String> key = expensesForYearAndMonth.getKey();
                     return MonthlyDeadlines.builder(currencyUnit)
                             .year(key.getLeft())
                             .month(key.getRight())
-                            .expenses(expensesForYearAndMonth.getValue())
+                            .payments(expensesForYearAndMonth.getValue())
                             .build();
                 }).collect(toList());
     }

@@ -30,7 +30,7 @@ public class Expense implements Payment {
     PaymentState status;
     @Column(name="category")
     @Convert(converter = ExpenseCategoryConverter.class)
-    ExpenseCategory category;
+    PaymentCategory category;
     @Column(name="emission_at")
     Timestamp emissionAt;
     @Column(name="expires_at")
@@ -68,7 +68,7 @@ public class Expense implements Payment {
         return expiresAt;
     }
 
-    public ExpenseCategory getCategory() {
+    public PaymentCategory getCategory() {
         return category;
     }
 }

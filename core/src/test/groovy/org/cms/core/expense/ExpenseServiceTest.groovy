@@ -7,7 +7,7 @@ import org.springframework.dao.DataIntegrityViolationException
 import static org.apache.commons.lang3.builder.EqualsBuilder.reflectionEquals
 import static org.cms.core.commons.PaymentState.PAID
 import static org.cms.core.commons.PaymentState.UNPAID
-import static org.cms.core.expense.ExpenseCategory.CHECKS
+import static PaymentCategory.CHECKS
 
 class ExpenseServiceTest extends BaseSpecification {
 

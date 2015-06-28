@@ -18,20 +18,20 @@ public class DeadlineServiceImpl implements DeadlineService {
     @Autowired
     protected Mapper mapper;
     @Autowired
-    private ExpenseRepository expenseRepository;
-    @Autowired
     private CurrencyUnit currencyUnit;
+    @Autowired
+    private ExpenseRepository expenseRepository;
 
     @Override
-    public List<DeadlinesDto> listDeadlinesGroupedByYearAndMonth() {
+    public List<DeadlinesExpenseDto> listDeadlinesGroupedByYearAndMonth() {
         List<Expense> unpaidExpenses = expenseRepository
                 .listByPaymentStateOrderedByYearAndMonthAndCategory(UNPAID);
 
         List<MonthlyDeadlines> expensesGroupsList =
-                Deadline.calculateMonthlyDeadlinesForExpenses(unpaidExpenses, currencyUnit);
+                Deadline.calculateMonthlyDeadlinesForPayments(unpaidExpenses, currencyUnit);
 
         return expensesGroupsList.stream()
-                .map(expenseGroup -> mapper.map(expenseGroup, DeadlinesDto.class))
+                .map(expenseGroup -> mapper.map(expenseGroup, DeadlinesExpenseDto.class))
                 .collect(toList());
     }
 }

@@ -35,7 +35,7 @@ public class ExpenseDto implements Dto<Long> {
     @NotNull
     private PaymentState status;
     @NotNull
-    private ExpenseCategory category;
+    private PaymentCategory category;
     @NotNull
     private Date expiresAt;
     @NotNull

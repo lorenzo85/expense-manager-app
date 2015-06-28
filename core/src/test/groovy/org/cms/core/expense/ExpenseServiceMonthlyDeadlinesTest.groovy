@@ -6,7 +6,7 @@ import java.text.ParseException
 import static org.cms.core.commons.PaymentState.UNPAID
 import static org.cms.core.deadline.Deadline.DateFormatter.MONTH_FORMATTER
 import static org.cms.core.deadline.Deadline.DateFormatter.YEAR_FORMATTER
-import static org.cms.core.expense.ExpenseCategory.*
+import static PaymentCategory.*
 
 class ExpenseServiceMonthlyDeadlinesTest extends BaseSpecification {
 

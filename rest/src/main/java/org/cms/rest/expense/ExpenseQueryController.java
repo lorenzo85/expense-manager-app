@@ -1,8 +1,8 @@
 package org.cms.rest.expense;
 
 import org.cms.core.deadline.DeadlineService;
-import org.cms.core.expense.ExpenseCategory;
-import org.cms.core.deadline.DeadlinesDto;
+import org.cms.core.expense.PaymentCategory;
+import org.cms.core.deadline.DeadlinesExpenseDto;
 import org.cms.core.expense.ExpenseCategoryDto;
 import org.cms.core.expense.ExpenseDto;
 import org.cms.core.expense.ExpenseService;
@@ -40,7 +40,7 @@ public class ExpenseQueryController {
 
     @RequestMapping(value= "/yards/expenses/deadlines", method= GET)
     @ResponseBody
-    public List<DeadlinesDto> getDeadlines() {
+    public List<DeadlinesExpenseDto> getDeadlines() {
         return deadlineService.listDeadlinesGroupedByYearAndMonth();
     }
 
@@ -58,7 +58,7 @@ public class ExpenseQueryController {
     @ResponseBody
     public List<ExpenseCategoryDto> getListExpenseCategories() {
         List<ExpenseCategoryDto> categories = new ArrayList<>();
-        for(ExpenseCategory category : ExpenseCategory.values()) {
+        for(PaymentCategory category : PaymentCategory.values()) {
             categories.add(new ExpenseCategoryDto(category.toString(), category.getName()));
         }
         return categories;

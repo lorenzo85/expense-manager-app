@@ -4,6 +4,7 @@ package org.cms.core.income;
 import org.cms.core.commons.PaymentStateConverter;
 import org.cms.core.commons.Payment;
 import org.cms.core.commons.PaymentState;
+import org.cms.core.expense.PaymentCategory;
 import org.cms.core.yard.Yard;
 import org.hibernate.annotations.Parameter;
 import org.hibernate.annotations.Type;
@@ -57,5 +58,10 @@ public class Income implements Payment {
     @Override
     public Timestamp getExpiresAt() {
         throw new UnsupportedOperationException("Entity does not expiresAt field.");
+    }
+
+    @Override
+    public PaymentCategory getCategory() {
+        throw new UnsupportedOperationException();
     }
 }
