@@ -166,8 +166,8 @@
     </mapping>
 
     <mapping>
-        <class-a is-accessible="true">org.cms.core.expense.ExpensesGroupByYearAndMonth</class-a>
-        <class-b is-accessible="true">org.cms.core.expense.DeadlinesDto</class-b>
+        <class-a is-accessible="true">org.cms.core.deadline.MonthlyDeadlines</class-a>
+        <class-b is-accessible="true">org.cms.core.deadline.DeadlinesDto</class-b>
         <field>
             <a>year</a>
             <b>year</b>

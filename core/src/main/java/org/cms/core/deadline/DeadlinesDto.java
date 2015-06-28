@@ -1,7 +1,9 @@
-package org.cms.core.expense;
+package org.cms.core.deadline;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.cms.core.expense.ExpenseCategory;
+import org.cms.core.expense.ExpenseDto;
 import org.joda.money.Money;
 
 import java.util.List;

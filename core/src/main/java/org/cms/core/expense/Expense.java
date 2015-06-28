@@ -68,4 +68,7 @@ public class Expense implements Payment {
         return expiresAt;
     }
 
+    public ExpenseCategory getCategory() {
+        return category;
+    }
 }

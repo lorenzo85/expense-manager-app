@@ -1,5 +1,7 @@
 package org.cms.core.expense
 import org.cms.core.BaseSpecification
+import org.cms.core.deadline.DeadlinesDto
+import org.cms.core.deadline.MonthlyDeadlines
 import org.dozer.DozerBeanMapper
 
 import static java.util.Collections.singletonList
@@ -21,7 +23,7 @@ class ExpenseDeadlineConverterTest extends BaseSpecification {
         expense.amount = amountOf(23.43)
         expense.category = CHECKS
         expense.id = 20
-        def expenseGroup = ExpensesGroupByYearAndMonth.builder(EUR)
+        def expenseGroup = MonthlyDeadlines.builder(EUR)
                 .month("Jan")
                 .year("2004")
                 .expenses(singletonList(expense))

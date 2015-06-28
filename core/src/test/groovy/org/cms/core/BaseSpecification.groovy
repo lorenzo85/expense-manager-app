@@ -1,5 +1,6 @@
 package org.cms.core
 
+import org.cms.core.deadline.DeadlineService
 import org.cms.core.expense.ExpenseDto
 import org.cms.core.expense.ExpenseRepository
 import org.cms.core.expense.ExpenseService
@@ -35,6 +36,7 @@ class BaseSpecification extends Specification {
     @Autowired ExpenseRepository expenseRepository
     @Autowired IncomeService incomeService
     @Autowired IncomeRepository incomeRepository
+    @Autowired DeadlineService deadlineService
 
     def DATE_FORMAT = "dd/MM/yyyy";
     def DATE_FORMATTER = new SimpleDateFormat(DATE_FORMAT);

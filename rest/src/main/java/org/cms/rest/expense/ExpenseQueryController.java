@@ -1,7 +1,8 @@
 package org.cms.rest.expense;
 
+import org.cms.core.deadline.DeadlineService;
 import org.cms.core.expense.ExpenseCategory;
-import org.cms.core.expense.DeadlinesDto;
+import org.cms.core.deadline.DeadlinesDto;
 import org.cms.core.expense.ExpenseCategoryDto;
 import org.cms.core.expense.ExpenseDto;
 import org.cms.core.expense.ExpenseService;
@@ -22,6 +23,8 @@ public class ExpenseQueryController {
 
     @Autowired
     private ExpenseService service;
+    @Autowired
+    private DeadlineService deadlineService;
 
     @RequestMapping(value= "/yards/{yardId}/expenses", method= GET)
     @ResponseBody
@@ -38,7 +41,7 @@ public class ExpenseQueryController {
     @RequestMapping(value= "/yards/expenses/deadlines", method= GET)
     @ResponseBody
     public List<DeadlinesDto> getDeadlines() {
-        return service.listDeadlinesGroupedByYearAndMonth();
+        return deadlineService.listDeadlinesGroupedByYearAndMonth();
     }
 
     @RequestMapping(value= "/yards/expenses/allPaymentStatuses", method= GET)

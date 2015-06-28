@@ -1,5 +1,7 @@
-package org.cms.core.expense;
+package org.cms.core.deadline;
 
+import org.cms.core.expense.Expense;
+import org.cms.core.expense.ExpenseCategory;
 import org.joda.money.CurrencyUnit;
 import org.joda.money.Money;
 
@@ -9,7 +11,7 @@ import java.util.Map;
 
 import static org.joda.money.Money.of;
 
-public class ExpensesGroupByYearAndMonth {
+public class MonthlyDeadlines {
 
     String year;
     String month;
@@ -17,7 +19,7 @@ public class ExpensesGroupByYearAndMonth {
     List<Expense> expenses;
     Map<ExpenseCategory, Money> expensesSumsForCategory = new HashMap<>();
 
-    private ExpensesGroupByYearAndMonth(Builder builder) {
+    private MonthlyDeadlines(Builder builder) {
         this.year = builder.year;
         this.month = builder.month;
         this.expenses = builder.expenses;
@@ -29,7 +31,7 @@ public class ExpensesGroupByYearAndMonth {
         expenses.forEach(expense -> {
             Money amount = expense.getAmount();
             total = total.plus(amount);
-            expensesSumsForCategory.compute(expense.category,
+            expensesSumsForCategory.compute(expense.getCategory(),
                     (category, partialSum) -> (partialSum == null) ? amount : partialSum.plus(amount));
         });
     }
@@ -63,8 +65,8 @@ public class ExpensesGroupByYearAndMonth {
             return this;
         }
 
-        public ExpensesGroupByYearAndMonth build() {
-            return new ExpensesGroupByYearAndMonth(this);
+        public MonthlyDeadlines build() {
+            return new MonthlyDeadlines(this);
         }
     }
 }

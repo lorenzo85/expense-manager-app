@@ -25,7 +25,6 @@ public class IncomeServiceImpl extends BaseAbstractService<IncomeDto, Income, Lo
     }
 
     @Override
-    @Transactional(readOnly = false)
     public void delete(long id, long yardId) {
         IncomeDto income = findOne(id);
         checkArgument(income.getYardId() == yardId);
