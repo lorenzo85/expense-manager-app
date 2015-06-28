@@ -53,19 +53,29 @@ public class Yard {
                 .compute(currency);
     }
 
-    protected Money sumOfUnPaidExpenses(CurrencyUnit currencyUnit) {
+    protected Money sumOfUnPaidExpenses(CurrencyUnit currency) {
         return PaymentCollectionMathBuilder
                 .sum()
                 .unpaid()
                 .on(expenses)
-                .compute(currencyUnit);
+                .compute(currency);
     }
 
-    protected Money sumOfPaidIncomes(CurrencyUnit currencyUnit) {
+    protected Money sumOfPaidIncomes(CurrencyUnit currency) {
         return PaymentCollectionMathBuilder
                 .sum()
                 .paid()
                 .on(incomes)
-                .compute(currencyUnit);
+                .compute(currency);
+    }
+
+    protected Money getReturn(CurrencyUnit currency) {
+        return sumOfPaidIncomes(currency)
+                .minus(sumOfPaidExpenses(currency));
+    }
+
+    protected Money getIncomesToBePaid(CurrencyUnit currency) {
+        return contractTotalAmount
+                .minus(sumOfPaidIncomes(currency));
     }
 }

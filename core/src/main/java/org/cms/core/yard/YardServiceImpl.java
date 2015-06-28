@@ -8,14 +8,15 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.springframework.transaction.annotation.Propagation.REQUIRED;
+
 @Service
-@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
+@Transactional(propagation = REQUIRED)
 public class YardServiceImpl extends BaseAbstractService<YardDto, Yard, Long> implements YardService {
 
     @Autowired
@@ -47,11 +48,11 @@ public class YardServiceImpl extends BaseAbstractService<YardDto, Yard, Long> im
     }
 
     private YardSummaryDto generateYardSummary(Yard yard) {
+        Money deltaPaid = yard.getReturn(currency);
         Money paidIncomes = yard.sumOfPaidIncomes(currency);
         Money paidExpenses = yard.sumOfPaidExpenses(currency);
         Money unPaidExpenses = yard.sumOfUnPaidExpenses(currency);
-        Money deltaPaid = paidIncomes.minus(paidExpenses);
-        Money deltaMissingIncome = yard.contractTotalAmount.minus(paidIncomes);
+        Money deltaMissingIncome = yard.getIncomesToBePaid(currency);
         return new YardSummaryDto(paidIncomes, paidExpenses, unPaidExpenses, deltaPaid, deltaMissingIncome);
     }
 }
