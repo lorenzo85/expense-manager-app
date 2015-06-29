@@ -19,16 +19,16 @@ public class DeadlineExpenses extends Deadline {
         this.currencyUnit = currencyUnit;
     }
 
-    public List<DeadlinesExpensesForCategoryTotals> computeSumsForEachCategory() {
+    public List<DeadlinesExpensesForCategoryTotals> computeMonthlySumsForEachCategory() {
         Map<Pair<String, String>, List<Expense>> expensesByYearAndMonth = groupByYearAndMonth(unpaidExpenses);
         return expensesByYearAndMonth
                 .entrySet()
                 .stream()
-                .map(this::getDeadlinesExpensesGroupedByCategory)
+                .map(this::getDeadlinesExpensesForCategoryTotals)
                 .collect(toList());
     }
 
-    private DeadlinesExpensesForCategoryTotals getDeadlinesExpensesGroupedByCategory(Map.Entry<Pair<String, String>, List<Expense>> mapEntry) {
+    private DeadlinesExpensesForCategoryTotals getDeadlinesExpensesForCategoryTotals(Map.Entry<Pair<String, String>, List<Expense>> mapEntry) {
         Pair<String, String> key = mapEntry.getKey();
         List<Expense> expenses = mapEntry.getValue();
         String year = key.getLeft();

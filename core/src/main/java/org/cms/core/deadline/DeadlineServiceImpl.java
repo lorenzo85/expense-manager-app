@@ -29,7 +29,7 @@ public class DeadlineServiceImpl implements DeadlineService {
 
         List<DeadlinesExpensesForCategoryTotals> unPaidMonthlyExpensesGroupedByCategory =
                 new DeadlineExpenses(unpaidExpenses, currencyUnit)
-                        .computeSumsForEachCategory();
+                        .computeMonthlySumsForEachCategory();
 
         return unPaidMonthlyExpensesGroupedByCategory.stream()
                 .map(expenseGroup -> mapper.map(expenseGroup, DeadlinesExpenseDto.class))
