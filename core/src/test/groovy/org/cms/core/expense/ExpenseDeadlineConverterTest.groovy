@@ -1,12 +1,12 @@
 package org.cms.core.expense
 import org.cms.core.BaseSpecification
 import org.cms.core.deadline.DeadlinesExpenseDto
-import org.cms.core.deadline.MonthlyDeadlines
+import org.cms.core.deadline.DeadlinesExpensesForCategoryTotals
 import org.dozer.DozerBeanMapper
 
+import static PaymentCategory.CHECKS
 import static java.util.Collections.singletonList
 import static org.cms.core.ConfigurationService.DOZER_MAPPER_SPEC
-import static PaymentCategory.CHECKS
 import static org.joda.money.CurrencyUnit.EUR
 
 class ExpenseDeadlineConverterTest extends BaseSpecification {
@@ -23,11 +23,8 @@ class ExpenseDeadlineConverterTest extends BaseSpecification {
         expense.amount = amountOf(23.43)
         expense.category = CHECKS
         expense.id = 20
-        def expenseGroup = MonthlyDeadlines.builder(EUR)
-                .month("Jan")
-                .year("2004")
-                .payments(singletonList(expense))
-                .build()
+        def expenseGroup = new DeadlinesExpensesForCategoryTotals("2004", "Jan", EUR, singletonList(expense))
+        expenseGroup.computeSumsForEachExpenseCategory()
 
         when:
         def dto = mapper.map(expenseGroup, DeadlinesExpenseDto.class)

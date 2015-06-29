@@ -8,7 +8,7 @@ import static org.cms.core.deadline.Deadline.DateFormatter.MONTH_FORMATTER
 import static org.cms.core.deadline.Deadline.DateFormatter.YEAR_FORMATTER
 import static PaymentCategory.*
 
-class ExpenseServiceMonthlyDeadlinesTest extends BaseSpecification {
+class ExpenseServiceDeadlinesExpensesForCategoryTotalsTest extends BaseSpecification {
 
     def amount1
     def amount2
@@ -40,7 +40,7 @@ class ExpenseServiceMonthlyDeadlinesTest extends BaseSpecification {
         persistUnpaidExpenseDtoWithAmountAndCategory(amount2, CHECKS, january2099)
 
         when:
-        def deadlines = deadlineService.listDeadlinesGroupedByYearAndMonth()
+        def deadlines = deadlineService.listDeadlinesExpensesGroupedByCategory()
         def found = deadlines.findAll { deadline -> deadline.year == year2099 && deadline.month == monthJanuary}
 
 
@@ -55,7 +55,7 @@ class ExpenseServiceMonthlyDeadlinesTest extends BaseSpecification {
         persistUnpaidExpenseDtoWithAmountAndCategory(amount2, CHECKS, february2099)
 
         when:
-        def deadlines = deadlineService.listDeadlinesGroupedByYearAndMonth()
+        def deadlines = deadlineService.listDeadlinesExpensesGroupedByCategory()
         def found = deadlines.findAll { deadline ->
             deadline.year == year2099 && deadline.month == monthJanuary ||
                     deadline.year == year2099 && deadline.month == monthFebruary
@@ -73,7 +73,7 @@ class ExpenseServiceMonthlyDeadlinesTest extends BaseSpecification {
         persistUnpaidExpenseDtoWithAmountAndCategory(amount2, CHECKS, january2099)
 
         when:
-        def deadlines = deadlineService.listDeadlinesGroupedByYearAndMonth()
+        def deadlines = deadlineService.listDeadlinesExpensesGroupedByCategory()
         def found = deadlines.findAll { deadline ->
             deadline.year == year2099 && deadline.month == monthJanuary ||
                     deadline.year == year2011 && deadline.month == monthJanuary
@@ -91,7 +91,7 @@ class ExpenseServiceMonthlyDeadlinesTest extends BaseSpecification {
         persistUnpaidExpenseDtoWithAmountAndCategory(amount2, MORTGAGES, january2099)
 
         when:
-        def deadlines = deadlineService.listDeadlinesGroupedByYearAndMonth()
+        def deadlines = deadlineService.listDeadlinesExpensesGroupedByCategory()
         def found = deadlines.findAll {deadline -> deadline.year == year2099 && deadline.month == monthJanuary}
 
         then:
@@ -106,7 +106,7 @@ class ExpenseServiceMonthlyDeadlinesTest extends BaseSpecification {
         persistUnpaidExpenseDtoWithAmountAndCategory(amount3, SALARIES, january2099);
 
         when:
-        def deadlines = deadlineService.listDeadlinesGroupedByYearAndMonth()
+        def deadlines = deadlineService.listDeadlinesExpensesGroupedByCategory()
         def found = deadlines.findAll {deadline -> deadline.year == year2099 && deadline.month == monthJanuary}
 
         then:
@@ -118,7 +118,7 @@ class ExpenseServiceMonthlyDeadlinesTest extends BaseSpecification {
         persistUnpaidExpenseDtoWithAmountAndCategory(amount1, SALARIES, january2099);
 
         when:
-        def deadlines = deadlineService.listDeadlinesGroupedByYearAndMonth()
+        def deadlines = deadlineService.listDeadlinesExpensesGroupedByCategory()
         def found = deadlines.findAll {deadline -> deadline.year == year2099 && deadline.month == monthJanuary}
 
         then:

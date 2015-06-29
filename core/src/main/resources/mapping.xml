@@ -166,7 +166,7 @@
     </mapping>
 
     <mapping>
-        <class-a is-accessible="true">org.cms.core.deadline.MonthlyDeadlines</class-a>
+        <class-a is-accessible="true">org.cms.core.deadline.DeadlinesExpensesForCategoryTotals</class-a>
         <class-b is-accessible="true">org.cms.core.deadline.DeadlinesExpenseDto</class-b>
         <field>
             <a>year</a>
@@ -181,7 +181,7 @@
             <b>total</b>
         </field>
         <field>
-            <a>payments</a>
+            <a>expenses</a>
             <b>expenses</b>
         </field>
         <field custom-converter="org.cms.core.commons.SumsForCategoryConverter">

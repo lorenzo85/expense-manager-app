@@ -23,14 +23,15 @@ public class DeadlineServiceImpl implements DeadlineService {
     private ExpenseRepository expenseRepository;
 
     @Override
-    public List<DeadlinesExpenseDto> listDeadlinesGroupedByYearAndMonth() {
+    public List<DeadlinesExpenseDto> listDeadlinesExpensesGroupedByCategory() {
         List<Expense> unpaidExpenses = expenseRepository
                 .listByPaymentStateOrderedByYearAndMonthAndCategory(UNPAID);
 
-        List<MonthlyDeadlines> expensesGroupsList =
-                Deadline.calculateMonthlyDeadlinesForPayments(unpaidExpenses, currencyUnit);
+        List<DeadlinesExpensesForCategoryTotals> unPaidMonthlyExpensesGroupedByCategory =
+                new DeadlineExpenses(unpaidExpenses, currencyUnit)
+                        .computeSumsForEachCategory();
 
-        return expensesGroupsList.stream()
+        return unPaidMonthlyExpensesGroupedByCategory.stream()
                 .map(expenseGroup -> mapper.map(expenseGroup, DeadlinesExpenseDto.class))
                 .collect(toList());
     }

@@ -41,7 +41,7 @@ public class ExpenseQueryController {
     @RequestMapping(value= "/yards/expenses/deadlines", method= GET)
     @ResponseBody
     public List<DeadlinesExpenseDto> getDeadlines() {
-        return deadlineService.listDeadlinesGroupedByYearAndMonth();
+        return deadlineService.listDeadlinesExpensesGroupedByCategory();
     }
 
     @RequestMapping(value= "/yards/expenses/allPaymentStatuses", method= GET)

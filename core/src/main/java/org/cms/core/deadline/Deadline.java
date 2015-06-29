@@ -3,7 +3,6 @@ package org.cms.core.deadline;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 import org.cms.core.commons.Payment;
-import org.joda.money.CurrencyUnit;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -13,33 +12,23 @@ import java.util.Map;
 
 import static java.util.Locale.ENGLISH;
 import static java.util.stream.Collectors.groupingBy;
-import static java.util.stream.Collectors.toList;
 import static org.cms.core.deadline.Deadline.DateFormatter.MONTH_FORMATTER;
 import static org.cms.core.deadline.Deadline.DateFormatter.YEAR_FORMATTER;
 
 public class Deadline {
 
-    public static <T extends Payment> List<MonthlyDeadlines> calculateMonthlyDeadlinesForPayments(List<T> payments, CurrencyUnit currencyUnit) {
-        Map<Pair<String, String>, List<T>> paymentGroupedByYearAndMonth = groupByYearAndMonth(payments);
-        return paymentGroupedByYearAndMonth.entrySet().stream()
-                .map(expensesForYearAndMonth -> {
-                    Pair<String, String> key = expensesForYearAndMonth.getKey();
-                    return MonthlyDeadlines.builder(currencyUnit)
-                            .year(key.getLeft())
-                            .month(key.getRight())
-                            .payments(expensesForYearAndMonth.getValue())
-                            .build();
-                }).collect(toList());
-    }
-
-    private static <T extends Payment> Map<Pair<String, String>, List<T>> groupByYearAndMonth(List<T> payments) {
+    protected <T extends Payment> Map<Pair<String, String>, List<T>> groupByYearAndMonth(List<T> payments) {
         return payments.stream()
                 .collect(groupingBy(payment -> {
                     Date expiresAt = payment.getExpiresAt();
-                    return new ImmutablePair<>(
-                            YEAR_FORMATTER.format(expiresAt),
-                            MONTH_FORMATTER.format(expiresAt));
+                    return createPair(expiresAt);
                 }));
+    }
+
+    private ImmutablePair createPair(Date expiresAt) {
+        String year = YEAR_FORMATTER.format(expiresAt);
+        String month = MONTH_FORMATTER.format(expiresAt);
+        return new ImmutablePair<>(year, month);
     }
 
     public enum DateFormatter {
