@@ -1,12 +1,13 @@
 package org.cms.rest.expense;
 
+import org.cms.core.commons.PaymentState;
+import org.cms.core.commons.PaymentStateDto;
 import org.cms.core.deadline.DeadlineService;
-import org.cms.core.expense.PaymentCategory;
 import org.cms.core.deadline.DeadlinesExpenseDto;
 import org.cms.core.expense.ExpenseCategoryDto;
 import org.cms.core.expense.ExpenseDto;
 import org.cms.core.expense.ExpenseService;
-import org.cms.core.commons.PaymentState;
+import org.cms.core.expense.PaymentCategory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -46,7 +47,7 @@ public class ExpenseQueryController {
 
     @RequestMapping(value= "/yards/expenses/allPaymentStatuses", method= GET)
     @ResponseBody
-    public List<PaymentStateDto> getListPaymentStatuses() {
+    public List<PaymentStateDto> getListPaymentStates() {
         List<PaymentStateDto> states = new ArrayList<>();
         for (PaymentState state : PaymentState.values()) {
             states.add(new PaymentStateDto(state.toString(), state.getName()));
@@ -62,24 +63,5 @@ public class ExpenseQueryController {
             categories.add(new ExpenseCategoryDto(category.toString(), category.getName()));
         }
         return categories;
-    }
-
-    class PaymentStateDto {
-
-        private String value;
-        private String name;
-
-        public PaymentStateDto(String value, String name) {
-            this.name = name;
-            this.value = value;
-        }
-
-        public String getValue() {
-            return value;
-        }
-
-        public String getName() {
-            return name;
-        }
     }
 }

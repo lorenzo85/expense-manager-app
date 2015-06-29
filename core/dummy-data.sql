@@ -1,3 +1,4 @@
+-- Password is `aPassword`
 INSERT INTO user (accountEnabled, accountExpired, accountLocked, credentialsExpired, password, username) VALUES (1, 0, 0, 0, '$2a$04$U8MQ3yty0R7x5zAnMriyn.XoveCOjehAzgZuzQE8c/AMJy1YNBGqS', 'mark');
 INSERT INTO user (accountEnabled, accountExpired, accountLocked, credentialsExpired, password, username) VALUES (1, 0, 0, 0, '$2a$04$U8MQ3yty0R7x5zAnMriyn.XoveCOjehAzgZuzQE8c/AMJy1YNBGqS', 'aUsername');
 INSERT INTO user_role(role, user_id) VALUES ('ROLE_ADMIN', (SELECT id FROM user WHERE username='mark'));
