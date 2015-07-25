@@ -1,12 +1,13 @@
 package org.cms.core.expense
+
 import org.cms.core.BaseSpecification
 
 import java.text.ParseException
 
 import static org.cms.core.commons.PaymentState.UNPAID
-import static org.cms.core.deadline.Deadline.DateFormatter.MONTH_FORMATTER
-import static org.cms.core.deadline.Deadline.DateFormatter.YEAR_FORMATTER
-import static PaymentCategory.*
+import static org.cms.core.expense.PaymentCategory.*
+import static org.cms.core.visitor.MonthlyDeadlinesVisitor.DateFormatter.MONTH_FORMATTER
+import static org.cms.core.visitor.MonthlyDeadlinesVisitor.DateFormatter.YEAR_FORMATTER
 
 class ExpenseServiceDeadlinesExpensesForCategoryTotalsTest extends BaseSpecification {
 

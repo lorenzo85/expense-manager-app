@@ -5,6 +5,8 @@ import org.cms.core.commons.PaymentStateConverter;
 import org.cms.core.commons.Payment;
 import org.cms.core.commons.PaymentState;
 import org.cms.core.expense.PaymentCategory;
+import org.cms.core.visitor.Visitable;
+import org.cms.core.visitor.Visitor;
 import org.cms.core.yard.Yard;
 import org.hibernate.annotations.Parameter;
 import org.hibernate.annotations.Type;
@@ -16,7 +18,7 @@ import java.util.Date;
 
 @Entity
 @Table(name="income")
-public class Income implements Payment {
+public class Income implements Payment, Visitable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     long id;
@@ -63,5 +65,10 @@ public class Income implements Payment {
     @Override
     public PaymentCategory getCategory() {
         throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void accept(Visitor visitor) {
+        visitor.visit(this);
     }
 }

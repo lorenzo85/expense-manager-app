@@ -4,6 +4,8 @@ package org.cms.core.expense;
 import org.cms.core.commons.Payment;
 import org.cms.core.commons.PaymentState;
 import org.cms.core.commons.PaymentStateConverter;
+import org.cms.core.visitor.Visitable;
+import org.cms.core.visitor.Visitor;
 import org.cms.core.yard.Yard;
 import org.hibernate.annotations.Parameter;
 import org.hibernate.annotations.Type;
@@ -15,7 +17,7 @@ import java.util.Date;
 
 @Entity
 @Table(name="expense")
-public class Expense implements Payment {
+public class Expense implements Payment, Visitable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     long id;
@@ -70,5 +72,10 @@ public class Expense implements Payment {
 
     public PaymentCategory getCategory() {
         return category;
+    }
+
+    @Override
+    public void accept(Visitor visitor) {
+        visitor.visit(this);
     }
 }

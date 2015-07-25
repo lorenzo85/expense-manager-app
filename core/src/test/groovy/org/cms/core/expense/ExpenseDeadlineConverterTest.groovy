@@ -23,16 +23,17 @@ class ExpenseDeadlineConverterTest extends BaseSpecification {
         expense.amount = amountOf(23.43)
         expense.category = CHECKS
         expense.id = 20
-        def expenseGroup = new DeadlinesExpensesForCategoryTotals("2004", "Jan", EUR, singletonList(expense))
-        expenseGroup.computeSumsForEachExpenseCategory()
+        def expenseGroup = new DeadlinesExpensesForCategoryTotals("2004", "Jan", EUR)
+        expenseGroup.getExpenses().add(expense)
+        expenseGroup.addToTotal(expense.amount)
+        expenseGroup.addToTotalForCategory(expense.amount, expense.category)
 
         when:
         def dto = mapper.map(expenseGroup, DeadlinesExpenseDto.class)
 
         then:
         1 == dto.getExpenses().size()
-        1 == dto.getExpensesSumsForCategory().size()
-        dto.getExpensesSumsForCategory().containsKey(CHECKS)
+        dto.expensesSumsForCategory.containsKey(CHECKS)
     }
 
 }
